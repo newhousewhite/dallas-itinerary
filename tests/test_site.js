@@ -12,6 +12,7 @@ const ROUTES = [
   ['day1.html', 'day1'],
   ['day2.html', 'day2'],
   ['departure.html', 'departure'],
+  ['about.html', 'about'],
 ];
 
 const CONTENT_TYPES = {
@@ -73,7 +74,7 @@ test('every route renders with active navigation and loaded images', async () =>
     assert.equal(response.status(), 200, route);
     await page.locator('body.is-ready').waitFor({ timeout: 3000 });
 
-    assert.equal(await page.locator('.date-nav a').count(), 5, route);
+    assert.equal(await page.locator('.date-nav a').count(), 6, route);
     assert.equal(await page.locator('.date-nav a[aria-current="page"]').count(), 1, route);
     assert.equal(await page.locator('body').getAttribute('data-page'), pageId, route);
     assert.ok((await page.locator('h1').first().innerText()).trim(), route);
@@ -88,6 +89,22 @@ test('every route renders with active navigation and loaded images', async () =>
     }
     await page.close();
   }
+});
+
+test('destination guide is the final page and renders the complete guide structure', async () => {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  await page.goto(`${baseUrl}/about.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: 3000 });
+
+  assert.equal((await page.locator('h1').innerText()).trim(), 'Dallas Fort Worth는 어떤 곳인가요?');
+  assert.equal((await page.locator('.date-nav a').last().innerText()).includes('지역 안내'), true);
+  assert.equal(await page.locator('.history-milestone').count(), 7);
+  assert.equal(await page.locator('.history-theme').count(), 3);
+  assert.equal(await page.locator('.city-guide-card').count(), 3);
+  assert.equal(await page.locator('.city-place').count(), 15);
+  assert.equal(await page.locator('.travel-tip').count(), 4);
+  assert.match(await page.locator('.destination-guide').innerText(), /텍사스 BBQ.*TRE 통근열차.*식당 팁 문화\(약 15~20%\)/s);
+  await page.close();
 });
 
 test('secondary resources are keyboard accessible', async () => {
@@ -130,8 +147,17 @@ test('mobile layout has no horizontal page overflow', async () => {
     const metrics = await page.evaluate(() => ({
       viewport: document.documentElement.clientWidth,
       page: document.documentElement.scrollWidth,
+      activeTabVisible: (() => {
+        const nav = document.querySelector('.date-nav');
+        const active = nav?.querySelector('[aria-current="page"]');
+        if (!nav || !active) return false;
+        const navRect = nav.getBoundingClientRect();
+        const activeRect = active.getBoundingClientRect();
+        return activeRect.left >= navRect.left - 1 && activeRect.right <= navRect.right + 1;
+      })(),
     }));
     assert.ok(metrics.page <= metrics.viewport + 1, `${route}: ${JSON.stringify(metrics)}`);
+    assert.equal(metrics.activeTabVisible, true, `${route}: active navigation tab is clipped`);
   }
   await page.close();
 });

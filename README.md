@@ -11,6 +11,7 @@
 | `day1.html` | 7월 17일 조별 선택 활동 |
 | `day2.html` | 7월 18일 Fort Worth 전체 일정 |
 | `departure.html` | 7월 19일 체크아웃 및 공항 이동 |
+| `about.html` | Dallas–Fort Worth 역사, 명소 및 여행 정보 |
 
 ## Structure
 

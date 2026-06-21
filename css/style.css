@@ -1081,6 +1081,317 @@ main {
   color: rgba(255, 250, 241, 0.7);
 }
 
+[data-page="about"] .hero-copy {
+  width: min(1050px, 84vw);
+}
+
+[data-page="about"] .hero-copy h1 {
+  font-size: clamp(3.4rem, 6vw, 6.5rem);
+}
+
+.destination-guide {
+  display: grid;
+  gap: clamp(5rem, 10vw, 9rem);
+}
+
+.guide-history,
+.city-guides {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.guide-subheading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.guide-subheading p {
+  order: 2;
+  margin: 0;
+  color: var(--red);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+}
+
+.guide-subheading h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 4.3vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.history-intro {
+  max-width: 1000px;
+  margin: 0;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-left: 5px solid var(--red);
+  color: rgba(16, 47, 70, 0.82);
+  background: rgba(255, 250, 241, 0.72);
+  box-shadow: 0 12px 35px rgba(8, 29, 43, 0.06);
+  font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+}
+
+.history-timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 1.5rem 0 0;
+  list-style: none;
+}
+
+.history-timeline::before {
+  position: absolute;
+  top: 2rem;
+  right: 4%;
+  left: 4%;
+  height: 1px;
+  background: var(--line);
+  content: "";
+}
+
+.history-milestone {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+  padding: 1.6rem clamp(0.35rem, 1vw, 0.8rem) 0;
+  text-align: center;
+}
+
+.history-milestone::before {
+  position: absolute;
+  top: 0.1rem;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border: 3px solid var(--paper);
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 1px var(--red);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.history-milestone:nth-child(even)::before {
+  background: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+
+.history-milestone strong {
+  color: var(--red);
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.history-milestone span {
+  color: rgba(16, 47, 70, 0.66);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.history-themes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.history-theme {
+  position: relative;
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 2.6rem);
+  border: 1px solid var(--line);
+  background: rgba(255, 250, 241, 0.65);
+}
+
+.history-theme > span {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: var(--red);
+  font-family: var(--display);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.history-theme h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.65rem, 2.5vw, 2.3rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.history-theme p {
+  margin: 1.2rem 0 0;
+  color: rgba(16, 47, 70, 0.68);
+  font-size: 0.86rem;
+}
+
+.city-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+.city-guide-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: rgba(255, 250, 241, 0.66);
+  box-shadow: 0 10px 34px rgba(8, 29, 43, 0.055);
+}
+
+.city-guide-card > header {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  padding: clamp(1.4rem, 2.6vw, 2.2rem);
+  color: var(--paper-bright);
+  background: var(--ink);
+}
+
+.city-guide-card:nth-child(2) > header {
+  background: var(--red);
+}
+
+.city-guide-card:nth-child(3) > header {
+  color: var(--ink);
+  background: var(--blue-pale);
+}
+
+.city-guide-card > header > span {
+  color: #e9a7a6;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.city-guide-card:nth-child(3) > header > span {
+  color: var(--red);
+}
+
+.city-guide-card h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 2.1rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.city-guide-card header p {
+  margin: 0.4rem 0 0;
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+}
+
+.city-guide-card ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.city-place {
+  padding: 1.35rem clamp(1.3rem, 2.4vw, 2rem);
+  border-top: 1px solid var(--line);
+}
+
+.city-place:first-child {
+  border-top: 0;
+}
+
+.city-place h5 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.18rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.city-place h5 small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--red);
+  font-family: var(--body);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.city-place p {
+  margin: 0.65rem 0 0;
+  color: rgba(16, 47, 70, 0.66);
+  font-size: 0.78rem;
+}
+
+.travel-tips {
+  display: grid;
+  gap: 2.2rem;
+  padding: clamp(2rem, 5vw, 4rem);
+  color: var(--paper-bright);
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.04), transparent 55%),
+    var(--ink-deep);
+  box-shadow: var(--shadow);
+}
+
+.guide-subheading.inverse {
+  border-color: rgba(255, 250, 241, 0.2);
+}
+
+.guide-subheading.inverse p {
+  color: #e9a7a6;
+}
+
+.travel-tip-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.travel-tip {
+  padding: 1.25rem 0;
+  border-top: 2px solid var(--red);
+}
+
+.travel-tip h4 {
+  margin: 0;
+  color: #e9a7a6;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+}
+
+.travel-tip p {
+  margin: 0.75rem 0 0;
+  color: rgba(255, 250, 241, 0.72);
+  font-size: 0.78rem;
+}
+
+.guide-source-note {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid rgba(255, 250, 241, 0.2);
+  color: rgba(255, 250, 241, 0.55);
+  font-size: 0.66rem;
+}
+
+.guide-source-note strong,
+.guide-source-note p {
+  margin: 0;
+}
+
 .page-pager {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1217,6 +1528,31 @@ main {
   .place-card:nth-child(3n + 2):hover {
     transform: translateY(-4px);
   }
+
+  .history-timeline {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .history-timeline::before {
+    display: none;
+  }
+
+  .history-milestone {
+    padding: 1.2rem;
+    border-top: 1px solid var(--line);
+    text-align: left;
+  }
+
+  .history-milestone::before {
+    top: -0.4rem;
+    left: 0;
+    transform: none;
+  }
+
+  .city-guide-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1325,6 +1661,34 @@ main {
   .hotel-card,
   .transit-grid {
     grid-template-columns: 1fr;
+  }
+
+  [data-page="about"] .hero-copy {
+    width: calc(100% - 3rem);
+  }
+
+  [data-page="about"] .hero-copy h1 {
+    font-size: clamp(2.9rem, 13vw, 4.4rem);
+  }
+
+  .guide-subheading,
+  .guide-source-note {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .guide-subheading p {
+    order: 0;
+  }
+
+  .history-timeline,
+  .history-themes,
+  .travel-tip-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-milestone {
+    min-height: 0;
   }
 
   .emergency-contact {

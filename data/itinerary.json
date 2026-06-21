@@ -373,6 +373,95 @@
           "body": "공항, 항공편, 픽업 방식이 서로 다르므로 최종 출발 시간과 이동 수단을 출발 전 다시 확인합니다."
         }
       ]
+    },
+    {
+      "id": "about",
+      "href": "about.html",
+      "navLabel": "지역 안내",
+      "date": "DALLAS · FORT WORTH METROPLEX",
+      "eyebrow": "Texas · The Lone Star State",
+      "title": "Dallas Fort Worth는 어떤 곳인가요?",
+      "summary": "텍사스 북부의 쌍둥이 도시가 만든 미국 4위 규모의 대도시권 ‘메트로플렉스(Metroplex)’. 현대적 마천루의 댈러스와 카우보이 전통의 포트워스, 그 사이를 잇는 스포츠·엔터테인먼트의 알링턴이 한 권역 안에서 서로 다른 텍사스를 보여줍니다.",
+      "heroPlace": "stockyards",
+      "sections": [
+        {
+          "type": "destinationGuide",
+          "eyebrow": "DALLAS · FORT WORTH",
+          "heading": "댈러스 – 포트워스",
+          "description": "역사부터 세 도시의 대표 명소, 현지 여행 팁까지 한 번에 살펴보는 메트로플렉스 안내입니다.",
+          "history": {
+            "heading": "역사 이야기",
+            "englishHeading": "A HISTORY OF DALLAS–FORT WORTH",
+            "intro": "불과 50여 km 떨어진 두 도시는 전혀 다른 성격으로 출발했습니다. 댈러스는 1841년 존 닐리 브라이언이 트리니티 강가에 세운 교역 정착지에서 출발해 철도와 면화, 이후 석유 자본을 끌어들인 ‘상업과 금융의 도시’로, 포트워스는 1849년 서부 변경의 군 요새로 시작해 소몰이와 가축시장으로 번성한 ‘카우보이의 도시’로 성장했습니다. 오랜 라이벌이던 두 도시는 20세기 후반 하나의 거대 경제권으로 묶여 오늘의 메트로플렉스를 이루었습니다.",
+            "timeline": [
+              { "year": "1841", "label": "존 닐리 브라이언, 댈러스 정착지 건설" },
+              { "year": "1849", "label": "트리니티 강가에 포트워스 군 요새 설치" },
+              { "year": "1866–90", "label": "치점 트레일 소몰이, ‘카우타운’ 별명" },
+              { "year": "1870s", "label": "철도 도착, 교역·물류 중심지로 도약" },
+              { "year": "1893", "label": "포트워스 스톡야드 설립, 남서부 최대 가축시장" },
+              { "year": "1963", "label": "댈러스 딜리 플라자, 케네디 대통령 암살" },
+              { "year": "1974", "label": "두 도시 사이 DFW 국제공항 개항" }
+            ],
+            "themes": [
+              {
+                "heading": "카우타운, 포트워스",
+                "body": "1849년 미군 소령 리플리 아놀드가 세운 변경의 요새가 시작이었습니다. 남북전쟁 후 포트워스는 캔자스로 향하는 치점 트레일의 마지막 보급지가 되어, 1866~1890년 사이 약 400만 마리의 소가 이곳을 지났습니다. 1876년 철도가 들어오고 1893년 스톡야드가 세워지며 남서부 최대 가축시장으로 번성했고, 여기서 ‘카우타운’이라는 별명이 굳어졌습니다."
+              },
+              {
+                "heading": "교역과 금융의 댈러스",
+                "body": "1841년 강가의 작은 정착지로 출발한 댈러스는 1870년대 두 철도가 교차하면서 면화와 교역의 중심지로 급성장했습니다. 20세기에는 동부 텍사스 유전을 배경으로 은행·보험·통신이 모여드는 금융 허브로 변모했고, 니먼마커스로 대표되는 상업과 패션의 도시로 자리 잡았습니다. 오늘날 마천루 스카이라인이 그 부의 역사를 보여줍니다."
+              },
+              {
+                "heading": "하나의 메트로플렉스",
+                "body": "서로 경쟁하던 두 도시는 1974년 그 중간에 개항한 DFW 국제공항을 계기로 하나의 경제권으로 묶였습니다. 1970년대부터 ‘메트로플렉스’로 불리며 미국에서 네 번째로 큰 대도시권으로 성장했고, 항공·물류·기업·스포츠의 중심지가 되었습니다. 1963년 케네디 암살이라는 현대사의 무대이기도 합니다."
+              }
+            ]
+          },
+          "cities": [
+            {
+              "name": "댈러스",
+              "englishName": "DALLAS",
+              "places": [
+                { "name": "식스 플로어 박물관", "englishName": "The Sixth Floor Museum", "description": "옛 교과서 창고 6층에서 JFK 암살과 1960년대를 기록한 박물관. 수~일 10–17시 · 성인 약 $24." },
+                { "name": "리유니언 타워", "englishName": "Reunion Tower", "description": "공 모양 전망대 ‘GeO-Deck’에서 360° 댈러스 스카이라인. 해 질 무렵 야경 명소." },
+                { "name": "클라이드 워런 파크", "englishName": "Klyde Warren Park", "description": "고속도로 위를 덮어 만든 도심 공원. 푸드트럭과 잔디밭, 주요 박물관과 도보 연결." },
+                { "name": "댈러스 수목원", "englishName": "Dallas Arboretum", "description": "화이트락 호수 옆 대형 정원. 봄 튤립 축제와 가을 호박 마을 전시로 유명." },
+                { "name": "비숍 아츠 · 딥 엘럼", "englishName": "Bishop Arts · Deep Ellum", "description": "벽화·부티크의 비숍 아츠와 라이브 음악·맛집의 딥 엘럼. 감성 사진·브런치 코스." }
+              ]
+            },
+            {
+              "name": "포트워스",
+              "englishName": "FORT WORTH",
+              "places": [
+                { "name": "포트워스 스톡야드", "englishName": "Stockyards", "description": "세계 유일, 하루 두 번(11:30·16:00) 롱혼 소몰이. 카우타운 콜로세움 로데오, 빌리 밥스 텍사스." },
+                { "name": "킴벨 미술관", "englishName": "Kimbell Art Museum", "description": "건축가 루이스 칸의 빛이 흐르는 건축. 수준 높은 상설 컬렉션을 무료로 관람." },
+                { "name": "포트워스 워터 가든", "englishName": "Water Gardens", "description": "콘크리트 계곡으로 물이 쏟아지는 도심 폭포 정원. 무료이며 더운 날 시원한 쉼터." },
+                { "name": "선댄스 스퀘어", "englishName": "Sundance Square", "description": "붉은 벽돌의 다운타운 보행 광장. 식당·공연·쇼핑으로 저녁 시간 보내기 좋음." },
+                { "name": "현대미술관", "englishName": "Modern Art Museum", "description": "안도 다다오 설계, 물에 비치는 유리 건물 자체가 작품. 킴벨 미술관과 인접." }
+              ]
+            },
+            {
+              "name": "알링턴",
+              "englishName": "ARLINGTON",
+              "places": [
+                { "name": "AT&T 스타디움", "englishName": "AT&T Stadium", "description": "NFL 댈러스 카우보이스의 거대 돔구장. 내부 투어가 인기." },
+                { "name": "글로브 라이프 필드", "englishName": "Globe Life Field", "description": "MLB 텍사스 레인저스의 홈. 개폐식 지붕의 냉방 돔구장." },
+                { "name": "텍사스 라이브!", "englishName": "Texas Live!", "description": "두 구장 사이 식당·펍·공연 복합 단지. 경기 전후 모임 장소." },
+                { "name": "식스 플래그 오버 텍사스", "englishName": "Six Flags", "description": "텍사스 대표 놀이공원. 가족 여행과 스릴 라이드." },
+                { "name": "두 도시의 중간 거점", "description": "댈러스·포트워스에서 각각 차로 약 30분. 하루 코스로 묶기 좋습니다." }
+              ]
+            }
+          ],
+          "tips": [
+            { "heading": "먹거리", "body": "텍사스 BBQ(브리스킷), 텍스멕스(파히타·타코), 마가리타가 대표 메뉴." },
+            { "heading": "이동", "body": "권역이 넓어 렌터카가 편리. 도심은 DART 전철, 두 도시 간 TRE 통근열차." },
+            { "heading": "날씨", "body": "여름은 35℃ 이상으로 매우 덥고, 봄·가을이 여행 최적기. 모자·물 필수." },
+            { "heading": "언어·통화", "body": "영어 사용, 통화는 US 달러. 식당 팁 문화(약 15~20%)가 일반적." }
+          ],
+          "footerLabel": "댈러스–포트워스 메트로플렉스 여행 안내 · DALLAS–FORT WORTH METROPLEX",
+          "notice": "※ 운영시간·요금은 변동될 수 있으니 방문 전 공식 홈페이지 확인 권장"
+        }
+      ]
     }
   ],
   "places": {

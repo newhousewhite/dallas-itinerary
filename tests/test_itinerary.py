@@ -12,6 +12,7 @@ EXPECTED_PAGES = {
     "day1": "day1.html",
     "day2": "day2.html",
     "departure": "departure.html",
+    "about": "about.html",
 }
 
 EXPECTED_IMAGES = {
@@ -119,6 +120,46 @@ class ItineraryContractTests(unittest.TestCase):
         self.assertTrue(all("status" not in item for item in departure_items))
         airport = next(item for item in departure_items if item["title"] == "공항 이동 & 귀국")
         self.assertEqual(airport["transport"], "DART 전철")
+
+    def test_destination_guide_preserves_the_supplied_html_content(self):
+        about = self.data["pages"][-1]
+        self.assertEqual(about["id"], "about")
+        self.assertEqual(about["title"], "Dallas Fort Worth는 어떤 곳인가요?")
+        self.assertEqual(about["navLabel"], "지역 안내")
+
+        guide = next(
+            (section for section in about["sections"] if section["type"] == "destinationGuide"),
+            None,
+        )
+        self.assertIsNotNone(guide, "Dallas–Fort Worth destination guide is required")
+        self.assertEqual(len(guide["history"]["timeline"]), 7)
+        self.assertEqual(len(guide["history"]["themes"]), 3)
+        self.assertEqual(
+            {group["name"]: len(group["places"]) for group in guide["cities"]},
+            {"댈러스": 5, "포트워스": 5, "알링턴": 5},
+        )
+        self.assertEqual(len(guide["tips"]), 4)
+
+        payload = json.dumps(about, ensure_ascii=False)
+        required_source_phrases = (
+            "Texas · The Lone Star State",
+            "댈러스 – 포트워스",
+            "A HISTORY OF DALLAS–FORT WORTH",
+            "존 닐리 브라이언, 댈러스 정착지 건설",
+            "치점 트레일",
+            "식스 플로어 박물관",
+            "클라이드 워런 파크",
+            "포트워스 스톡야드",
+            "선댄스 스퀘어",
+            "AT&T 스타디움",
+            "식스 플래그 오버 텍사스",
+            "텍사스 BBQ",
+            "TRE 통근열차",
+            "식당 팁 문화(약 15~20%)",
+            "운영시간·요금은 변동될 수 있으니 방문 전 공식 홈페이지 확인 권장",
+        )
+        for phrase in required_source_phrases:
+            self.assertIn(phrase, payload)
 
     def test_every_drive_image_has_an_exact_auditable_mapping(self):
         places = self.data["places"]

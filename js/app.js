@@ -40,6 +40,11 @@ function renderNavigation(pages, currentPageId) {
         <strong>${escapeHtml(page.navLabel)}</strong>
       </a>`;
   }).join('');
+
+  const activeLink = nav.querySelector('[aria-current="page"]');
+  if (activeLink) {
+    nav.scrollLeft = Math.max(0, activeLink.offsetLeft - ((nav.clientWidth - activeLink.offsetWidth) / 2));
+  }
 }
 
 function renderHero(data, page) {
@@ -84,6 +89,8 @@ function renderSection(data, section, index) {
       return `<section class="content-section contact-section" id="${id}">${renderContact(section)}</section>`;
     case 'arrivalGuide':
       return `<section class="content-section guide-section" id="${id}">${intro}${renderArrivalGuide(section)}</section>`;
+    case 'destinationGuide':
+      return `<section class="content-section destination-section" id="${id}">${intro}${renderDestinationGuide(section)}</section>`;
     case 'note':
       return `<section class="content-section note-section" id="${id}">${renderNote(section)}</section>`;
     default:
@@ -246,6 +253,73 @@ function renderArrivalGuide(section) {
             </ol>
           </article>`).join('')}
       </div>
+    </div>`;
+}
+
+function renderDestinationGuide(section) {
+  const history = section.history;
+  return `
+    <div class="destination-guide">
+      <section class="guide-history" aria-labelledby="history-heading">
+        <div class="guide-subheading">
+          <p>${escapeHtml(history.englishHeading)}</p>
+          <h3 id="history-heading">${escapeHtml(history.heading)}</h3>
+        </div>
+        <p class="history-intro">${escapeHtml(history.intro)}</p>
+        <ol class="history-timeline">
+          ${history.timeline.map((item) => `
+            <li class="history-milestone">
+              <strong>${escapeHtml(item.year)}</strong>
+              <span>${escapeHtml(item.label)}</span>
+            </li>`).join('')}
+        </ol>
+        <div class="history-themes">
+          ${history.themes.map((theme, index) => `
+            <article class="history-theme">
+              <span aria-hidden="true">0${index + 1}</span>
+              <h4>${escapeHtml(theme.heading)}</h4>
+              <p>${escapeHtml(theme.body)}</p>
+            </article>`).join('')}
+        </div>
+      </section>
+
+      <section class="city-guides" aria-labelledby="cities-heading">
+        <div class="guide-subheading">
+          <p>THREE CITIES · ONE METROPLEX</p>
+          <h3 id="cities-heading">도시별 주요 명소</h3>
+        </div>
+        <div class="city-guide-grid">
+          ${section.cities.map((city, index) => `
+            <article class="city-guide-card">
+              <header><span>0${index + 1}</span><div><h4>${escapeHtml(city.name)}</h4><p>${escapeHtml(city.englishName)}</p></div></header>
+              <ol>
+                ${city.places.map((place) => `
+                  <li class="city-place">
+                    <h5>${escapeHtml(place.name)}${place.englishName ? `<small>${escapeHtml(place.englishName)}</small>` : ''}</h5>
+                    <p>${escapeHtml(place.description)}</p>
+                  </li>`).join('')}
+              </ol>
+            </article>`).join('')}
+        </div>
+      </section>
+
+      <section class="travel-tips" aria-labelledby="tips-heading">
+        <div class="guide-subheading inverse">
+          <p>BEFORE YOU GO</p>
+          <h3 id="tips-heading">여행 팁</h3>
+        </div>
+        <div class="travel-tip-grid">
+          ${section.tips.map((tip) => `
+            <article class="travel-tip">
+              <h4>${escapeHtml(tip.heading)}</h4>
+              <p>${escapeHtml(tip.body)}</p>
+            </article>`).join('')}
+        </div>
+        <div class="guide-source-note">
+          <strong>${escapeHtml(section.footerLabel)}</strong>
+          <p>${escapeHtml(section.notice)}</p>
+        </div>
+      </section>
     </div>`;
 }
 
