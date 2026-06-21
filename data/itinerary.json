@@ -1,0 +1,513 @@
+{
+  "trip": {
+    "title": "Howdy! Eight!",
+    "subtitle": "Dallas · Fort Worth 여정",
+    "dates": "2026.07.16 — 07.19",
+    "language": "ko",
+    "logo": "images/dallas_logo_image_2026-06-20.jpeg",
+    "sourceUrl": "https://docs.google.com/document/d/1cUmR7iVwd3CKp_hcdP3sipSW_rYYRspLmsgH-XlaBfQ/edit"
+  },
+  "pages": [
+    {
+      "id": "overview",
+      "href": "index.html",
+      "navLabel": "여정 안내",
+      "date": "7월 16일 — 19일",
+      "eyebrow": "TEXAS FIELD NOTES · 2026",
+      "title": "Dallas에서\nFort Worth까지",
+      "summary": "도착 리셉션부터 조별 활동, Fort Worth 전체 일정, 귀국까지 한눈에 보는 4일 여정입니다.",
+      "heroPlace": "reunion-tower",
+      "sections": [
+        {
+          "type": "dayGrid",
+          "eyebrow": "THE ROUTE",
+          "heading": "4일의 흐름",
+          "description": "날짜를 선택하면 시간, 이동, 선택 프로그램과 관련 링크를 확인할 수 있습니다.",
+          "items": [
+            { "pageId": "arrival", "placeId": "three-nations" },
+            { "pageId": "day1", "placeId": "nasher" },
+            { "pageId": "day2", "placeId": "kimbell" },
+            { "pageId": "departure" }
+          ]
+        },
+        {
+          "type": "note",
+          "eyebrow": "TRIP NOTE",
+          "heading": "확정 전 항목도 그대로 표시합니다",
+          "body": "견적, 장소 또는 세부 일정이 아직 정해지지 않은 항목은 ‘확정 필요’ 배지로 표시했습니다. 각 장소의 운영 정보는 연결된 공식 사이트에서 확인하세요."
+        }
+      ]
+    },
+    {
+      "id": "arrival",
+      "href": "arrival.html",
+      "navLabel": "도착",
+      "date": "7월 16일 목요일",
+      "eyebrow": "ARRIVAL · THURSDAY",
+      "title": "Dallas에\n모이는 저녁",
+      "summary": "다운타운 체크인 후 3 Nations Brewing에서 첫 인사를 나누는 도착일입니다.",
+      "heroPlace": "three-nations",
+      "sections": [
+        {
+          "type": "timeline",
+          "eyebrow": "DAY 00",
+          "heading": "도착 일정",
+          "description": "개별 도착 시간에 맞춰 체크인한 뒤 저녁 리셉션으로 모입니다.",
+          "items": [
+            {
+              "time": "Evening",
+              "title": "공항 도착 & 호텔 체크인",
+              "description": "다운타운 숙소 체크인",
+              "audience": "개인",
+              "location": "Downtown Dallas TBC Hotel",
+              "transport": "개인 이동 · Uber / 셔틀",
+              "status": "확정 필요"
+            },
+            {
+              "time": "7 — 10 PM",
+              "title": "달라스 리셉션",
+              "description": "3 Nations Brewing에서 진행하는 전체 리셉션 · quote TBC",
+              "audience": "전체",
+              "transport": "Uber 또는 미니버스 · 약 15분",
+              "placeId": "three-nations",
+              "status": "확정 필요"
+            },
+            {
+              "time": "Night",
+              "title": "Carrollton 한인타운",
+              "description": "리셉션 이후 선택 일정",
+              "audience": "선택",
+              "transport": "Uber · 약 10분",
+              "placeId": "dallas-koreatown"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "day1",
+      "href": "day1.html",
+      "navLabel": "조별 활동",
+      "date": "7월 17일 금요일",
+      "eyebrow": "DAY 01 · FRIDAY",
+      "title": "각자의 Dallas를\n고르는 하루",
+      "summary": "오전과 오후에는 조별로 활동을 선택하고, 저녁에는 Terry Black’s BBQ와 교류 프로그램으로 다시 모입니다.",
+      "heroPlace": "nasher",
+      "sections": [
+        {
+          "type": "timeline",
+          "eyebrow": "DAY PLAN",
+          "heading": "함께, 또 따로",
+          "description": "조별로 별도 이동하며 아래 선택 프로그램에서 오전과 오후 활동을 구성합니다.",
+          "items": [
+            {
+              "time": "Morning",
+              "title": "호텔 조식",
+              "description": "조식 후 그룹별 별도 이동",
+              "audience": "전체",
+              "transport": "그룹별 별도 이동"
+            },
+            {
+              "time": "Morning",
+              "title": "Group activity",
+              "description": "각 조에서 선택하여 활동",
+              "audience": "소규모 / 그룹",
+              "transport": "그룹별 별도 이동"
+            },
+            {
+              "time": "Afternoon",
+              "title": "Group activity",
+              "description": "Downtown Dallas 및 인근 선택 프로그램",
+              "audience": "소규모 / 그룹",
+              "location": "Downtown Dallas",
+              "transport": "그룹별 별도 이동"
+            },
+            {
+              "time": "Dinner",
+              "title": "Terry Black’s BBQ",
+              "description": "작은 홀 예약 가능 여부 확인",
+              "audience": "전체",
+              "location": "3025 Main St, Dallas",
+              "transport": "Uber 또는 도보 · 약 10분",
+              "placeId": "terry-blacks",
+              "status": "확정 필요"
+            },
+            {
+              "time": "Night",
+              "title": "Auction + 대표님과의 담화",
+              "description": "교류 프로그램, 8조가 나아갈 방향, fundraising auction",
+              "audience": "전체",
+              "location": "TBD",
+              "status": "확정 필요"
+            }
+          ]
+        },
+        {
+          "type": "cards",
+          "eyebrow": "CHOOSE YOUR ROUTE",
+          "heading": "Group Activities",
+          "description": "예술, 정원, 엔터테인먼트, 시티뷰 중 조별 취향에 맞는 활동을 선택하세요.",
+          "items": [
+            { "placeId": "nasher", "tag": "ART" },
+            { "placeId": "netflix-house", "tag": "EXPERIENCE" },
+            { "placeId": "sixth-floor", "tag": "HISTORY" },
+            { "placeId": "dallas-arboretum", "tag": "GARDEN" },
+            { "placeId": "bishop-arts", "tag": "NEIGHBORHOOD" },
+            { "placeId": "medieval-times", "tag": "DINNER SHOW" },
+            { "placeId": "perot-museum", "tag": "SCIENCE" },
+            { "placeId": "reunion-tower", "tag": "CITY VIEW" },
+            { "placeId": "m-line", "tag": "CITY TOUR" },
+            { "placeId": "videogame-museum", "tag": "FAMILY" },
+            { "placeId": "highland-park", "tag": "SHOPPING" },
+            { "placeId": "cosm-dallas", "tag": "IMMERSIVE" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "day2",
+      "href": "day2.html",
+      "navLabel": "Fort Worth",
+      "date": "7월 18일 토요일",
+      "eyebrow": "DAY 02 · SATURDAY",
+      "title": "Art에서 Rodeo까지,\nFort Worth",
+      "summary": "전세 버스로 이동해 Kimbell과 The Modern을 보고, Stockyards와 저녁 Rodeo로 이어지는 전체 일정입니다.",
+      "heroPlace": "kimbell",
+      "sections": [
+        {
+          "type": "timeline",
+          "eyebrow": "GROUP SCHEDULE",
+          "heading": "Fort Worth 전체 일정",
+          "description": "문화 지구의 미술관에서 시작해 Stockyards에서 하루를 마무리합니다.",
+          "items": [
+            {
+              "time": "Morning",
+              "title": "호텔 조식 & 버스 대절",
+              "description": "호텔에서 아침 식사 후 단체 출발",
+              "audience": "단체",
+              "location": "호텔 내",
+              "transport": "전세 버스"
+            },
+            {
+              "time": "10 AM — 12 PM",
+              "title": "Kimbell Art Museum",
+              "description": "Fort Worth Cultural District 첫 일정",
+              "audience": "단체",
+              "location": "Fort Worth Cultural District",
+              "transport": "버스 · 약 35분",
+              "placeId": "kimbell"
+            },
+            {
+              "time": "12 — 1 PM",
+              "title": "점심 · The Café Modern",
+              "description": "The Modern 안의 점심 일정",
+              "audience": "소규모",
+              "location": "Fort Worth",
+              "placeId": "cafe-modern"
+            },
+            {
+              "time": "1 — 4 PM",
+              "title": "The Modern Art Museum of Fort Worth",
+              "description": "Architecture Docent · Hae Suk Ko / Art Docent · Nari Rhee",
+              "audience": "단체",
+              "location": "Fort Worth · Kimbell 옆",
+              "transport": "도보 · 약 3분",
+              "placeId": "modern-art-museum"
+            },
+            {
+              "time": "Afternoon",
+              "title": "Stockyards 자유 탐방",
+              "description": "거리 탐방과 선택 프로그램",
+              "audience": "단체",
+              "location": "Fort Worth Stockyards",
+              "transport": "Stockyards 내 도보",
+              "placeId": "stockyards"
+            },
+            {
+              "time": "7:30 PM",
+              "title": "Rodeo @ Cowtown Coliseum",
+              "description": "Rodeo를 관람하지 않는 분들은 별도 선택 프로그램 이용",
+              "audience": "소규모 / 개인",
+              "location": "Fort Worth Stockyards",
+              "placeId": "rodeo"
+            },
+            {
+              "time": "9 PM",
+              "title": "호텔로 복귀",
+              "description": "Closing 후 단체 복귀",
+              "audience": "전체",
+              "location": "Fort Worth Stockyards",
+              "transport": "버스 · 약 35분"
+            }
+          ]
+        },
+        {
+          "type": "cards",
+          "eyebrow": "OPTIONAL FORT WORTH",
+          "heading": "자유시간 프로그램",
+          "description": "Stockyards 탐방과 함께 선택할 수 있는 Fort Worth 프로그램입니다.",
+          "items": [
+            { "placeId": "stockyards", "tag": "WESTERN" },
+            { "placeId": "fort-worth-botanic", "tag": "GARDEN" },
+            { "placeId": "amon-carter", "tag": "ART" },
+            { "placeId": "omni-theater", "tag": "IMMERSIVE" },
+            { "placeId": "magnolia-avenue", "tag": "FOOD & MUSIC" },
+            { "placeId": "water-gardens", "tag": "LANDMARK" },
+            {
+              "title": "Indoor shooting / Sports Live! Dallas",
+              "description": "Rodeo 비관람자를 위한 자유시간 선택 프로그램",
+              "tag": "OPTION",
+              "status": "확정 필요"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "departure",
+      "href": "departure.html",
+      "navLabel": "출발",
+      "date": "7월 19일 일요일",
+      "eyebrow": "DEPARTURE · SUNDAY",
+      "title": "각자의 다음 도시로",
+      "summary": "호텔 체크아웃 후 비행 시간에 맞춰 DFW 또는 DAL 공항으로 개별 이동합니다.",
+      "sections": [
+        {
+          "type": "timeline",
+          "eyebrow": "DAY 03",
+          "heading": "귀국 일정",
+          "description": "출발 일정은 5월 10일 미팅 후 수정 중인 내용을 반영했습니다.",
+          "items": [
+            {
+              "time": "Morning",
+              "title": "호텔 아침 & 체크아웃",
+              "description": "체크아웃 후 개인 일정 준비",
+              "audience": "단체",
+              "location": "Downtown Dallas Hotel"
+            },
+            {
+              "time": "Morning — Afternoon",
+              "title": "Optional Activities",
+              "description": "비행 시간에 맞춘 선택 활동",
+              "audience": "선택",
+              "status": "확정 필요"
+            },
+            {
+              "time": "Morning — Afternoon",
+              "title": "공항 이동 & 귀국",
+              "description": "개별 비행 시간에 맞춰 이동",
+              "audience": "개인",
+              "location": "DFW / DAL Airport",
+              "transport": "Uber / 셔틀 / 대절 버스 옵션",
+              "status": "확정 필요"
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "eyebrow": "SAFE TRAVELS",
+          "heading": "마지막 이동은 개인 일정에 맞춰",
+          "body": "공항, 항공편, 픽업 방식이 서로 다르므로 최종 출발 시간과 이동 수단을 출발 전 다시 확인합니다."
+        }
+      ]
+    }
+  ],
+  "places": {
+    "three-nations": {
+      "name": "3 Nations Brewing",
+      "description": "7월 16일 저녁 7시부터 10시까지 예정된 달라스 리셉션 장소",
+      "primaryLink": { "label": "공식 사이트", "url": "https://3nationsbrewing.com/" },
+      "image": { "src": "images/dallas/three-nations-brewing.png", "sourceName": "3 Nations Brewing.png", "alt": "3 Nations Brewing 공간" }
+    },
+    "dallas-koreatown": {
+      "name": "Carrollton 한인타운",
+      "description": "도착일 밤 선택 일정",
+      "primaryLink": { "label": "지역 안내", "url": "https://koreatowncarrollton.com/" }
+    },
+    "nasher": {
+      "name": "DMA + Nasher Sculpture Center",
+      "description": "Dallas Arts District에서 미술관과 조각 정원을 함께 보는 선택 코스",
+      "primaryLink": { "label": "Nasher 방문 안내", "url": "https://www.nashersculpturecenter.org/visit/plan-a-visit" },
+      "resources": [
+        { "label": "D Magazine 소개", "url": "https://www.dmagazine.com/publications/d-magazine/2009/september/the-nasher-sculpture-center-offers-a-look-at-the-future-of-dallas/" }
+      ],
+      "image": { "src": "images/dallas/nasher-sculpture-center.webp", "sourceName": "test_01.webp", "alt": "Nasher Sculpture Center의 조각 전시 공간" }
+    },
+    "netflix-house": {
+      "name": "Netflix House + Galleria Mall",
+      "description": "Netflix House 체험과 Galleria Dallas를 함께 둘러보는 코스",
+      "primaryLink": { "label": "Netflix House 안내", "url": "https://www.netflix.com/house/locations/dallas" },
+      "resources": [
+        { "label": "Dallas Innovates 소개", "url": "https://dallasinnovates.com/netflix-house-opens-at-galleria-dallas/" }
+      ],
+      "image": { "src": "images/dallas/netflix-house.jpg", "sourceName": "NetflixHouse-Morning-Exterior-0212_v2-970.jpg", "alt": "Galleria Dallas의 Netflix House 외관" }
+    },
+    "sixth-floor": {
+      "name": "The Sixth Floor Museum",
+      "description": "Dealey Plaza에서 JFK의 생애와 역사를 살펴보는 박물관",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.jfk.org/" },
+      "resources": [
+        { "label": "Dallasites101 소개", "url": "https://www.dallasites101.com/listing/the-sixth-floor-museum/167/" },
+        { "label": "Wikipedia", "url": "https://en.wikipedia.org/wiki/Sixth_Floor_Museum_at_Dealey_Plaza" }
+      ],
+      "image": { "src": "images/dallas/sixth-floor-museum.webp", "sourceName": "6th_Floor_Musiem.png", "alt": "The Sixth Floor Museum 건물" }
+    },
+    "dallas-arboretum": {
+      "name": "Dallas Arboretum and Botanic Garden",
+      "description": "계절 정원과 호숫가 풍경을 둘러보는 야외 선택 코스",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.dallasarboretum.org/" },
+      "resources": [
+        { "label": "Virtual visit", "url": "https://www.dallasarboretum.org/visitor-information/virtual-visit/" },
+        { "label": "Southern Garden History", "url": "https://southerngardenhistory.org/news/dallas-arboretum-and-botanical-garden-dallas-texas/" }
+      ],
+      "image": { "src": "images/dallas/dallas-arboretum.avif", "sourceName": "Dallas Arboretum.avif", "alt": "Dallas Arboretum and Botanic Garden 정원" }
+    },
+    "bishop-arts": {
+      "name": "Bishop Arts District",
+      "description": "상점, 식당, 거리 풍경을 자유롭게 둘러보는 동네 코스",
+      "primaryLink": { "label": "지역 안내", "url": "https://www.bishoparts.com/neighborhood" },
+      "resources": [
+        { "label": "New York Times 가이드", "url": "https://www.nytimes.com/2025/11/14/realestate/real-estate-guide-bishop-arts-district-dallas.html" },
+        { "label": "Lemon8 소개", "url": "https://www.lemon8-app.com/@cancer.dee/7360812769521795590?region=us" }
+      ],
+      "image": { "src": "images/dallas/bishop-arts-district.png", "sourceName": "BishopArtDistrict.png", "alt": "Bishop Arts District 거리" }
+    },
+    "medieval-times": {
+      "name": "Medieval Times",
+      "description": "중세 토너먼트 디너 쇼 · 일정 문서 기준 4:30 PM 또는 7:30 PM 쇼",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.medievaltimes.com/" },
+      "resources": [
+        { "label": "What to expect", "url": "https://www.medievaltimes.com/what-to-expect" },
+        { "label": "Tripadvisor", "url": "https://www.tripadvisor.com/Attraction_Review-g55711-d590456-Reviews-Medieval_Times_Dinner_Tournament-Dallas_Texas.html" }
+      ],
+      "image": { "src": "images/dallas/medieval-times.avif", "sourceName": "MedievalTimes.avif", "alt": "Medieval Times 토너먼트 공연" }
+    },
+    "perot-museum": {
+      "name": "Perot Museum",
+      "description": "과학 전시와 체험 공간을 둘러보는 박물관 코스",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.perotmuseum.org/" },
+      "resources": [
+        { "label": "Our Changing Lives 소개", "url": "https://www.ourchanginglives.com/perot-museum-a-science-depot/" },
+        { "label": "DFW Child 가이드", "url": "https://dfwchild.com/perot-museum-guide-with-kids/" }
+      ],
+      "image": { "src": "images/dallas/perot-museum.avif", "sourceName": "PerotMuseum.avif", "alt": "Perot Museum 건축 외관" }
+    },
+    "reunion-tower": {
+      "name": "Reunion Tower",
+      "description": "Dallas 시티뷰를 내려다보는 전망대",
+      "primaryLink": { "label": "방문 안내", "url": "https://reuniontower.com/plan-your-visit/" },
+      "resources": [
+        { "label": "공식 홈", "url": "https://reuniontower.com/" },
+        { "label": "여행 후기", "url": "https://m.blog.naver.com/ambidext/220795177353" }
+      ],
+      "image": { "src": "images/dallas/reunion-tower.png", "sourceName": "ReunionTower.png", "alt": "Dallas 스카이라인과 Reunion Tower" }
+    },
+    "m-line": {
+      "name": "M-Line Trolley",
+      "description": "Uptown에서 Arts District, Klyde Warren Park, West Village를 잇는 무료 시티 투어",
+      "primaryLink": { "label": "운행 안내", "url": "https://www.mata.org/" },
+      "resources": [
+        { "label": "Condé Nast Traveler", "url": "https://www.cntraveler.com/activities/dallas/mckinney-avenue-trolley" },
+        { "label": "Klyde Warren Park", "url": "https://www.klydewarrenpark.org/" },
+        { "label": "West Village 안내", "url": "https://www.dallasites101.com/neighborhoods/districts/west-village/" }
+      ],
+      "image": { "src": "images/dallas/m-line-trolley.webp", "sourceName": "M-Line-Trolley-Hero-Image-2.webp", "alt": "Dallas M-Line Trolley" }
+    },
+    "videogame-museum": {
+      "name": "National Videogame Museum",
+      "description": "Frisco에서 게임의 역사와 인터랙티브 전시를 경험하는 가족 코스",
+      "primaryLink": { "label": "공식 사이트", "url": "https://nvmusa.org/" },
+      "resources": [
+        { "label": "Interactive exhibits", "url": "https://nvmusa.org/interactive-exhibits/" },
+        { "label": "Dallasites101 소개", "url": "https://www.dallasites101.com/blog/post/national-videogame-museum-dfw/" }
+      ],
+      "image": { "src": "images/dallas/national-videogame-museum.png", "sourceName": " National Videogame Museum.png", "alt": "National Videogame Museum 전시" }
+    },
+    "highland-park": {
+      "name": "Highland Park Village",
+      "description": "럭셔리 쇼핑과 다이닝을 함께 둘러보는 선택 코스",
+      "primaryLink": { "label": "공식 사이트", "url": "https://hpvillage.com/" },
+      "resources": [
+        { "label": "Irving Texas 소개", "url": "https://www.irvingtexas.com/listing/highland-park-village/768/" },
+        { "label": "TikTok 소개", "url": "https://www.tiktok.com/@soldbygiovanna/video/7144762441228913962" }
+      ],
+      "image": { "src": "images/dallas/highland-park-village.png", "sourceName": " Highland Park Village.png", "alt": "Highland Park Village 건물과 광장" }
+    },
+    "cosm-dallas": {
+      "name": "Cosm Dallas",
+      "description": "The Colony의 대형 돔에서 즐기는 몰입형 미디어 경험",
+      "primaryLink": { "label": "Cosm Dallas 안내", "url": "https://www.cosm.com/news/cosm-dallas-to-officially-open-at-grandscape-in-the-colony-on-august-31" },
+      "resources": [
+        { "label": "Private events", "url": "https://www.cosm.com/dallas/private-events" },
+        { "label": "TikTok 소개", "url": "https://www.tiktok.com/@dallasfunfam/video/7580414117521952014" }
+      ],
+      "image": { "src": "images/dallas/cosm-dallas.webp", "sourceName": "cosm-dallas-the-dome-3.webp", "alt": "Cosm Dallas의 몰입형 돔 스크린" }
+    },
+    "terry-blacks": {
+      "name": "Terry Black’s Barbecue",
+      "description": "7월 17일 전체 저녁 식사 장소 · 작은 홀 예약 가능 여부 확인",
+      "primaryLink": { "label": "공식 사이트", "url": "https://terryblacksbbq.com/dallas" },
+      "image": { "src": "images/dallas/terry-blacks-barbecue.png", "sourceName": "Terry Black's Barbecue Best BBQ.png", "alt": "Terry Black’s Barbecue의 바비큐 메뉴" }
+    },
+    "kimbell": {
+      "name": "Kimbell Art Museum",
+      "description": "7월 18일 오전 10시부터 12시까지 진행하는 단체 미술관 일정",
+      "primaryLink": { "label": "공식 사이트", "url": "https://kimbellart.org/" },
+      "image": { "src": "images/dallas/kimbell-art-museum.png", "sourceName": "Kimbell Art Museum.png", "alt": "Kimbell Art Museum의 아치형 건축" }
+    },
+    "cafe-modern": {
+      "name": "The Café Modern",
+      "description": "The Modern Art Museum of Fort Worth에서 진행하는 12시부터 1시까지의 점심 일정",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.themodern.org/caf%C3%A9-modern" },
+      "image": { "src": "images/dallas/cafe-modern.png", "sourceName": "The Cafe Modern Modern Art Museum of Fort Worth.png", "alt": "The Café Modern의 다이닝 공간" }
+    },
+    "modern-art-museum": {
+      "name": "The Modern Art Museum of Fort Worth",
+      "description": "오후 1시부터 4시까지 도슨트와 함께하는 건축 및 미술 일정",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.themodern.org/" },
+      "image": { "src": "images/dallas/modern-art-museum-fort-worth.png", "sourceName": "Modern Art Museum of Fort Worth.png", "alt": "The Modern Art Museum of Fort Worth 건물과 수공간" }
+    },
+    "stockyards": {
+      "name": "Fort Worth Stockyards",
+      "description": "서부 거리 분위기와 상점, 자유 프로그램을 둘러보는 오후 일정",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.fortworthstockyards.org/" },
+      "image": { "src": "images/dallas/fort-worth-stockyards.jpeg", "sourceName": "FW StockYard.jpeg", "alt": "Fort Worth Stockyards 거리" }
+    },
+    "rodeo": {
+      "name": "Rodeo @ Cowtown Coliseum",
+      "description": "Fort Worth Stockyards에서 진행하는 오후 7시 30분 Rodeo",
+      "primaryLink": { "label": "Rodeo 안내", "url": "https://www.fwssr.com/" },
+      "image": { "src": "images/dallas/rodeo.jpg", "sourceName": "Rodeo.jpg", "alt": "Fort Worth Rodeo 경기" }
+    },
+    "fort-worth-botanic": {
+      "name": "Fort Worth Botanic Garden",
+      "description": "Fort Worth에서 정원 풍경을 둘러보는 자유시간 선택 프로그램",
+      "primaryLink": { "label": "공식 사이트", "url": "https://fwbg.org/" },
+      "image": { "src": "images/dallas/fort-worth-botanic-garden.png", "sourceName": "Fort Worth Botanic Garden BRIT.png", "alt": "Fort Worth Botanic Garden의 정원" }
+    },
+    "amon-carter": {
+      "name": "Amon Carter Museum of American Art",
+      "description": "Philip Johnson의 건축과 Remington의 조각을 함께 보는 미술관",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.cartermuseum.org/" },
+      "image": { "src": "images/dallas/amon-carter-museum.png", "sourceName": "Amon Carter Museum of American Art.png", "alt": "Amon Carter Museum of American Art 건축" }
+    },
+    "omni-theater": {
+      "name": "Omni Theater",
+      "description": "IMAX 몰입형 영화와 어린이 체험 공간을 갖춘 선택 프로그램",
+      "primaryLink": { "label": "공식 사이트", "url": "https://www.fwmuseum.org/explore/omni-theater/" },
+      "image": { "src": "images/dallas/omni-theater.jpg", "sourceName": "Omni Theater.jpg", "alt": "Omni Theater의 돔형 상영관" }
+    },
+    "magnolia-avenue": {
+      "name": "Magnolia Avenue",
+      "description": "와인 바, 야외 파티오, 라이브 음악을 즐길 수 있는 거리",
+      "primaryLink": { "label": "지역 안내", "url": "https://www.fortworth.com/blog/stories/post/exploring-magnolia-ave-in-fort-worth/" },
+      "image": { "src": "images/dallas/magnolia-avenue.jpg", "sourceName": "MgnoliaAve.jpg", "alt": "Fort Worth Magnolia Avenue 거리" }
+    },
+    "water-gardens": {
+      "name": "Fort Worth Water Gardens",
+      "description": "도심의 건축적 수공간을 둘러보는 선택 프로그램",
+      "primaryLink": { "label": "공식 안내", "url": "https://www.fortworthtexas.gov/departments/parks/parks-and-trails/water-gardens" },
+      "image": { "src": "images/dallas/fort-worth-water-gardens.png", "sourceName": "water-gardens-oasis-pool.png", "alt": "Fort Worth Water Gardens의 수공간" }
+    }
+  }
+}
