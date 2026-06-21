@@ -73,6 +73,53 @@ class ItineraryContractTests(unittest.TestCase):
         self.assertIn("Terry Black’s BBQ", payload)
         self.assertIn("Kimbell Art Museum", payload)
 
+    def test_contact_hotel_transit_and_departure_updates(self):
+        pages = {page["id"]: page for page in self.data["pages"]}
+
+        contact = next((section for section in pages["overview"]["sections"] if section["type"] == "contact"), None)
+        self.assertIsNotNone(contact, "overview contact section is required")
+        self.assertEqual(contact["name"], "민일")
+        self.assertEqual(contact["phone"], "+1-814-777-6590")
+        self.assertEqual(contact["phoneHref"], "tel:+18147776590")
+
+        arrival = pages["arrival"]
+        timeline = next(section for section in arrival["sections"] if section["type"] == "timeline")
+        check_in, reception = timeline["items"][:2]
+        self.assertNotIn("status", check_in)
+        self.assertNotIn("status", reception)
+        self.assertEqual(reception["description"], "3 Nations Brewing에서 찐 Tex-Mex를 즐기며 Ice Breaking")
+
+        guide = next((section for section in arrival["sections"] if section["type"] == "arrivalGuide"), None)
+        self.assertIsNotNone(guide, "arrival DART guide is required")
+        self.assertEqual(guide["hotel"]["name"], "Renaissance Saint Elm Dallas Downtown Hotel")
+        self.assertEqual(guide["hotel"]["address"], "1907 Elm Street, Dallas, Texas, USA, 75201")
+        self.assertEqual(guide["hotel"]["phone"], "+1 214-220-2900")
+        self.assertEqual(
+            guide["hotel"]["url"],
+            "https://www.marriott.com/en-us/hotels/dalbw-renaissance-saint-elm-dallas-downtown-hotel/overview/",
+        )
+        self.assertEqual(len(guide["routes"]), 2)
+        route_text = json.dumps(guide["routes"], ensure_ascii=False)
+        for phrase in (
+            "약 1시간",
+            "Orange Line",
+            "St Paul Station",
+            "약 32분",
+            "Love Link (Route 55)",
+            "Inwood/Love Field",
+            "Green Line",
+        ):
+            self.assertIn(phrase, route_text)
+
+        departure = pages["departure"]
+        departure_timeline = next(section for section in departure["sections"] if section["type"] == "timeline")
+        departure_items = departure_timeline["items"]
+        self.assertEqual(departure_items[0]["time"], "7 — 9 AM")
+        self.assertEqual(departure_items[0]["title"], "산스 전체세션 참석")
+        self.assertTrue(all("status" not in item for item in departure_items))
+        airport = next(item for item in departure_items if item["title"] == "공항 이동 & 귀국")
+        self.assertEqual(airport["transport"], "DART 전철")
+
     def test_every_drive_image_has_an_exact_auditable_mapping(self):
         places = self.data["places"]
         actual = {

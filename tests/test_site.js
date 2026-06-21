@@ -102,6 +102,26 @@ test('secondary resources are keyboard accessible', async () => {
   await page.close();
 });
 
+test('requested contact, hotel, DART, and departure details render', async () => {
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+
+  await page.goto(`${baseUrl}/index.html`, { waitUntil: 'networkidle' });
+  const contact = page.locator('a.emergency-contact');
+  assert.equal(await contact.getAttribute('href'), 'tel:+18147776590');
+  assert.match(await contact.innerText(), /민일.*\+1-814-777-6590/s);
+
+  await page.goto(`${baseUrl}/arrival.html`, { waitUntil: 'networkidle' });
+  assert.equal(await page.locator('.hotel-card .button-link').getAttribute('href'), 'https://www.marriott.com/en-us/hotels/dalbw-renaissance-saint-elm-dallas-downtown-hotel/overview/');
+  assert.equal(await page.locator('.transit-route').count(), 2);
+  assert.match(await page.locator('.arrival-guide').innerText(), /Love Link \(Route 55\).*Inwood\/Love Field.*St Paul Station/s);
+
+  await page.goto(`${baseUrl}/departure.html`, { waitUntil: 'networkidle' });
+  assert.match(await page.locator('.timeline').innerText(), /7 — 9 AM.*산스 전체세션 참석/s);
+  assert.equal(await page.locator('.status-badge').count(), 0);
+  assert.match(await page.locator('.timeline').innerText(), /공항 이동 & 귀국.*DART 전철/s);
+  await page.close();
+});
+
 test('mobile layout has no horizontal page overflow', async () => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   for (const [route] of ROUTES) {

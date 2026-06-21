@@ -31,6 +31,14 @@
           ]
         },
         {
+          "type": "contact",
+          "eyebrow": "EMERGENCY CONTACT",
+          "heading": "긴급 연락처",
+          "name": "민일",
+          "phone": "+1-814-777-6590",
+          "phoneHref": "tel:+18147776590"
+        },
+        {
           "type": "note",
           "eyebrow": "TRIP NOTE",
           "heading": "확정 전 항목도 그대로 표시합니다",
@@ -59,18 +67,16 @@
               "title": "공항 도착 & 호텔 체크인",
               "description": "다운타운 숙소 체크인",
               "audience": "개인",
-              "location": "Downtown Dallas TBC Hotel",
-              "transport": "개인 이동 · Uber / 셔틀",
-              "status": "확정 필요"
+              "location": "Renaissance Saint Elm Dallas Downtown Hotel",
+              "transport": "DART 전철 / 개인 이동"
             },
             {
               "time": "7 — 10 PM",
               "title": "달라스 리셉션",
-              "description": "3 Nations Brewing에서 진행하는 전체 리셉션 · quote TBC",
+              "description": "3 Nations Brewing에서 찐 Tex-Mex를 즐기며 Ice Breaking",
               "audience": "전체",
               "transport": "Uber 또는 미니버스 · 약 15분",
-              "placeId": "three-nations",
-              "status": "확정 필요"
+              "placeId": "three-nations"
             },
             {
               "time": "Night",
@@ -79,6 +85,59 @@
               "audience": "선택",
               "transport": "Uber · 약 10분",
               "placeId": "dallas-koreatown"
+            }
+          ]
+        },
+        {
+          "type": "arrivalGuide",
+          "eyebrow": "DART ARRIVAL GUIDE",
+          "heading": "공항에서 호텔까지",
+          "description": "DFW 또는 DAL 공항에서 DART 대중교통으로 호텔까지 이동하는 방법입니다.",
+          "hotel": {
+            "name": "Renaissance Saint Elm Dallas Downtown Hotel",
+            "address": "1907 Elm Street, Dallas, Texas, USA, 75201",
+            "phone": "+1 214-220-2900",
+            "phoneHref": "tel:+12142202900",
+            "url": "https://www.marriott.com/en-us/hotels/dalbw-renaissance-saint-elm-dallas-downtown-hotel/overview/"
+          },
+          "routes": [
+            {
+              "title": "1. 달라스 / 포트 워스 국제공항 (DFW)에서 이동",
+              "duration": "총 약 1시간",
+              "intro": "Dallas 다운타운까지 환승 없이 한 번에 이동할 수 있으며, 대기 및 도보 시간을 포함한 총 소요 시간은 약 1시간입니다.",
+              "steps": [
+                {
+                  "label": "탑승",
+                  "text": "DFW 공항 내 터미널 A에 위치한 DART 역에서 다운타운 방향으로 향하는 오렌지 라인 (Orange Line) 전철에 탑승합니다."
+                },
+                {
+                  "label": "하차",
+                  "text": "환승 없이 계속 이동한 후 다운타운의 St Paul Station역에서 하차합니다."
+                },
+                {
+                  "label": "도보 이동",
+                  "text": "하차 후 약 3~5분 (2~3블록) 정도 걸으면 Renaissance Saint Elm Dallas Downtown Hotel이 입점해 있는 Tower Petroleum Building에 도착합니다."
+                }
+              ]
+            },
+            {
+              "title": "2. 달라스 러브 필드 (DAL)에서 이동",
+              "duration": "총 약 32분",
+              "intro": "가까운 전철역까지 공항버스로 이동한 후 전철로 환승해야 하며, 총 소요 시간은 약 32분입니다. 다운타운과 더 가까워 소요 시간이 짧습니다.",
+              "steps": [
+                {
+                  "label": "버스 탑승",
+                  "text": "공항 터미널 밖으로 나와 DART의 공항 연결 버스인 Love Link (Route 55)에 탑승합니다."
+                },
+                {
+                  "label": "환승",
+                  "text": "약 10분 정도 이동하여 전철 환승 거점인 Inwood/Love Field역에서 내립니다. 검색 결과에 같은 이름의 역이 여러 개 표시되더라도 모두 같은 환승 구역을 지칭합니다."
+                },
+                {
+                  "label": "전철 탑승 및 하차",
+                  "text": "해당 역에서 다운타운 방향으로 가는 오렌지 라인 (Orange Line) 또는 그린 라인 (Green Line) 전철로 환승합니다. 이후 St Paul Station에서 하차하여 도보로 호텔까지 이동합니다."
+                }
+              ]
             }
           ]
         }
@@ -279,6 +338,12 @@
           "description": "출발 일정은 5월 10일 미팅 후 수정 중인 내용을 반영했습니다.",
           "items": [
             {
+              "time": "7 — 9 AM",
+              "title": "산스 전체세션 참석",
+              "description": "현지 시간 기준 전체세션 참석",
+              "audience": "전체"
+            },
+            {
               "time": "Morning",
               "title": "호텔 아침 & 체크아웃",
               "description": "체크아웃 후 개인 일정 준비",
@@ -289,8 +354,7 @@
               "time": "Morning — Afternoon",
               "title": "Optional Activities",
               "description": "비행 시간에 맞춘 선택 활동",
-              "audience": "선택",
-              "status": "확정 필요"
+              "audience": "선택"
             },
             {
               "time": "Morning — Afternoon",
@@ -298,8 +362,7 @@
               "description": "개별 비행 시간에 맞춰 이동",
               "audience": "개인",
               "location": "DFW / DAL Airport",
-              "transport": "Uber / 셔틀 / 대절 버스 옵션",
-              "status": "확정 필요"
+              "transport": "DART 전철"
             }
           ]
         },

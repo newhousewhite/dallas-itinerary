@@ -80,6 +80,10 @@ function renderSection(data, section, index) {
       return `<section class="content-section timeline-section" id="${id}">${intro}${renderTimeline(data, section.items)}</section>`;
     case 'cards':
       return `<section class="content-section card-section" id="${id}">${intro}${renderCardGrid(data, section.items)}</section>`;
+    case 'contact':
+      return `<section class="content-section contact-section" id="${id}">${renderContact(section)}</section>`;
+    case 'arrivalGuide':
+      return `<section class="content-section guide-section" id="${id}">${intro}${renderArrivalGuide(section)}</section>`;
     case 'note':
       return `<section class="content-section note-section" id="${id}">${renderNote(section)}</section>`;
     default:
@@ -194,6 +198,53 @@ function renderNote(section) {
         <p class="eyebrow">${escapeHtml(section.eyebrow)}</p>
         <h2>${escapeHtml(section.heading)}</h2>
         <p>${escapeHtml(section.body)}</p>
+      </div>
+    </div>`;
+}
+
+function renderContact(section) {
+  return `
+    <div class="emergency-card">
+      <div>
+        <p class="eyebrow">${escapeHtml(section.eyebrow)}</p>
+        <h2>${escapeHtml(section.heading)}</h2>
+      </div>
+      <a class="emergency-contact" href="${escapeHtml(section.phoneHref)}">
+        <span>${escapeHtml(section.name)}</span>
+        <strong>${escapeHtml(section.phone)}</strong>
+        <i aria-hidden="true">통화 ↗</i>
+      </a>
+    </div>`;
+}
+
+function renderArrivalGuide(section) {
+  return `
+    <div class="arrival-guide">
+      <article class="hotel-card">
+        <p class="eyebrow">YOUR HOTEL</p>
+        <h3>${escapeHtml(section.hotel.name)}</h3>
+        <address>${escapeHtml(section.hotel.address)}</address>
+        <div>
+          <a class="button-link" href="${escapeHtml(section.hotel.url)}" target="_blank" rel="noopener noreferrer">호텔 홈페이지 <span aria-hidden="true">↗</span></a>
+          <a class="hotel-phone" href="${escapeHtml(section.hotel.phoneHref)}">Tel: ${escapeHtml(section.hotel.phone)}</a>
+        </div>
+      </article>
+      <div class="transit-grid">
+        ${section.routes.map((route) => `
+          <article class="transit-route">
+            <div class="transit-route-header">
+              <h3>${escapeHtml(route.title)}</h3>
+              <span>${escapeHtml(route.duration)}</span>
+            </div>
+            <p>${escapeHtml(route.intro)}</p>
+            <ol>
+              ${route.steps.map((step) => `
+                <li>
+                  <strong>${escapeHtml(step.label)}</strong>
+                  <p>${escapeHtml(step.text)}</p>
+                </li>`).join('')}
+            </ol>
+          </article>`).join('')}
       </div>
     </div>`;
 }
