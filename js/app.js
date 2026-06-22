@@ -15,11 +15,11 @@ async function initializeApp() {
     if (!page) throw new Error(`Unknown itinerary page: ${pageId}`);
 
     renderNavigation(data.pages, pageId);
-    main.innerHTML = [
-      renderHero(data, page),
-      page.sections.map((section, index) => renderSection(data, section, index)).join(''),
-      renderPager(data.pages, pageId),
-    ].join('');
+    const sections = page.sections.map((section, index) => renderSection(data, section, index)).join('');
+    main.innerHTML = page.layout === 'embed'
+      ? sections
+      : [renderHero(data, page), sections, renderPager(data.pages, pageId)].join('');
+    linkifyDartReferences(main, data.trip.dartUrl);
     attachImageFallbacks();
     document.body.classList.add('is-ready');
   } catch (error) {
@@ -81,6 +81,8 @@ function renderSection(data, section, index) {
   switch (section.type) {
     case 'dayGrid':
       return `<section class="content-section route-section" id="${id}">${intro}${renderDayGrid(data, section.items)}</section>`;
+    case 'sansTheme':
+      return `<section class="content-section sans-section" id="${id}">${renderSansTheme(section)}</section>`;
     case 'timeline':
       return `<section class="content-section timeline-section" id="${id}">${intro}${renderTimeline(data, section.items)}</section>`;
     case 'cards':
@@ -91,6 +93,8 @@ function renderSection(data, section, index) {
       return `<section class="content-section guide-section" id="${id}">${intro}${renderArrivalGuide(section)}</section>`;
     case 'destinationGuide':
       return `<section class="content-section destination-section" id="${id}">${intro}${renderDestinationGuide(section)}</section>`;
+    case 'mapEmbed':
+      return renderMapEmbed(section, id);
     case 'note':
       return `<section class="content-section note-section" id="${id}">${renderNote(section)}</section>`;
     default:
@@ -164,6 +168,7 @@ function renderPlaceCard(place, item) {
       <div class="place-card-copy">
         <h3>${escapeHtml(place.name)}</h3>
         <p>${escapeHtml(place.description)}</p>
+        ${place.address ? `<address class="place-address"><span>UBER ADDRESS</span>${escapeHtml(place.address)}</address>` : ''}
         <div class="place-card-actions">
           ${renderPrimaryLink(place, 'button-link')}
           ${item.status ? renderStatus(item.status) : ''}
@@ -171,6 +176,33 @@ function renderPlaceCard(place, item) {
         ${renderResources(place.resources)}
       </div>
     </article>`;
+}
+
+function renderSansTheme(section) {
+  return `
+    <div class="sans-theme">
+      <div class="sans-theme-intro">
+        <p class="eyebrow">${escapeHtml(section.eyebrow)}</p>
+        <h2>${escapeHtml(section.heading)}</h2>
+        <p>${escapeHtml(section.intro)}</p>
+      </div>
+      <div class="sans-letter-grid">
+        ${section.letters.map((item) => `
+          <article class="sans-letter">
+            <strong>${escapeHtml(item.letter)}</strong>
+            <div><h3>${escapeHtml(item.term)}</h3><p>${escapeHtml(item.meaning)}</p></div>
+          </article>`).join('')}
+      </div>
+      <p class="sans-closing">${formatTitle(section.closing)}</p>
+    </div>`;
+}
+
+function renderMapEmbed(section, id) {
+  return `
+    <section class="map-embed-section" id="${id}">
+      <h1 class="visually-hidden">${escapeHtml(section.title)}</h1>
+      <iframe class="travel-map-frame" src="${escapeHtml(section.src)}" title="댈러스·포트워스·알링턴 여행 지도"></iframe>
+    </section>`;
 }
 
 function renderTextCard(item) {
@@ -356,6 +388,35 @@ function attachImageFallbacks() {
     image.addEventListener('error', () => {
       image.replaceWith(createImageFallback());
     }, { once: true });
+  });
+}
+
+function linkifyDartReferences(root, url) {
+  if (!root || !url) return;
+
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  nodes.forEach((node) => {
+    if (!/\bDART\b/i.test(node.nodeValue) || node.parentElement?.closest('a, script, style')) return;
+
+    const fragment = document.createDocumentFragment();
+    node.nodeValue.split(/(\bDART\b)/gi).forEach((part) => {
+      if (/^DART$/i.test(part)) {
+        const link = document.createElement('a');
+        link.className = 'dart-link';
+        link.href = url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', 'DART 공식 홈페이지 (새 창)');
+        link.textContent = part;
+        fragment.appendChild(link);
+      } else {
+        fragment.appendChild(document.createTextNode(part));
+      }
+    });
+    node.replaceWith(fragment);
   });
 }
 

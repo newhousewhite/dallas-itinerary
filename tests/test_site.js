@@ -13,6 +13,7 @@ const ROUTES = [
   ['day2.html', 'day2'],
   ['departure.html', 'departure'],
   ['about.html', 'about'],
+  ['map.html', 'map'],
 ];
 
 const CONTENT_TYPES = {
@@ -74,7 +75,7 @@ test('every route renders with active navigation and loaded images', async () =>
     assert.equal(response.status(), 200, route);
     await page.locator('body.is-ready').waitFor({ timeout: 3000 });
 
-    assert.equal(await page.locator('.date-nav a').count(), 6, route);
+    assert.equal(await page.locator('.date-nav a').count(), 7, route);
     assert.equal(await page.locator('.date-nav a[aria-current="page"]').count(), 1, route);
     assert.equal(await page.locator('body').getAttribute('data-page'), pageId, route);
     assert.ok((await page.locator('h1').first().innerText()).trim(), route);
@@ -91,19 +92,39 @@ test('every route renders with active navigation and loaded images', async () =>
   }
 });
 
-test('destination guide is the final page and renders the complete guide structure', async () => {
+test('destination guide renders before the final map page', async () => {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await page.goto(`${baseUrl}/about.html`, { waitUntil: 'networkidle' });
   await page.locator('body.is-ready').waitFor({ timeout: 3000 });
 
   assert.equal((await page.locator('h1').innerText()).trim(), 'Dallas Fort Worth는 어떤 곳인가요?');
-  assert.equal((await page.locator('.date-nav a').last().innerText()).includes('지역 안내'), true);
+  const navLinks = page.locator('.date-nav a');
+  assert.equal(await navLinks.count(), 7);
+  assert.equal((await navLinks.nth(5).innerText()).includes('지역 안내'), true);
+  assert.equal((await navLinks.nth(6).innerText()).includes('여행 지도'), true);
   assert.equal(await page.locator('.history-milestone').count(), 7);
   assert.equal(await page.locator('.history-theme').count(), 3);
   assert.equal(await page.locator('.city-guide-card').count(), 3);
   assert.equal(await page.locator('.city-place').count(), 15);
   assert.equal(await page.locator('.travel-tip').count(), 4);
   assert.match(await page.locator('.destination-guide').innerText(), /텍사스 BBQ.*TRE 통근열차.*식당 팁 문화\(약 15~20%\)/s);
+  await page.close();
+});
+
+test('the final map tab loads all places and opens a marker from the list', async () => {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  await page.goto(`${baseUrl}/map.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: 3000 });
+
+  const iframe = page.locator('iframe.travel-map-frame');
+  assert.equal(await iframe.getAttribute('title'), '댈러스·포트워스·알링턴 여행 지도');
+  const map = page.frameLocator('iframe.travel-map-frame');
+  await map.locator('#map.leaflet-container').waitFor({ timeout: 10000 });
+  const mapItems = map.locator('.item');
+  assert.equal(await mapItems.count(), 26);
+  await mapItems.nth(1).click();
+  await map.locator('.leaflet-popup').waitFor({ timeout: 3000 });
+  assert.match(await map.locator('.leaflet-popup').innerText(), /식스 플로어 박물관/);
   await page.close();
 });
 
@@ -126,11 +147,26 @@ test('requested contact, hotel, DART, and departure details render', async () =>
   const contact = page.locator('a.emergency-contact');
   assert.equal(await contact.getAttribute('href'), 'tel:+18147776590');
   assert.match(await contact.innerText(), /민일.*\+1-814-777-6590/s);
+  assert.match(await page.locator('.sans-theme').innerText(), /SANS.*Solidarity.*Art.*Smoke.*평생의 기억/s);
 
   await page.goto(`${baseUrl}/arrival.html`, { waitUntil: 'networkidle' });
   assert.equal(await page.locator('.hotel-card .button-link').getAttribute('href'), 'https://www.marriott.com/en-us/hotels/dalbw-renaissance-saint-elm-dallas-downtown-hotel/overview/');
   assert.equal(await page.locator('.transit-route').count(), 2);
   assert.match(await page.locator('.arrival-guide').innerText(), /Love Link \(Route 55\).*Inwood\/Love Field.*St Paul Station/s);
+  const dartLinks = page.locator('a.dart-link');
+  assert.ok(await dartLinks.count());
+  for (let index = 0; index < await dartLinks.count(); index += 1) {
+    assert.equal(await dartLinks.nth(index).getAttribute('href'), 'https://www.dart.org');
+  }
+
+  await page.goto(`${baseUrl}/day1.html`, { waitUntil: 'networkidle' });
+  assert.equal(await page.locator('.place-address').count(), 12);
+  assert.match(await page.locator('.place-grid').innerText(), /2001 Flora St.*13550 N Dallas Pkwy.*5776 Grandscape Blvd/s);
+
+  await page.goto(`${baseUrl}/day2.html`, { waitUntil: 'networkidle' });
+  const day2Text = await page.locator('.timeline').innerText();
+  assert.equal((day2Text.match(/Architecture Docent · Haeseok Ko \/ Art Docent · Nari Rhee/g) || []).length, 2);
+  assert.doesNotMatch(day2Text, /Hae Suk Ko/);
 
   await page.goto(`${baseUrl}/departure.html`, { waitUntil: 'networkidle' });
   assert.match(await page.locator('.timeline').innerText(), /7 — 9 AM.*산스 전체세션 참석/s);

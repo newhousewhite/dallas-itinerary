@@ -12,6 +12,7 @@
 | `day2.html` | 7월 18일 Fort Worth 전체 일정 |
 | `departure.html` | 7월 19일 체크아웃 및 공항 이동 |
 | `about.html` | Dallas–Fort Worth 역사, 명소 및 여행 정보 |
+| `map.html` | Dallas–Fort Worth–Arlington 인터랙티브 여행 지도 |
 
 ## Structure
 
@@ -19,6 +20,7 @@
 - `js/app.js`: `body[data-page]` 값에 따라 공통 UI를 렌더링하는 클라이언트 코드
 - `css/style.css`: 로고에서 가져온 cream, navy, blue, red 기반의 반응형 디자인
 - `images/dallas/`: Drive에서 내려받아 장소별로 정규화한 이미지
+- `maps/dallas-fort-worth-map.html`: 제공된 Leaflet 여행 지도
 - `tests/test_itinerary.py`: 데이터, 경로, 이미지 매핑, 링크, 콘텐츠 정리 검증
 - `tests/test_site.js`: Chrome과 Playwright를 이용한 렌더링 및 반응형 검증
 

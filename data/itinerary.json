@@ -5,6 +5,7 @@
     "dates": "2026.07.16 — 07.19",
     "language": "ko",
     "logo": "images/dallas_logo_image_2026-06-20.jpeg",
+    "dartUrl": "https://www.dart.org",
     "sourceUrl": "https://docs.google.com/document/d/1cUmR7iVwd3CKp_hcdP3sipSW_rYYRspLmsgH-XlaBfQ/edit"
   },
   "pages": [
@@ -18,6 +19,19 @@
       "summary": "도착 리셉션부터 조별 활동, Fort Worth 전체 일정, 귀국까지 한눈에 보는 4일 여정입니다.",
       "heroPlace": "reunion-tower",
       "sections": [
+        {
+          "type": "sansTheme",
+          "eyebrow": "2026 GLOBAL 8색조 RETREAT",
+          "heading": "SANS",
+          "intro": "2026 글로벌 8색조 리트릿의 주제는 바로 SANS 입니다.",
+          "letters": [
+            { "letter": "S", "term": "Solidarity", "meaning": "연대" },
+            { "letter": "A", "term": "Art", "meaning": "예술" },
+            { "letter": "N", "term": "and", "meaning": "그리고" },
+            { "letter": "S", "term": "Smoke", "meaning": "텍사스 바베큐" }
+          ],
+          "closing": "7월의 한 가운데 강렬한 텍사스의 여름에 만날 우리\n함께할 평생의 기억을 만들어 보아요"
+        },
         {
           "type": "dayGrid",
           "eyebrow": "THE ROUTE",
@@ -250,7 +264,7 @@
             {
               "time": "10 AM — 12 PM",
               "title": "Kimbell Art Museum",
-              "description": "Fort Worth Cultural District 첫 일정",
+              "description": "Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee",
               "audience": "단체",
               "location": "Fort Worth Cultural District",
               "transport": "버스 · 약 35분",
@@ -267,7 +281,7 @@
             {
               "time": "1 — 4 PM",
               "title": "The Modern Art Museum of Fort Worth",
-              "description": "Architecture Docent · Hae Suk Ko / Art Docent · Nari Rhee",
+              "description": "Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee",
               "audience": "단체",
               "location": "Fort Worth · Kimbell 옆",
               "transport": "도보 · 약 3분",
@@ -462,6 +476,23 @@
           "notice": "※ 운영시간·요금은 변동될 수 있으니 방문 전 공식 홈페이지 확인 권장"
         }
       ]
+    },
+    {
+      "id": "map",
+      "href": "map.html",
+      "navLabel": "여행 지도",
+      "date": "25 PLACES · 1 BASECAMP",
+      "eyebrow": "OUR TRIP MAP · TEXAS",
+      "title": "우리 여행 한눈에",
+      "summary": "Dallas, Fort Worth, Arlington의 방문지를 한 지도에서 확인합니다.",
+      "layout": "embed",
+      "sections": [
+        {
+          "type": "mapEmbed",
+          "title": "우리 여행 한눈에",
+          "src": "maps/dallas-fort-worth-map.html"
+        }
+      ]
     }
   ],
   "places": {
@@ -479,6 +510,7 @@
     "nasher": {
       "name": "DMA + Nasher Sculpture Center",
       "description": "Dallas Arts District에서 미술관과 조각 정원을 함께 보는 선택 코스",
+      "address": "Nasher: 2001 Flora St, Dallas, TX 75201 · DMA: 1717 N Harwood St, Dallas, TX 75201",
       "primaryLink": { "label": "Nasher 방문 안내", "url": "https://www.nashersculpturecenter.org/visit/plan-a-visit" },
       "resources": [
         { "label": "D Magazine 소개", "url": "https://www.dmagazine.com/publications/d-magazine/2009/september/the-nasher-sculpture-center-offers-a-look-at-the-future-of-dallas/" }
@@ -488,6 +520,7 @@
     "netflix-house": {
       "name": "Netflix House + Galleria Mall",
       "description": "Netflix House 체험과 Galleria Dallas를 함께 둘러보는 코스",
+      "address": "13550 N Dallas Pkwy, Dallas, TX 75240",
       "primaryLink": { "label": "Netflix House 안내", "url": "https://www.netflix.com/house/locations/dallas" },
       "resources": [
         { "label": "Dallas Innovates 소개", "url": "https://dallasinnovates.com/netflix-house-opens-at-galleria-dallas/" }
@@ -497,6 +530,7 @@
     "sixth-floor": {
       "name": "The Sixth Floor Museum",
       "description": "Dealey Plaza에서 JFK의 생애와 역사를 살펴보는 박물관",
+      "address": "411 Elm St, Dallas, TX 75202",
       "primaryLink": { "label": "공식 사이트", "url": "https://www.jfk.org/" },
       "resources": [
         { "label": "Dallasites101 소개", "url": "https://www.dallasites101.com/listing/the-sixth-floor-museum/167/" },
@@ -507,6 +541,7 @@
     "dallas-arboretum": {
       "name": "Dallas Arboretum and Botanic Garden",
       "description": "계절 정원과 호숫가 풍경을 둘러보는 야외 선택 코스",
+      "address": "8525 Garland Rd, Dallas, TX 75218",
       "primaryLink": { "label": "공식 사이트", "url": "https://www.dallasarboretum.org/" },
       "resources": [
         { "label": "Virtual visit", "url": "https://www.dallasarboretum.org/visitor-information/virtual-visit/" },
@@ -517,6 +552,7 @@
     "bishop-arts": {
       "name": "Bishop Arts District",
       "description": "상점, 식당, 거리 풍경을 자유롭게 둘러보는 동네 코스",
+      "address": "200 N Bishop Ave, Dallas, TX 75208",
       "primaryLink": { "label": "지역 안내", "url": "https://www.bishoparts.com/neighborhood" },
       "resources": [
         { "label": "New York Times 가이드", "url": "https://www.nytimes.com/2025/11/14/realestate/real-estate-guide-bishop-arts-district-dallas.html" },
@@ -527,6 +563,7 @@
     "medieval-times": {
       "name": "Medieval Times",
       "description": "중세 토너먼트 디너 쇼 · 일정 문서 기준 4:30 PM 또는 7:30 PM 쇼",
+      "address": "2021 N Stemmons Fwy, Dallas, TX 75207",
       "primaryLink": { "label": "공식 사이트", "url": "https://www.medievaltimes.com/" },
       "resources": [
         { "label": "What to expect", "url": "https://www.medievaltimes.com/what-to-expect" },
@@ -537,6 +574,7 @@
     "perot-museum": {
       "name": "Perot Museum",
       "description": "과학 전시와 체험 공간을 둘러보는 박물관 코스",
+      "address": "2201 N Field St, Dallas, TX 75201",
       "primaryLink": { "label": "공식 사이트", "url": "https://www.perotmuseum.org/" },
       "resources": [
         { "label": "Our Changing Lives 소개", "url": "https://www.ourchanginglives.com/perot-museum-a-science-depot/" },
@@ -547,6 +585,7 @@
     "reunion-tower": {
       "name": "Reunion Tower",
       "description": "Dallas 시티뷰를 내려다보는 전망대",
+      "address": "300 Reunion Blvd E, Dallas, TX 75207",
       "primaryLink": { "label": "방문 안내", "url": "https://reuniontower.com/plan-your-visit/" },
       "resources": [
         { "label": "공식 홈", "url": "https://reuniontower.com/" },
@@ -557,6 +596,7 @@
     "m-line": {
       "name": "M-Line Trolley",
       "description": "Uptown에서 Arts District, Klyde Warren Park, West Village를 잇는 무료 시티 투어",
+      "address": "Cityplace/Uptown Station · 2711 N Haskell Ave, Dallas, TX 75204",
       "primaryLink": { "label": "운행 안내", "url": "https://www.mata.org/" },
       "resources": [
         { "label": "Condé Nast Traveler", "url": "https://www.cntraveler.com/activities/dallas/mckinney-avenue-trolley" },
@@ -568,6 +608,7 @@
     "videogame-museum": {
       "name": "National Videogame Museum",
       "description": "Frisco에서 게임의 역사와 인터랙티브 전시를 경험하는 가족 코스",
+      "address": "8004 Dallas Pkwy, Suite 300, Frisco, TX 75034",
       "primaryLink": { "label": "공식 사이트", "url": "https://nvmusa.org/" },
       "resources": [
         { "label": "Interactive exhibits", "url": "https://nvmusa.org/interactive-exhibits/" },
@@ -578,6 +619,7 @@
     "highland-park": {
       "name": "Highland Park Village",
       "description": "럭셔리 쇼핑과 다이닝을 함께 둘러보는 선택 코스",
+      "address": "47 Highland Park Village, Dallas, TX 75205",
       "primaryLink": { "label": "공식 사이트", "url": "https://hpvillage.com/" },
       "resources": [
         { "label": "Irving Texas 소개", "url": "https://www.irvingtexas.com/listing/highland-park-village/768/" },
@@ -588,6 +630,7 @@
     "cosm-dallas": {
       "name": "Cosm Dallas",
       "description": "The Colony의 대형 돔에서 즐기는 몰입형 미디어 경험",
+      "address": "5776 Grandscape Blvd, The Colony, TX 75056",
       "primaryLink": { "label": "Cosm Dallas 안내", "url": "https://www.cosm.com/news/cosm-dallas-to-officially-open-at-grandscape-in-the-colony-on-august-31" },
       "resources": [
         { "label": "Private events", "url": "https://www.cosm.com/dallas/private-events" },

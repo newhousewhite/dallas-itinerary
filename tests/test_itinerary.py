@@ -1,4 +1,5 @@
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -13,6 +14,22 @@ EXPECTED_PAGES = {
     "day2": "day2.html",
     "departure": "departure.html",
     "about": "about.html",
+    "map": "map.html",
+}
+
+EXPECTED_GROUP_ADDRESSES = {
+    "nasher": "Nasher: 2001 Flora St, Dallas, TX 75201 · DMA: 1717 N Harwood St, Dallas, TX 75201",
+    "netflix-house": "13550 N Dallas Pkwy, Dallas, TX 75240",
+    "sixth-floor": "411 Elm St, Dallas, TX 75202",
+    "dallas-arboretum": "8525 Garland Rd, Dallas, TX 75218",
+    "bishop-arts": "200 N Bishop Ave, Dallas, TX 75208",
+    "medieval-times": "2021 N Stemmons Fwy, Dallas, TX 75207",
+    "perot-museum": "2201 N Field St, Dallas, TX 75201",
+    "reunion-tower": "300 Reunion Blvd E, Dallas, TX 75207",
+    "m-line": "Cityplace/Uptown Station · 2711 N Haskell Ave, Dallas, TX 75204",
+    "videogame-museum": "8004 Dallas Pkwy, Suite 300, Frisco, TX 75034",
+    "highland-park": "47 Highland Park Village, Dallas, TX 75205",
+    "cosm-dallas": "5776 Grandscape Blvd, The Colony, TX 75056",
 }
 
 EXPECTED_IMAGES = {
@@ -121,9 +138,47 @@ class ItineraryContractTests(unittest.TestCase):
         airport = next(item for item in departure_items if item["title"] == "공항 이동 & 귀국")
         self.assertEqual(airport["transport"], "DART 전철")
 
+    def test_sans_theme_dart_link_group_addresses_and_docents(self):
+        pages = {page["id"]: page for page in self.data["pages"]}
+
+        sans = next(section for section in pages["overview"]["sections"] if section["type"] == "sansTheme")
+        self.assertEqual(sans["heading"], "SANS")
+        sans_payload = json.dumps(sans, ensure_ascii=False)
+        for phrase in (
+            "2026 글로벌 8색조 리트릿의 주제는 바로 SANS 입니다.",
+            "Solidarity",
+            "연대",
+            "Art",
+            "예술",
+            "and",
+            "그리고",
+            "Smoke",
+            "텍사스 바베큐",
+            "7월의 한 가운데 강렬한 텍사스의 여름에 만날 우리",
+            "함께할 평생의 기억을 만들어 보아요",
+        ):
+            self.assertIn(phrase, sans_payload)
+
+        self.assertEqual(self.data["trip"]["dartUrl"], "https://www.dart.org")
+
+        day1_cards = next(section for section in pages["day1"]["sections"] if section["type"] == "cards")
+        day1_place_ids = [item["placeId"] for item in day1_cards["items"]]
+        self.assertEqual(set(day1_place_ids), set(EXPECTED_GROUP_ADDRESSES))
+        self.assertEqual(
+            {place_id: self.data["places"][place_id].get("address") for place_id in day1_place_ids},
+            EXPECTED_GROUP_ADDRESSES,
+        )
+
+        day2_timeline = next(section for section in pages["day2"]["sections"] if section["type"] == "timeline")
+        docent_text = "Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee"
+        kimbell = next(item for item in day2_timeline["items"] if item.get("placeId") == "kimbell")
+        modern = next(item for item in day2_timeline["items"] if item.get("placeId") == "modern-art-museum")
+        self.assertEqual(kimbell["description"], docent_text)
+        self.assertEqual(modern["description"], docent_text)
+        self.assertNotIn("Hae Suk Ko", json.dumps(pages["day2"], ensure_ascii=False))
+
     def test_destination_guide_preserves_the_supplied_html_content(self):
-        about = self.data["pages"][-1]
-        self.assertEqual(about["id"], "about")
+        about = next(page for page in self.data["pages"] if page["id"] == "about")
         self.assertEqual(about["title"], "Dallas Fort Worth는 어떤 곳인가요?")
         self.assertEqual(about["navLabel"], "지역 안내")
 
@@ -161,6 +216,21 @@ class ItineraryContractTests(unittest.TestCase):
         for phrase in required_source_phrases:
             self.assertIn(phrase, payload)
 
+    def test_interactive_map_is_the_final_page_and_preserves_the_attachment(self):
+        map_page = self.data["pages"][-1]
+        self.assertEqual(map_page["id"], "map")
+        self.assertEqual(map_page["navLabel"], "여행 지도")
+        section = next(section for section in map_page["sections"] if section["type"] == "mapEmbed")
+        source_path = ROOT / section["src"]
+        self.assertTrue(source_path.is_file())
+
+        source = source_path.read_text(encoding="utf-8")
+        self.assertIn("우리 여행 한눈에", source)
+        self.assertIn("DALLAS · FORT WORTH · ARLINGTON", source)
+        self.assertIn("★ 초록 핀이 우리 숙소입니다", source)
+        self.assertEqual(len(re.findall(r"\{n:\d+,", source)), 25)
+        self.assertIn("const HOTEL =", source)
+
     def test_every_drive_image_has_an_exact_auditable_mapping(self):
         places = self.data["places"]
         actual = {
@@ -190,7 +260,7 @@ class ItineraryContractTests(unittest.TestCase):
     def test_tracked_web_content_contains_no_legacy_destination_material(self):
         forbidden = ("gangneung", "sokcho", "강릉", "속초")
         candidates = [ROOT / "README.md"]
-        for directory in ("data", "docs", "css", "js"):
+        for directory in ("data", "docs", "css", "js", "maps"):
             base = ROOT / directory
             if base.exists():
                 candidates.extend(path for path in base.rglob("*") if path.is_file())

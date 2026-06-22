@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>우리 여행 한눈에 · 댈러스–포트워스–알링턴</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+<style>
+  :root{
+    --cream:#FAF6EE; --paper:#FFFFFF; --navy:#192B4D; --navy2:#26406E;
+    --rust:#B4501F; --gold:#C9A227; --slate:#3F6B7A; --plum:#7A4E8C; --emerald:#1F8A5B;
+    --ink:#2B2722; --muted:#6E665B; --line:#E4DACB;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    font-family:"Noto Sans CJK KR","Noto Sans KR","Malgun Gothic",sans-serif;
+    background:var(--cream); color:var(--ink);
+    display:flex; flex-direction:column; height:100vh; overflow:hidden;
+  }
+  header{
+    background:var(--navy); color:#fff; padding:13px 22px;
+    display:flex; align-items:center; gap:16px; flex:0 0 auto; position:relative; overflow:hidden;
+  }
+  header::after{content:"★";position:absolute;right:22px;top:50%;transform:translateY(-50%);
+    font-size:64px;color:rgba(201,162,39,.16);line-height:1;}
+  .h-star{font-size:24px;color:var(--gold);}
+  .h-txt .kick{font-size:10px;letter-spacing:4px;font-weight:700;color:var(--gold);text-transform:uppercase;}
+  .h-txt h1{font-family:"Noto Serif CJK KR",serif;font-size:20px;font-weight:900;line-height:1.1;margin-top:2px;}
+  .h-txt h1 span{color:#C9D3E6;font-size:12px;font-weight:600;letter-spacing:1px;margin-left:6px;}
+  .h-count{margin-left:auto;font-size:11px;color:#C9D3E6;z-index:1;text-align:right;line-height:1.5;}
+  .h-count b{color:var(--gold);font-size:15px;}
+  .h-count .hb{color:#7FE3B4;font-weight:700;}
+
+  .wrap{display:flex;flex:1;min-height:0;}
+  aside{
+    width:340px;flex:0 0 340px;background:var(--paper);border-right:1px solid var(--line);
+    overflow-y:auto;padding:8px 0 18px;
+  }
+  #map{flex:1;min-width:0;}
+
+  .grp{padding:2px 16px;}
+  .grp-h{display:flex;align-items:center;gap:8px;margin:12px 0 6px;}
+  .grp-h .sw{width:12px;height:12px;border-radius:50%;flex:0 0 auto;}
+  .grp-h .nm{font-family:"Noto Serif CJK KR",serif;font-weight:800;font-size:13px;color:var(--navy);}
+  .grp-h .en{font-size:8.5px;color:var(--muted);font-weight:600;letter-spacing:1px;}
+  .grp-h .ct{margin-left:auto;font-size:9.5px;color:var(--muted);font-weight:600;}
+
+  .item{display:flex;gap:10px;align-items:flex-start;width:100%;padding:7px 9px;border:0;border-radius:8px;
+    color:inherit;background:transparent;font:inherit;text-align:left;cursor:pointer;transition:background .15s;}
+  .item:hover{background:#F4EEE2;}
+  .item.hotel{background:#EAF6EF;border:1px solid #BFE6D2;}
+  .item.hotel:hover{background:#DCF0E4;}
+  .num{width:23px;height:23px;border-radius:50%;flex:0 0 auto;color:#fff;font-weight:700;font-size:11.5px;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.2);margin-top:1px;}
+  .num.big{width:26px;height:26px;font-size:14px;}
+  .it-txt .t{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.25;}
+  .it-txt .t em{font-style:normal;font-size:8.5px;color:var(--muted);font-weight:600;}
+  .it-txt .d{font-size:10.5px;color:var(--muted);line-height:1.4;margin-top:1px;}
+  .it-txt .meta{font-size:9.5px;color:var(--rust);font-weight:600;margin-top:2px;}
+
+  footer{flex:0 0 auto;background:var(--paper);border-top:1px solid var(--line);
+    padding:7px 18px;font-size:10px;color:var(--muted);text-align:center;}
+
+  .pin{width:27px;height:27px;border-radius:50% 50% 50% 0;background:var(--c);
+    transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);
+    display:flex;align-items:center;justify-content:center;}
+  .pin span{transform:rotate(45deg);color:#fff;font-weight:700;font-size:12px;font-family:sans-serif;}
+  .pin.hotel{width:36px;height:36px;border-width:3px;box-shadow:0 3px 9px rgba(0,0,0,.5);}
+  .pin.hotel span{font-size:19px;}
+  .cluster{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;border:3px solid #fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+
+  .leaflet-popup-content{margin:11px 13px;font-family:"Noto Sans CJK KR","Malgun Gothic",sans-serif;}
+  .pop .pt{font-weight:800;font-size:13px;color:var(--navy);font-family:"Noto Serif CJK KR",serif;}
+  .pop .pe{font-size:9.5px;color:var(--muted);margin-bottom:4px;}
+  .pop .pd{font-size:11.5px;color:var(--ink);line-height:1.5;}
+  .pop .pm{font-size:10.5px;color:var(--rust);font-weight:600;margin-top:4px;}
+  .pop .phome{display:inline-block;margin-bottom:3px;font-size:9px;font-weight:800;letter-spacing:1px;
+    color:#fff;background:var(--emerald);padding:1px 7px;border-radius:10px;}
+
+  @media(max-width:760px){
+    .wrap{flex-direction:column;}
+    aside{width:100%;flex:0 0 auto;max-height:42vh;border-right:none;border-bottom:1px solid var(--line);}
+    #map{flex:1;min-height:300px;}
+    header::after{display:none;} .h-count{display:none;}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="h-star">★</div>
+    <div class="h-txt">
+      <div class="kick">Our Trip Map · Texas</div>
+      <h1>우리 여행 한눈에 <span>DALLAS · FORT WORTH · ARLINGTON</span></h1>
+    </div>
+    <div class="h-count"><b>25</b> 방문지<br><span class="hb">★ 베이스캠프 호텔</span></div>
+  </header>
+
+  <div class="wrap">
+    <aside id="list"></aside>
+    <div id="map"></div>
+  </div>
+
+  <footer>★ 초록 핀이 우리 숙소입니다 · 목록을 누르면 해당 위치로 이동 · 묶인 핀(숫자 원)은 확대하면 펼쳐집니다</footer>
+
+<script>
+const C = {
+  hotel:{c:'#1F8A5B', nm:'숙소 · 베이스캠프', en:'OUR HOTEL'},
+  dallas:{c:'#192B4D', nm:'댈러스', en:'DALLAS'},
+  fw:{c:'#B4501F', nm:'포트워스', en:'FORT WORTH'},
+  arl:{c:'#C9A227', nm:'알링턴', en:'ARLINGTON'},
+  sub:{c:'#7A4E8C', nm:'북부 근교', en:'NORTH SUBURBS'},
+  air:{c:'#3F6B7A', nm:'공항', en:'AIRPORTS'}
+};
+const HOTEL = {n:'hotel', lbl:'★', g:'hotel', lat:32.7823169, lng:-96.7958443,
+  t:'르네상스 세인트 엘름 호텔', e:'Renaissance Saint Elm Dallas Downtown',
+  d:'우리 숙소 · 1907 Elm St. 다운타운 한복판으로, 식스 플로어 박물관·아츠 디스트릭트가 도보권', m:'★ 4.3'};
+const P = [
+  {n:1, g:'dallas', lat:32.7798188, lng:-96.8084842, t:'식스 플로어 박물관', e:'Sixth Floor Museum', d:'옛 교과서 창고 6층, JFK 암살의 현장', m:'★ 4.6'},
+  {n:2, g:'dallas', lat:32.7755975, lng:-96.8089687, t:'리유니언 타워', e:'Reunion Tower', d:'공 모양 전망대, 360° 스카이라인·야경', m:'★ 4.7'},
+  {n:3, g:'dallas', lat:32.7790911, lng:-96.8002704, t:'댈러스 다운타운', e:'Dallas Downtown', d:'마천루가 모인 도심 중심부', m:''},
+  {n:4, g:'dallas', lat:32.7869429, lng:-96.8065844, t:'페로 자연과학 박물관', e:'Perot Museum', d:'가족 친화 체험형 과학관, 공룡 화석', m:'★ 4.7'},
+  {n:5, g:'dallas', lat:32.7881824, lng:-96.8001567, t:'내셔 조각 센터', e:'Nasher Sculpture Center', d:'조각 미술관과 정원 오아시스', m:'★ 4.6'},
+  {n:6, g:'dallas', lat:32.7876959, lng:-96.8010444, t:'댈러스 미술관', e:'Dallas Museum of Art', d:'아츠 디스트릭트, 상설전 무료', m:'★ 4.7'},
+  {n:7, g:'dallas', lat:32.7999513, lng:-96.8234198, t:'메디벌 타임즈', e:'Medieval Times', d:'중세 기사 토너먼트 만찬 쇼', m:'★ 4.7'},
+  {n:8, g:'dallas', lat:32.7848915, lng:-96.7799081, t:"테리 블랙스 BBQ", e:"Terry Black's BBQ", d:'딥 엘럼의 정통 텍사스 바비큐(브리스킷)', m:'★ 4.7'},
+  {n:9, g:'dallas', lat:32.7472564, lng:-96.8304102, t:'비숍 아츠 디스트릭트', e:'Bishop Arts District', d:'벽화·부티크·맛집의 감성 동네', m:''},
+  {n:10, g:'dallas', lat:32.8356649, lng:-96.8056735, t:'하이랜드 파크 빌리지', e:'Highland Park Village', d:'스페인풍 고급 쇼핑·다이닝 단지', m:'★ 4.6'},
+  {n:11, g:'dallas', lat:32.8236184, lng:-96.7166236, t:'댈러스 수목원', e:'Dallas Arboretum', d:'화이트락 호수 옆 대형 정원(봄 튤립)', m:'★ 4.7'},
+  {n:12, g:'dallas', lat:32.9314259, lng:-96.8202281, t:'넷플릭스 하우스', e:'Netflix House', d:'갤러리아 몰 내 체험형 공간(오징어 게임)', m:'★ 4.2'},
+  {n:13, g:'fw', lat:32.7892754, lng:-97.3470204, t:'포트워스 스톡야드', e:'Fort Worth Stockyards', d:'세계 유일 하루 두 번 소몰이, 옛 서부 거리', m:'★ 4.8'},
+  {n:14, g:'fw', lat:32.7485687, lng:-97.3649208, t:'킴벨 미술관', e:'Kimbell Art Museum', d:'루이스 칸 건축, 상설전 무료', m:'★ 4.8'},
+  {n:15, g:'fw', lat:32.7491803, lng:-97.3633072, t:'포트워스 현대미술관', e:'Modern Art Museum', d:'안도 다다오 설계, 킴벨 바로 옆', m:'★ 4.7'},
+  {n:16, g:'fw', lat:32.747867, lng:-97.368447, t:'아몬 카터 미술관', e:'Amon Carter Museum', d:'미국 서부 미술 컬렉션, 무료', m:'★ 4.8'},
+  {n:17, g:'fw', lat:32.7403425, lng:-97.3638144, t:'포트워스 식물원', e:'FW Botanic Garden', d:'아름다운 일본 정원이 있는 식물원', m:'★ 4.7'},
+  {n:18, g:'fw', lat:32.747749, lng:-97.32663, t:'포트워스 워터 가든', e:'Water Gardens', d:'도심 콘크리트 폭포 정원, 무료', m:'★ 4.6'},
+  {n:19, g:'fw', lat:32.7378, lng:-97.3372, t:'매그놀리아 애비뉴', e:'Magnolia Ave', d:'니어 사우스사이드의 맛집·바·카페 거리', m:''},
+  {n:20, g:'arl', lat:32.7480281, lng:-97.0928124, t:'AT&T 스타디움', e:'AT&T Stadium (Cowboys)', d:'NFL 댈러스 카우보이스의 거대 돔, 투어 인기', m:'★ 4.7'},
+  {n:21, g:'sub', lat:32.9510887, lng:-96.9062710, t:'3 네이션스 브루잉', e:'3 Nations Brewing', d:'캐롤턴의 인기 수제 맥주 양조장', m:'★ 4.8'},
+  {n:22, g:'sub', lat:33.0734585, lng:-96.8596802, t:'코즘 댈러스', e:'Cosm Dallas', d:'더 콜로니, 거대 돔 스크린 몰입형 관람', m:'★ 3.9'},
+  {n:23, g:'sub', lat:33.1435117, lng:-96.8352567, t:'내셔널 비디오게임 박물관', e:'National Videogame Museum', d:'프리스코, 게임 역사 체험·레트로 아케이드', m:'★ 4.8'},
+  {n:24, g:'air', lat:32.8921983, lng:-97.0391232, t:'DFW 국제공항', e:'DFW Airport', d:'두 도시 사이의 세계 최대급 허브(국제선)', m:'★ 4.1'},
+  {n:25, g:'air', lat:32.8438345, lng:-96.8484951, t:'러브필드 공항', e:'Love Field', d:'도심과 가까운 국내선 공항(사우스웨스트)', m:'★ 4.4'}
+];
+
+const map = L.map('map', {scrollWheelZoom:true}).setView([32.85,-97.05], 10);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19, subdomains:'abcd'
+}).addTo(map);
+
+function pin(color,label,big){
+  const sz = big?36:27;
+  return L.divIcon({className:'', iconSize:[sz,sz], iconAnchor:[Math.round(sz/2),sz], popupAnchor:[0,-sz],
+    html:`<div class="pin${big?' hotel':''}" style="--c:${color}"><span>${label}</span></div>`});
+}
+function popHtml(p){
+  const home = p.g==='hotel' ? `<span class="phome">우리 숙소 · OUR HOTEL</span><br>` : '';
+  const ttl = p.lbl ? p.lbl : (p.n + '.');
+  const meta = p.m ? `<div class="pm">${p.m}</div>` : '';
+  return `<div class="pop">${home}<div class="pt">${ttl} ${p.t}</div><div class="pe">${p.e}</div><div class="pd">${p.d}</div>${meta}</div>`;
+}
+
+const cluster = L.markerClusterGroup({
+  showCoverageOnHover:false, spiderfyOnMaxZoom:true, maxClusterRadius:46,
+  iconCreateFunction:function(c){
+    return L.divIcon({html:`<div class="cluster">${c.getChildCount()}</div>`, className:'', iconSize:[36,36]});
+  }
+});
+
+const markers = {};
+const bounds = [];
+
+// numbered places -> cluster
+P.forEach(p=>{
+  const mk = L.marker([p.lat,p.lng], {icon:pin(C[p.g].c, p.n, false)});
+  mk.bindPopup(popHtml(p));
+  cluster.addLayer(mk);
+  markers[p.n] = mk;
+  bounds.push([p.lat,p.lng]);
+});
+map.addLayer(cluster);
+
+// hotel -> standalone marker, always on top
+const hotelMk = L.marker([HOTEL.lat,HOTEL.lng], {icon:pin(C.hotel.c, HOTEL.lbl, true), zIndexOffset:1000});
+hotelMk.bindPopup(popHtml(HOTEL));
+hotelMk.addTo(map);
+markers[HOTEL.n] = hotelMk;
+bounds.push([HOTEL.lat,HOTEL.lng]);
+
+map.fitBounds(bounds, {padding:[50,50]});
+
+function focus(p){
+  if(p.g==='hotel'){ map.flyTo([p.lat,p.lng], 15, {duration:.8}); setTimeout(()=>markers[p.n].openPopup(), 700); }
+  else { cluster.zoomToShowLayer(markers[p.n], ()=>markers[p.n].openPopup()); }
+}
+
+// sidebar
+const order = ['hotel','dallas','fw','arl','sub','air'];
+const all = [HOTEL].concat(P);
+const list = document.getElementById('list');
+order.forEach(g=>{
+  const arr = all.filter(p=>p.g===g);
+  const grp = document.createElement('div'); grp.className='grp';
+  grp.innerHTML = `<div class="grp-h"><span class="sw" style="background:${C[g].c}"></span>
+    <span class="nm">${C[g].nm}</span><span class="en">${C[g].en}</span><span class="ct">${arr.length}곳</span></div>`;
+  arr.forEach(p=>{
+    const it = document.createElement('button'); it.type = 'button'; it.className = 'item' + (p.g==='hotel'?' hotel':'');
+    it.setAttribute('aria-label', `${p.t} 지도에서 보기`);
+    const meta = p.m ? `<div class="meta">${p.m}</div>`:'';
+    const label = p.lbl || p.n;
+    it.innerHTML = `<div class="num${p.g==='hotel'?' big':''}" style="background:${C[p.g].c}">${label}</div>
+      <div class="it-txt"><div class="t">${p.t} <em>${p.e}</em></div>
+      <div class="d">${p.d}</div>${meta}</div>`;
+    it.onclick = ()=>focus(p);
+    grp.appendChild(it);
+  });
+  list.appendChild(grp);
+});
+</script>
+</body>
+</html>
