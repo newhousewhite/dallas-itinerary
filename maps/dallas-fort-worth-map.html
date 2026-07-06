@@ -13,6 +13,7 @@
   :root{
     --cream:#FAF6EE; --paper:#FFFFFF; --navy:#192B4D; --navy2:#26406E;
     --rust:#B4501F; --gold:#C9A227; --slate:#3F6B7A; --plum:#7A4E8C; --emerald:#1F8A5B;
+    --lunch:#D65A67;
     --ink:#2B2722; --muted:#6E665B; --line:#E4DACB;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -49,6 +50,7 @@
   .grp-h .nm{font-family:"Noto Serif CJK KR",serif;font-weight:800;font-size:13px;color:var(--navy);}
   .grp-h .en{font-size:8.5px;color:var(--muted);font-weight:600;letter-spacing:1px;}
   .grp-h .ct{margin-left:auto;font-size:9.5px;color:var(--muted);font-weight:600;}
+  .grp-status{margin:6px 9px 10px;color:var(--muted);font-size:10.5px;line-height:1.4;}
 
   .item{display:flex;gap:10px;align-items:flex-start;width:100%;padding:7px 9px;border:0;border-radius:8px;
     color:inherit;background:transparent;font:inherit;text-align:left;cursor:pointer;transition:background .15s;}
@@ -84,6 +86,9 @@
     color:#fff;background:var(--emerald);padding:1px 7px;border-radius:10px;}
   .pop .pa{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;align-items:center;
     margin-top:7px;padding-top:7px;border-top:1px solid var(--line);font-size:10.5px;color:var(--navy);}
+  .pop .map-link{display:inline-flex;margin-top:7px;padding:5px 8px;border-radius:4px;color:#fff;
+    background:var(--lunch);font-size:10px;font-weight:800;text-decoration:none;}
+  .pop .map-link:hover{background:#B94452;}
   .copy-address-button{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:30px;
     padding:4px 7px;border:1px solid rgba(25,43,77,.28);color:var(--navy);background:var(--cream);
     font:inherit;font-size:9.5px;font-weight:800;white-space:nowrap;cursor:pointer;}
@@ -105,7 +110,7 @@
       <div class="kick">Our Trip Map · Texas</div>
       <h1>우리 여행 한눈에 <span>DALLAS · FORT WORTH · ARLINGTON</span></h1>
     </div>
-    <div class="h-count"><b>25</b> 방문지<br><span class="hb">★ 베이스캠프 호텔</span></div>
+    <div class="h-count"><b data-place-count>25</b> 방문지<br><span class="hb">★ 베이스캠프 호텔</span></div>
   </header>
 
   <div class="wrap">
@@ -119,6 +124,7 @@
 const C = {
   hotel:{c:'#1F8A5B', nm:'숙소 · 베이스캠프', en:'OUR HOTEL'},
   dallas:{c:'#192B4D', nm:'댈러스', en:'DALLAS'},
+  lunch:{c:'#D65A67', nm:'점심 추천', en:'LUNCH PICKS'},
   fw:{c:'#B4501F', nm:'포트워스', en:'FORT WORTH'},
   arl:{c:'#C9A227', nm:'알링턴', en:'ARLINGTON'},
   sub:{c:'#7A4E8C', nm:'북부 근교', en:'NORTH SUBURBS'},
@@ -156,6 +162,29 @@ const P = [
   {n:25, g:'air', lat:32.8438345, lng:-96.8484951, t:'러브필드 공항', e:'Love Field', d:'도심과 가까운 국내선 공항(사우스웨스트)', m:'★ 4.4'}
 ];
 
+function escapeMapHtml(value=''){
+  return String(value).replace(/[&<>'"]/g, char => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'
+  }[char]));
+}
+
+function lunchPlacesFrom(data){
+  const lunchPage = data.pages.find(page => page.id === 'lunch');
+  const section = lunchPage?.sections.find(item => item.type === 'lunchCards');
+  return (section?.items || []).map((placeId, index) => {
+    const place = data.places[placeId];
+    const lat = place?.map?.lat;
+    const lng = place?.map?.lng;
+    if (!place || !Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+    return {
+      n:`L${index + 1}`, g:'lunch', lat, lng,
+      t:place.name, e:`${place.location} · ${place.budget}`,
+      d:place.description, a:place.address,
+      u:place.primaryLink?.url || ''
+    };
+  }).filter(Boolean);
+}
+
 const map = L.map('map', {scrollWheelZoom:true}).setView([32.85,-97.05], 10);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
   attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19, subdomains:'abcd'
@@ -168,10 +197,11 @@ function pin(color,label,big){
 }
 function popHtml(p){
   const home = p.g==='hotel' ? `<span class="phome">우리 숙소 · OUR HOTEL</span><br>` : '';
-  const ttl = p.lbl ? p.lbl : (p.n + '.');
-  const meta = p.m ? `<div class="pm">${p.m}</div>` : '';
-  const address = p.a ? `<div class="pa"><span>${p.a}</span><button class="copy-address-button" type="button" data-copy-address="${p.a}" aria-label="호텔 주소 복사"><span aria-hidden="true">⧉</span><span class="copy-address-label" aria-live="polite">주소 복사</span></button></div>` : '';
-  return `<div class="pop">${home}<div class="pt">${ttl} ${p.t}</div><div class="pe">${p.e}</div><div class="pd">${p.d}</div>${address}${meta}</div>`;
+  const ttl = p.lbl ? p.lbl : `${p.n}.`;
+  const meta = p.m ? `<div class="pm">${escapeMapHtml(p.m)}</div>` : '';
+  const address = p.a ? `<div class="pa"><span>${escapeMapHtml(p.a)}</span><button class="copy-address-button" type="button" data-copy-address="${escapeMapHtml(p.a)}" aria-label="${escapeMapHtml(p.t)} 주소 복사"><span aria-hidden="true">⧉</span><span class="copy-address-label" aria-live="polite">주소 복사</span></button></div>` : '';
+  const link = p.u ? `<a class="map-link" href="${escapeMapHtml(p.u)}" target="_blank" rel="noopener noreferrer">Google 지도 ↗</a>` : '';
+  return `<div class="pop">${home}<div class="pt">${escapeMapHtml(ttl)} ${escapeMapHtml(p.t)}</div><div class="pe">${escapeMapHtml(p.e)}</div><div class="pd">${escapeMapHtml(p.d)}</div>${address}${link}${meta}</div>`;
 }
 
 document.addEventListener('click', async event => {
@@ -220,14 +250,16 @@ const cluster = L.markerClusterGroup({
 const markers = {};
 const bounds = [];
 
+function addClusterPlace(place){
+  const marker = L.marker([place.lat,place.lng], {icon:pin(C[place.g].c, place.n, false)});
+  marker.bindPopup(popHtml(place));
+  cluster.addLayer(marker);
+  markers[place.n] = marker;
+  bounds.push([place.lat,place.lng]);
+}
+
 // numbered places -> cluster
-P.forEach(p=>{
-  const mk = L.marker([p.lat,p.lng], {icon:pin(C[p.g].c, p.n, false)});
-  mk.bindPopup(popHtml(p));
-  cluster.addLayer(mk);
-  markers[p.n] = mk;
-  bounds.push([p.lat,p.lng]);
-});
+P.forEach(addClusterPlace);
 map.addLayer(cluster);
 
 // hotel -> standalone marker, always on top
@@ -244,28 +276,65 @@ function focus(p){
   else { cluster.zoomToShowLayer(markers[p.n], ()=>markers[p.n].openPopup()); }
 }
 
-// sidebar
-const order = ['hotel','dallas','fw','arl','sub','air'];
-const all = [HOTEL].concat(P);
+// sidebar and lunch data
+const order = ['hotel','dallas','lunch','fw','arl','sub','air'];
 const list = document.getElementById('list');
-order.forEach(g=>{
-  const arr = all.filter(p=>p.g===g);
-  const grp = document.createElement('div'); grp.className='grp';
-  grp.innerHTML = `<div class="grp-h"><span class="sw" style="background:${C[g].c}"></span>
-    <span class="nm">${C[g].nm}</span><span class="en">${C[g].en}</span><span class="ct">${arr.length}곳</span></div>`;
-  arr.forEach(p=>{
-    const it = document.createElement('button'); it.type = 'button'; it.className = 'item' + (p.g==='hotel'?' hotel':'');
-    it.setAttribute('aria-label', `${p.t} 지도에서 보기`);
-    const meta = p.m ? `<div class="meta">${p.m}</div>`:'';
-    const label = p.lbl || p.n;
-    it.innerHTML = `<div class="num${p.g==='hotel'?' big':''}" style="background:${C[p.g].c}">${label}</div>
-      <div class="it-txt"><div class="t">${p.t} <em>${p.e}</em></div>
-      <div class="d">${p.d}</div>${meta}</div>`;
-    it.onclick = ()=>focus(p);
-    grp.appendChild(it);
+const placeCount = document.querySelector('[data-place-count]');
+let lunchPlaces = [];
+let lunchState = 'loading';
+
+function renderSidebar(){
+  const all = [HOTEL].concat(P, lunchPlaces);
+  list.innerHTML = '';
+  order.forEach(groupId=>{
+    const places = all.filter(place=>place.g===groupId);
+    const group = document.createElement('div');
+    group.className = 'grp';
+    group.dataset.group = groupId;
+    const count = groupId==='lunch' && lunchState==='loading' ? '불러오는 중' : `${places.length}곳`;
+    group.innerHTML = `<div class="grp-h"><span class="sw" style="background:${C[groupId].c}"></span>
+      <span class="nm">${C[groupId].nm}</span><span class="en">${C[groupId].en}</span><span class="ct">${count}</span></div>`;
+    if(groupId==='lunch' && lunchState==='error'){
+      group.insertAdjacentHTML('beforeend', '<p class="grp-status">점심 정보를 불러오지 못했습니다. 기존 여행지도는 계속 이용할 수 있습니다.</p>');
+    }
+    places.forEach(place=>{
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = `item${place.g==='hotel'?' hotel':''}`;
+      item.dataset.placeId = place.n;
+      item.setAttribute('aria-label', `${place.t} 지도에서 보기`);
+      const meta = place.m ? `<div class="meta">${escapeMapHtml(place.m)}</div>`:'';
+      const label = place.lbl || place.n;
+      item.innerHTML = `<div class="num${place.g==='hotel'?' big':''}" style="background:${C[place.g].c}">${escapeMapHtml(label)}</div>
+        <div class="it-txt"><div class="t">${escapeMapHtml(place.t)} <em>${escapeMapHtml(place.e)}</em></div>
+        <div class="d">${escapeMapHtml(place.d)}</div>${meta}</div>`;
+      item.onclick = ()=>focus(place);
+      group.appendChild(item);
+    });
+    list.appendChild(group);
   });
-  list.appendChild(grp);
-});
+  placeCount.textContent = String(P.length + lunchPlaces.length);
+}
+
+async function loadLunchPlaces(){
+  try{
+    const response = await fetch('../data/itinerary.json');
+    if(!response.ok) throw new Error(`Lunch data request failed: ${response.status}`);
+    lunchPlaces = lunchPlacesFrom(await response.json());
+    if(lunchPlaces.length!==11) throw new Error(`Expected 11 lunch places, received ${lunchPlaces.length}`);
+    lunchPlaces.forEach(addClusterPlace);
+    lunchState = 'ready';
+    map.fitBounds(bounds, {padding:[50,50]});
+  }catch(error){
+    lunchPlaces = [];
+    lunchState = 'error';
+    console.error('Lunch map data failed to load', error);
+  }
+  renderSidebar();
+}
+
+renderSidebar();
+loadLunchPlaces();
 </script>
 </body>
 </html>

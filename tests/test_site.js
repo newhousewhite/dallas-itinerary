@@ -129,10 +129,60 @@ test('the map tab loads all places and opens a marker from the list', async () =
   const map = page.frameLocator('iframe.travel-map-frame');
   await map.locator('#map.leaflet-container').waitFor({ timeout: 10000 });
   const mapItems = map.locator('.item');
-  assert.equal(await mapItems.count(), 26);
+  assert.equal(await mapItems.count(), 37);
   await mapItems.nth(1).click();
   await map.locator('.leaflet-popup').waitFor({ timeout: 3000 });
   assert.match(await map.locator('.leaflet-popup').innerText(), /식스 플로어 박물관/);
+  await page.close();
+});
+
+test('the map renders eleven lunch recommendations as a separate group', async () => {
+  const context = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
+  const page = await context.newPage({ viewport: { width: 1440, height: 1000 } });
+  await page.goto(`${baseUrl}/map.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+
+  const map = page.frameLocator('iframe.travel-map-frame');
+  await map.locator('#map.leaflet-container').waitFor({ timeout: 10000 });
+  const lunchGroup = map.locator('.grp[data-group="lunch"]');
+  await lunchGroup.waitFor({ timeout: 5000 });
+  assert.equal(await lunchGroup.locator('.item').count(), 11);
+  assert.match(await lunchGroup.innerText(), /점심 추천.*Malai Kitchen.*Cosmic Cafe/s);
+  assert.equal(await map.locator('[data-place-count]').innerText(), '36');
+
+  const firstLunch = lunchGroup.locator('.item[data-place-id="L1"]');
+  await firstLunch.click();
+  const popup = map.locator('.leaflet-popup');
+  await popup.waitFor({ timeout: 3000 });
+  assert.match(await popup.innerText(), /Malai Kitchen.*업타운.*\$25 ~ \$40.*3699 McKinney Ave/s);
+  assert.equal(
+    await popup.locator('.map-link').getAttribute('href'),
+    'https://maps.app.goo.gl/2UaDwhBLH6jYZJUi6',
+  );
+  await popup.locator('.copy-address-button').click();
+  assert.equal(
+    await page.evaluate(() => navigator.clipboard.readText()),
+    '3699 McKinney Ave Ste 350, Dallas, TX 75204',
+  );
+  await context.close();
+});
+
+test('the map keeps its core places when lunch data cannot load', async () => {
+  const page = await browser.newPage();
+  await page.route('**/data/itinerary.json', (route) => {
+    if (route.request().frame().url().includes('/maps/')) route.abort();
+    else route.continue();
+  });
+  await page.goto(`${baseUrl}/map.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+
+  const map = page.frameLocator('iframe.travel-map-frame');
+  await map.locator('#map.leaflet-container').waitFor({ timeout: 10000 });
+  const lunchGroup = map.locator('.grp[data-group="lunch"]');
+  await lunchGroup.waitFor({ timeout: 5000 });
+  assert.equal(await map.locator('.item').count(), 26);
+  assert.match(await lunchGroup.innerText(), /점심 정보를 불러오지 못했습니다/);
+  assert.equal(await map.locator('[data-place-count]').innerText(), '25');
   await page.close();
 });
 

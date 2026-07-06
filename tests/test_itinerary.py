@@ -32,6 +32,20 @@ EXPECTED_LUNCH_PLACES = [
     ("cosmic-cafe", "Cosmic Cafe", "업타운(오크로운)", "$15 ~ $25", "2912 Oak Lawn Ave, Dallas, TX 75219", "https://maps.app.goo.gl/CmXAsxAtmpmQcjss7"),
 ]
 
+EXPECTED_LUNCH_COORDINATES = {
+    "malai-kitchen": (32.8086608, -96.796891),
+    "mexican-sugar": (32.7912182, -96.8044116),
+    "katy-trail-ice-house": (32.8007453, -96.8074712),
+    "shugs-bagels": (32.8136125, -96.80816),
+    "mister-o1-turtle-creek": (32.8145394, -96.8011281),
+    "loro-asian-smokehouse": (32.8011693, -96.7847456),
+    "san-martin-bakery": (32.8021821, -96.7999207),
+    "torchys-tacos": (32.7954189, -96.8057777),
+    "velvet-taco": (32.783816, -96.7867638),
+    "hopdoddy-burger-bar": (32.8042444, -96.7997301),
+    "cosmic-cafe": (32.8076862, -96.809756),
+}
+
 EXPECTED_LUNCH_IMAGES = {
     "malai-kitchen": [("Malai Kitchen1.jpg", "malai-kitchen-1.jpg"), ("Malai Kitchen2.jpg", "malai-kitchen-2.jpg")],
     "mexican-sugar": [("Mexican Sugar1.jpg", "mexican-sugar-1.webp"), ("Mexican Sugar2.jpg", "mexican-sugar-2.webp")],
@@ -300,6 +314,14 @@ class ItineraryContractTests(unittest.TestCase):
             self.assertEqual(place["location"], location)
             self.assertEqual(place["budget"], budget)
             self.assertEqual(place["address"], address)
+            self.assertEqual(
+                (place["map"]["lat"], place["map"]["lng"]),
+                EXPECTED_LUNCH_COORDINATES[place_id],
+            )
+            self.assertGreater(place["map"]["lat"], 32.7)
+            self.assertLess(place["map"]["lat"], 32.9)
+            self.assertGreater(place["map"]["lng"], -96.9)
+            self.assertLess(place["map"]["lng"], -96.7)
             self.assertEqual(place["primaryLink"], {"label": "Google 지도", "url": map_url})
             self.assertEqual((place["description"], place["menu"]), EXPECTED_LUNCH_CONTENT[place_id])
             self.assertEqual(len(place["images"]), 2)
