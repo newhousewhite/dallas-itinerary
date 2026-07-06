@@ -13,6 +13,7 @@
 | `departure.html` | 7월 19일 체크아웃 및 공항 이동 |
 | `about.html` | Dallas–Fort Worth 역사, 명소 및 여행 정보 |
 | `map.html` | Dallas–Fort Worth–Arlington 인터랙티브 여행 지도 |
+| `lunch.html` | Dallas Uptown·Deep Ellum 점심 추천 11곳 |
 
 ## Structure
 
@@ -20,11 +21,12 @@
 - `js/app.js`: `body[data-page]` 값에 따라 공통 UI를 렌더링하는 클라이언트 코드
 - `css/style.css`: 로고에서 가져온 cream, navy, blue, red 기반의 반응형 디자인
 - `images/dallas/`: Drive에서 내려받아 장소별로 정규화한 이미지
+- `images/dallas/lunch/`: 점심 추천 장소별 2장씩 정규화한 이미지
 - `maps/dallas-fort-worth-map.html`: 제공된 Leaflet 여행 지도
 - `tests/test_itinerary.py`: 데이터, 경로, 이미지 매핑, 링크, 콘텐츠 정리 검증
 - `tests/test_site.js`: Chrome과 Playwright를 이용한 렌더링 및 반응형 검증
 
-이미지 데이터에는 로컬 경로와 함께 Drive의 원본 파일명인 `sourceName`이 기록됩니다. 정확히 매칭되는 이미지가 없는 일정은 다른 장소의 사진을 재사용하지 않고 브랜드 플레이스홀더를 표시합니다.
+이미지 데이터에는 로컬 경로와 함께 Drive의 원본 파일명인 `sourceName`이 기록됩니다. 점심 추천 이미지는 장소별 `images` 배열에서 파일명 접미사 `1`, `2` 순서로 관리합니다. 정확히 매칭되는 이미지가 없는 일정은 다른 장소의 사진을 재사용하지 않고 브랜드 플레이스홀더를 표시합니다.
 
 ## Local Preview
 

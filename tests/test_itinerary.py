@@ -15,6 +15,49 @@ EXPECTED_PAGES = {
     "departure": "departure.html",
     "about": "about.html",
     "map": "map.html",
+    "lunch": "lunch.html",
+}
+
+EXPECTED_LUNCH_PLACES = [
+    ("malai-kitchen", "Malai Kitchen", "업타운", "$25 ~ $40", "3699 McKinney Ave Ste 350, Dallas, TX 75204", "https://maps.app.goo.gl/2UaDwhBLH6jYZJUi6"),
+    ("mexican-sugar", "Mexican Sugar", "업타운", "$30 ~ $50", "2355 Olive St #155, Dallas, TX 75201", "https://maps.app.goo.gl/Yg5JSubAqcTMEJMn7"),
+    ("katy-trail-ice-house", "Katy Trail Ice House", "업타운(케이티 트레일 옆)", "$15 ~ $30", "3127 Routh St, Dallas, TX 75201", "https://maps.app.goo.gl/5YyCQvM82awbJdtL8"),
+    ("shugs-bagels", "Shug's Bagels", "업타운", "$10 ~ $20", "4001 Lemmon Ave, Dallas, TX 75219", "https://maps.app.goo.gl/tGveo12kPM4xAFnb8"),
+    ("mister-o1-turtle-creek", "Mister O1 Extraordinary Pizza Turtle Creek", "업타운(터틀 크릭)", "$25 ~ $40", "3838 Oak Lawn Ave P100, Dallas, TX 75219", "https://maps.app.goo.gl/gBPFXVr1NycN6dPi7"),
+    ("loro-asian-smokehouse", "Loro Asian Smokehouse & Bar", "업타운(이스트 달라스 인근)", "$25 ~ $40", "1812 N Haskell Ave., Dallas, TX 75204", "https://maps.app.goo.gl/b5CjFoxDoVRpG1gf8"),
+    ("san-martin-bakery", "San Martin Bakery and Restaurant", "업타운", "$15 ~ $30", "3120 McKinney Ave, Dallas, TX 75204", "https://maps.app.goo.gl/nvzxzGq1Sqzkmx959"),
+    ("torchys-tacos", "Torchy's Tacos", "업타운", "$10 ~ $20", "2305 Cedar Springs Rd Suite 100, Dallas, TX 75201", "https://maps.app.goo.gl/L5sEULA6L7WA7aw8A"),
+    ("velvet-taco", "Velvet Taco", "딥엘럼", "$10 ~ $20", "2556 Elm St, Dallas, TX 75226", "https://maps.app.goo.gl/TjYji9h9JnUenxrR9"),
+    ("hopdoddy-burger-bar", "Hopdoddy Burger Bar", "업타운", "$15 ~ $30", "3227 McKinney Ave #102, Dallas, TX 75204", "https://maps.app.goo.gl/F81WfPwEwsH4DPjo9"),
+    ("cosmic-cafe", "Cosmic Cafe", "업타운(오크로운)", "$15 ~ $25", "2912 Oak Lawn Ave, Dallas, TX 75219", "https://maps.app.goo.gl/CmXAsxAtmpmQcjss7"),
+]
+
+EXPECTED_LUNCH_IMAGES = {
+    "malai-kitchen": [("Malai Kitchen1.jpg", "malai-kitchen-1.jpg"), ("Malai Kitchen2.jpg", "malai-kitchen-2.jpg")],
+    "mexican-sugar": [("Mexican Sugar1.jpg", "mexican-sugar-1.webp"), ("Mexican Sugar2.jpg", "mexican-sugar-2.webp")],
+    "katy-trail-ice-house": [("Katy Trail Ice House1.jpg", "katy-trail-ice-house-1.jpg"), ("Katy Trail Ice House2.jpg", "katy-trail-ice-house-2.jpg")],
+    "shugs-bagels": [("Shug's Bagels1.jpg", "shugs-bagels-1.webp"), ("Shug's Bagels2.jpg", "shugs-bagels-2.jpg")],
+    "mister-o1-turtle-creek": [("Mister O1 Extraordinary Pizza1.jpg", "mister-o1-turtle-creek-1.jpg"), ("Mister O1 Extraordinary Pizza2.jpg", "mister-o1-turtle-creek-2.jpg")],
+    "loro-asian-smokehouse": [("Loro Asian Smokehouse1.jpg", "loro-asian-smokehouse-1.jpg"), ("Loro Asian Smokehouse2.jpg", "loro-asian-smokehouse-2.jpg")],
+    "san-martin-bakery": [("San Martin Bakery and Restaurant1.jpg", "san-martin-bakery-1.jpg"), ("San Martin Bakery and Restaurant2.jpg", "san-martin-bakery-2.jpg")],
+    "torchys-tacos": [("Torchy's Tacos1.jpg", "torchys-tacos-1.jpg"), ("Torchy's Tacos2.jpg", "torchys-tacos-2.jpg")],
+    "velvet-taco": [("Velvet Taco1.jpg", "velvet-taco-1.webp"), ("Velvet Taco2.jpg", "velvet-taco-2.jpg")],
+    "hopdoddy-burger-bar": [("Hopdoddy Burger Bar1.jpg", "hopdoddy-burger-bar-1.jpg"), ("Hopdoddy Burger Bar2.jpg", "hopdoddy-burger-bar-2.avif")],
+    "cosmic-cafe": [("Cosmic Cafe1.jpg", "cosmic-cafe-1.webp"), ("Cosmic Cafe2.jpg", "cosmic-cafe-2.webp")],
+}
+
+EXPECTED_LUNCH_CONTENT = {
+    "malai-kitchen": ("고급스러운 태국 요리 전문점. 현대적인 인테리어와 세련된 분위기.", "그린 커리, 똠얌꿍, 팟타이, 베트남 샌드위치 (반미), 신선한 칵테일."),
+    "mexican-sugar": ("멕시코 칸쿤의 해변을 연상시키는 활기차고 트렌디한 멕시칸 레스토랑. 넓은 야외 좌석 완비.", "세비체, 파히타, 몰레 닭고기, 다양한 타코 종류, 럼 기반의 칵테일 및 데킬라."),
+    "katy-trail-ice-house": ("달라스에서 가장 유명한 야외 비어 가든. 반려견 동반 가능, 활기차고 캐주얼한 분위기. 웨이팅 있을수 있음. 달라스의 젊은 친구들이 케이티 트레일 걷다 많이들 들러 맥주마시는 곳.", "텍사스 BBQ (브리스킷, 소시지), 버거, 텍스-멕스 애피타이저, 다양한 생맥주."),
+    "shugs-bagels": ("뉴욕 스타일의 베이글 전문점으로, 쫄깃한 식감의 베이글로 유명함. 원래는 SMU학교 앞에서 시작했으나 유명해지면서 업타운 근처에도 오픈(현재는 오스틴, 뉴올리언스까지 진출) 아침 식사나 브런치로 인기. 주말아침에는 문밖까지 웨이팅 라인이 길 수 있음.", "다양한 베이글, 다양한 크림치즈 스프레드 (딸기, 스칼리온 등), 베이글 샌드위치(Spice Shug’s, Club, 치킨커틀릿 등등 추천). 글루텐프리 베이글 가능(+ $2.00~$2.5)"),
+    "mister-o1-turtle-creek": ("마이애미에서 온 유명 피자 체인. 얇은 도우와 독창적인 피자 토핑으로 유명하며, 아늑한 분위기. 이름의 유래가 재미있음. 설립자이자 이탈리아 셰프인 레나토 비올라(Renato Viola)가 미국 마이애미에 진출할 때 발급받은 'O-1 비자'에서 유래. 이 비자는 '예술, 과학, 교육, 비즈니스 등 해당 분야에서 특출한 재능이나 능력(Extraordinary Ability)을 인정받은 사람'에게만 주어지는 비자로, 그의 특별하고 뛰어난 피자를 만들겠다는 철학을 담음", "스타 피자 (Starita, Nebula), 칼라브레제 (Calabrese), 다양한 크러스트 옵션."),
+    "loro-asian-smokehouse": ("텍사스 BBQ와 아시아 요리의 퓨전 레스토랑. 'Uchi' 레스토랑(달라스/오스틴의 유명 스시식당) 그룹의 공동 창업주들이 오픈.", "아시안 BBQ 브리스킷, 매운 소시지, 쌀국수 볶음밥, 샐러드, BBQ 소스 치킨."),
+    "san-martin-bakery": ("과테말라에서 온 베이커리 & 레스토랑. 아침 식사부터 저녁까지 다양한 메뉴 제공. 주말아침에 가면 가족, 연인, 친구들이 다양하게 즐기는 식당으로 웨이팅이 길수있음", "다양한 빵과 페이스트리, 남아메리카 스타일의 아침 식사 플래터, 샌드위치, 샐러드, 파스타."),
+    "torchys-tacos": ("텍사스에서 시작된 인기 타코 체인. 캐주얼하고 빠르며, 창의적인 타코 메뉴로 유명.", "트래쉬 트레일러 (Trashy Trailer), 미스터 오렌지 (Mr. Orange), 퀘소 & 칩스."),
+    "velvet-taco": ("텍사스에서 시작된 인기 타코 체인. 캐주얼하고 빠르며, 창의적인 타코 메뉴로 유명.", "스파이시 치킨티카 타코(인도커리 퓨전), 쉬림프 타코 등"),
+    "hopdoddy-burger-bar": ("텍사스 기반(오스틴)의 수제 버거 맛집. 신선한 재료와 다양한 버거 조합으로 인기.", "클래식 버거, 아히 참치 버거, 다양한 감자튀김 (트러플, 치즈 등), 셰이크."),
+    "cosmic-cafe": ("달라스의 대표적인 채식 및 비건 식당. 독특한 인테리어와 차분한 분위기. 문을 닫았다가 많은 달라스 채식인들의 바램으로 다시 오픈.", "렌틸콩 수프, 채식 커리, 비건 타코, 다양한 스무디 및 차 (Tea)."),
 }
 
 EXPECTED_GROUP_ADDRESSES = {
@@ -216,8 +259,8 @@ class ItineraryContractTests(unittest.TestCase):
         for phrase in required_source_phrases:
             self.assertIn(phrase, payload)
 
-    def test_interactive_map_is_the_final_page_and_preserves_the_attachment(self):
-        map_page = self.data["pages"][-1]
+    def test_interactive_map_precedes_the_final_lunch_page_and_preserves_the_attachment(self):
+        map_page = self.data["pages"][-2]
         self.assertEqual(map_page["id"], "map")
         self.assertEqual(map_page["navLabel"], "여행 지도")
         section = next(section for section in map_page["sections"] if section["type"] == "mapEmbed")
@@ -230,6 +273,34 @@ class ItineraryContractTests(unittest.TestCase):
         self.assertIn("★ 초록 핀이 우리 숙소입니다", source)
         self.assertEqual(len(re.findall(r"\{n:\d+,", source)), 25)
         self.assertIn("const HOTEL =", source)
+
+    def test_lunch_page_preserves_source_order_content_and_images(self):
+        lunch = self.data["pages"][-1]
+        self.assertEqual(lunch["id"], "lunch")
+        self.assertEqual(lunch["navLabel"], "점심 추천")
+        self.assertEqual(lunch["title"], "오늘 점심, 어디서 먹을까요?")
+        self.assertEqual(lunch["heroPlace"], "malai-kitchen")
+
+        section = next(section for section in lunch["sections"] if section["type"] == "lunchCards")
+        self.assertEqual(section["items"], [place_id for place_id, *_ in EXPECTED_LUNCH_PLACES])
+
+        for place_id, name, location, budget, address, map_url in EXPECTED_LUNCH_PLACES:
+            place = self.data["places"][place_id]
+            self.assertEqual(place["name"], name)
+            self.assertEqual(place["location"], location)
+            self.assertEqual(place["budget"], budget)
+            self.assertEqual(place["address"], address)
+            self.assertEqual(place["primaryLink"], {"label": "Google 지도", "url": map_url})
+            self.assertEqual((place["description"], place["menu"]), EXPECTED_LUNCH_CONTENT[place_id])
+            self.assertEqual(len(place["images"]), 2)
+
+            actual_images = [(image["sourceName"], Path(image["src"]).name) for image in place["images"]]
+            self.assertEqual(actual_images, EXPECTED_LUNCH_IMAGES[place_id])
+            for image in place["images"]:
+                image_path = ROOT / image["src"]
+                self.assertTrue(image_path.is_file(), image_path)
+                self.assertGreater(image_path.stat().st_size, 1_000)
+                self.assertTrue(image["alt"].strip())
 
     def test_every_drive_image_has_an_exact_auditable_mapping(self):
         places = self.data["places"]

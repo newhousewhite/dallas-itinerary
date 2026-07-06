@@ -6,6 +6,7 @@ const { after, before, test } = require('node:test');
 const { chromium } = require('playwright');
 
 const ROOT = path.resolve(__dirname, '..');
+const APP_READY_TIMEOUT = 10_000;
 const ROUTES = [
   ['index.html', 'overview'],
   ['arrival.html', 'arrival'],
@@ -14,6 +15,7 @@ const ROUTES = [
   ['departure.html', 'departure'],
   ['about.html', 'about'],
   ['map.html', 'map'],
+  ['lunch.html', 'lunch'],
 ];
 
 const CONTENT_TYPES = {
@@ -73,9 +75,14 @@ test('every route renders with active navigation and loaded images', async () =>
 
     const response = await page.goto(`${baseUrl}/${route}`, { waitUntil: 'networkidle' });
     assert.equal(response.status(), 200, route);
-    await page.locator('body.is-ready').waitFor({ timeout: 3000 });
+    try {
+      await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+    } catch (error) {
+      await page.close();
+      throw new Error(`${route}: app did not become ready; console errors: ${JSON.stringify(errors)}`, { cause: error });
+    }
 
-    assert.equal(await page.locator('.date-nav a').count(), 7, route);
+    assert.equal(await page.locator('.date-nav a').count(), 8, route);
     assert.equal(await page.locator('.date-nav a[aria-current="page"]').count(), 1, route);
     assert.equal(await page.locator('body').getAttribute('data-page'), pageId, route);
     assert.ok((await page.locator('h1').first().innerText()).trim(), route);
@@ -92,16 +99,17 @@ test('every route renders with active navigation and loaded images', async () =>
   }
 });
 
-test('destination guide renders before the final map page', async () => {
+test('destination guide renders before the map and final lunch pages', async () => {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await page.goto(`${baseUrl}/about.html`, { waitUntil: 'networkidle' });
-  await page.locator('body.is-ready').waitFor({ timeout: 3000 });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
 
   assert.equal((await page.locator('h1').innerText()).trim(), 'Dallas Fort Worth는 어떤 곳인가요?');
   const navLinks = page.locator('.date-nav a');
-  assert.equal(await navLinks.count(), 7);
+  assert.equal(await navLinks.count(), 8);
   assert.equal((await navLinks.nth(5).innerText()).includes('지역 안내'), true);
   assert.equal((await navLinks.nth(6).innerText()).includes('여행 지도'), true);
+  assert.equal((await navLinks.nth(7).innerText()).includes('점심 추천'), true);
   assert.equal(await page.locator('.history-milestone').count(), 7);
   assert.equal(await page.locator('.history-theme').count(), 3);
   assert.equal(await page.locator('.city-guide-card').count(), 3);
@@ -111,10 +119,10 @@ test('destination guide renders before the final map page', async () => {
   await page.close();
 });
 
-test('the final map tab loads all places and opens a marker from the list', async () => {
+test('the map tab loads all places and opens a marker from the list', async () => {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await page.goto(`${baseUrl}/map.html`, { waitUntil: 'networkidle' });
-  await page.locator('body.is-ready').waitFor({ timeout: 3000 });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
 
   const iframe = page.locator('iframe.travel-map-frame');
   assert.equal(await iframe.getAttribute('title'), '댈러스·포트워스·알링턴 여행 지도');
@@ -125,6 +133,37 @@ test('the final map tab loads all places and opens a marker from the list', asyn
   await mapItems.nth(1).click();
   await map.locator('.leaflet-popup').waitFor({ timeout: 3000 });
   assert.match(await map.locator('.leaflet-popup').innerText(), /식스 플로어 박물관/);
+  await page.close();
+});
+
+test('the final lunch tab renders eleven two-image recommendation cards', async () => {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  await page.goto(`${baseUrl}/lunch.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+
+  assert.equal((await page.locator('h1').innerText()).trim(), '오늘 점심, 어디서 먹을까요?');
+  assert.equal(await page.locator('.lunch-card').count(), 11);
+  assert.equal(await page.locator('.lunch-gallery img').count(), 22);
+  assert.equal(await page.locator('.lunch-card .button-link').count(), 11);
+  assert.match(await page.locator('.lunch-grid').innerText(), /Malai Kitchen.*Mexican Sugar.*Cosmic Cafe/s);
+
+  const cards = page.locator('.lunch-card');
+  for (let index = 0; index < await cards.count(); index += 1) {
+    assert.equal(await cards.nth(index).locator('.lunch-gallery img').count(), 2);
+    assert.match(await cards.nth(index).locator('.button-link').getAttribute('href'), /^https:\/\/maps\.app\.goo\.gl\//);
+  }
+  await page.close();
+});
+
+test('a failed lunch image is replaced with the shared runtime fallback', async () => {
+  const page = await browser.newPage({ viewport: { width: 1200, height: 900 } });
+  await page.route('**/images/dallas/lunch/malai-kitchen-1.jpg', (route) => route.abort());
+  await page.goto(`${baseUrl}/lunch.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+
+  const firstGallery = page.locator('.lunch-card').first().locator('.lunch-gallery');
+  assert.equal(await firstGallery.locator('.runtime-fallback').count(), 1);
+  assert.equal(await firstGallery.locator('img').count(), 1);
   await page.close();
 });
 
@@ -176,24 +215,26 @@ test('requested contact, hotel, DART, and departure details render', async () =>
 });
 
 test('mobile layout has no horizontal page overflow', async () => {
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  for (const [route] of ROUTES) {
-    await page.goto(`${baseUrl}/${route}`, { waitUntil: 'networkidle' });
-    await page.locator('body.is-ready').waitFor({ timeout: 3000 });
-    const metrics = await page.evaluate(() => ({
-      viewport: document.documentElement.clientWidth,
-      page: document.documentElement.scrollWidth,
-      activeTabVisible: (() => {
-        const nav = document.querySelector('.date-nav');
-        const active = nav?.querySelector('[aria-current="page"]');
-        if (!nav || !active) return false;
-        const navRect = nav.getBoundingClientRect();
-        const activeRect = active.getBoundingClientRect();
-        return activeRect.left >= navRect.left - 1 && activeRect.right <= navRect.right + 1;
-      })(),
-    }));
-    assert.ok(metrics.page <= metrics.viewport + 1, `${route}: ${JSON.stringify(metrics)}`);
-    assert.equal(metrics.activeTabVisible, true, `${route}: active navigation tab is clipped`);
+  for (const viewport of [{ width: 760, height: 900 }, { width: 390, height: 844 }]) {
+    const page = await browser.newPage({ viewport });
+    for (const [route] of ROUTES) {
+      await page.goto(`${baseUrl}/${route}`, { waitUntil: 'networkidle' });
+      await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+      const metrics = await page.evaluate(() => ({
+        viewport: document.documentElement.clientWidth,
+        page: document.documentElement.scrollWidth,
+        activeTabVisible: (() => {
+          const nav = document.querySelector('.date-nav');
+          const active = nav?.querySelector('[aria-current="page"]');
+          if (!nav || !active) return false;
+          const navRect = nav.getBoundingClientRect();
+          const activeRect = active.getBoundingClientRect();
+          return activeRect.left >= navRect.left - 1 && activeRect.right <= navRect.right + 1;
+        })(),
+      }));
+      assert.ok(metrics.page <= metrics.viewport + 1, `${viewport.width}px ${route}: ${JSON.stringify(metrics)}`);
+      assert.equal(metrics.activeTabVisible, true, `${viewport.width}px ${route}: active navigation tab is clipped`);
+    }
+    await page.close();
   }
-  await page.close();
 });

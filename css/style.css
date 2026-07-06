@@ -801,6 +801,167 @@ main {
   gap: clamp(1rem, 2.3vw, 2rem);
 }
 
+.lunch-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.4rem, 3vw, 3rem);
+  align-items: start;
+}
+
+.lunch-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(255, 250, 241, 0.72);
+  box-shadow: 0 18px 48px rgba(8, 29, 43, 0.08);
+  transition: box-shadow 230ms ease, transform 230ms ease;
+}
+
+.lunch-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-5px);
+}
+
+.lunch-gallery {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  height: clamp(250px, 28vw, 390px);
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: var(--ink-deep);
+}
+
+.lunch-gallery > * {
+  min-width: 0;
+}
+
+.lunch-gallery > * + * {
+  border-left: 3px solid var(--paper);
+}
+
+.lunch-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.82) contrast(1.02);
+  transition: filter 320ms ease, transform 520ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.lunch-card:hover .lunch-image {
+  filter: saturate(1) contrast(1.02);
+  transform: scale(1.035);
+}
+
+.lunch-gallery-placeholder {
+  grid-column: 1 / -1;
+  min-height: 250px;
+}
+
+.lunch-card-copy {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.lunch-card-heading {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.lunch-card-heading > p {
+  margin: 0.35rem 0 0;
+  color: var(--red);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+
+.lunch-card-heading h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  overflow-wrap: anywhere;
+}
+
+.lunch-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.lunch-meta span {
+  padding: 0.34rem 0.6rem;
+  border: 1px solid rgba(165, 36, 47, 0.28);
+  color: var(--red);
+  background: rgba(165, 36, 47, 0.045);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.lunch-description {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.7rem);
+  padding-top: 1.35rem;
+}
+
+.lunch-description > div + div {
+  padding-left: clamp(1rem, 2vw, 1.7rem);
+  border-left: 1px solid var(--line);
+}
+
+.lunch-description strong,
+.lunch-address span {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--red);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.lunch-description p {
+  margin: 0;
+  color: rgba(16, 47, 70, 0.72);
+  font-size: 0.79rem;
+  line-height: 1.72;
+  overflow-wrap: anywhere;
+}
+
+.lunch-address {
+  margin-top: 1.35rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line);
+  color: rgba(16, 47, 70, 0.82);
+  font-size: 0.72rem;
+  font-style: normal;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.lunch-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+}
+
+[data-page="lunch"] .hero-copy {
+  width: min(980px, calc(100% - 7vw));
+}
+
+[data-page="lunch"] .hero-copy h1 {
+  max-width: 950px;
+  font-size: clamp(4rem, 8vw, 8rem);
+}
+
 .place-card {
   display: flex;
   flex-direction: column;
@@ -1781,6 +1942,29 @@ main {
     grid-template-columns: 1fr;
   }
 
+  .lunch-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lunch-gallery {
+    height: clamp(250px, 72vw, 340px);
+  }
+
+  .lunch-description {
+    grid-template-columns: 1fr;
+  }
+
+  .lunch-description > div + div {
+    padding-top: 1rem;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  [data-page="lunch"] .hero-copy h1 {
+    font-size: clamp(3rem, 13vw, 4.5rem);
+  }
+
   .sans-theme,
   .sans-letter-grid {
     grid-template-columns: 1fr;
@@ -1896,6 +2080,19 @@ main {
 
   .hero-copy h1 {
     font-size: 3.65rem;
+  }
+
+  [data-page="lunch"] .hero-copy h1 {
+    font-size: 2.85rem;
+  }
+
+  .lunch-card-heading {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .lunch-card-heading > p {
+    margin-top: 0;
   }
 
   .hero-summary {

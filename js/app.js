@@ -49,8 +49,9 @@ function renderNavigation(pages, currentPageId) {
 
 function renderHero(data, page) {
   const place = page.heroPlace ? data.places[page.heroPlace] : null;
-  const media = place?.image
-    ? renderImage(place.image, 'hero-image', false)
+  const heroImage = place?.image || place?.images?.[0];
+  const media = heroImage
+    ? renderImage(heroImage, 'hero-image', false)
     : renderPlaceholder('TEXAS', 'hero-placeholder');
 
   return `
@@ -87,6 +88,8 @@ function renderSection(data, section, index) {
       return `<section class="content-section timeline-section" id="${id}">${intro}${renderTimeline(data, section.items)}</section>`;
     case 'cards':
       return `<section class="content-section card-section" id="${id}">${intro}${renderCardGrid(data, section.items)}</section>`;
+    case 'lunchCards':
+      return `<section class="content-section lunch-section" id="${id}">${intro}${renderLunchGrid(data, section.items)}</section>`;
     case 'contact':
       return `<section class="content-section contact-section" id="${id}">${renderContact(section)}</section>`;
     case 'arrivalGuide':
@@ -153,6 +156,46 @@ function renderCardGrid(data, items) {
     const place = item.placeId ? data.places[item.placeId] : null;
     return place ? renderPlaceCard(place, item) : renderTextCard(item);
   }).join('')}</div>`;
+}
+
+function renderLunchGrid(data, items) {
+  return `<div class="lunch-grid">${items.map((placeId, index) => {
+    const place = data.places[placeId];
+    return place ? renderLunchCard(place, index) : '';
+  }).join('')}</div>`;
+}
+
+function renderLunchCard(place, index) {
+  const gallery = place.images?.length
+    ? place.images.map((image) => renderImage(image, 'lunch-image')).join('')
+    : renderPlaceholder('LUNCH', 'lunch-gallery-placeholder');
+
+  return `
+    <article class="lunch-card">
+      <div class="lunch-gallery">${gallery}</div>
+      <div class="lunch-card-copy">
+        <header class="lunch-card-heading">
+          <p>${String(index + 1).padStart(2, '0')} · LUNCH PICK</p>
+          <h3>${escapeHtml(place.name)}</h3>
+        </header>
+        <div class="lunch-meta" aria-label="지역과 예상 예산">
+          <span>${escapeHtml(place.location)}</span>
+          <span>${escapeHtml(place.budget)} / 1인</span>
+        </div>
+        <div class="lunch-description">
+          <div>
+            <strong>THE PLACE</strong>
+            <p>${escapeHtml(place.description)}</p>
+          </div>
+          <div>
+            <strong>ON THE TABLE</strong>
+            <p>${escapeHtml(place.menu)}</p>
+          </div>
+        </div>
+        <address class="lunch-address"><span>MEET HERE</span>${escapeHtml(place.address)}</address>
+        <div class="lunch-card-actions">${renderPrimaryLink(place, 'button-link')}</div>
+      </div>
+    </article>`;
 }
 
 function renderPlaceCard(place, item) {

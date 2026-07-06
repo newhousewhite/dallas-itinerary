@@ -493,6 +493,37 @@
           "src": "maps/dallas-fort-worth-map.html"
         }
       ]
+    },
+    {
+      "id": "lunch",
+      "href": "lunch.html",
+      "navLabel": "점심 추천",
+      "date": "11 SPOTS · DALLAS LUNCH",
+      "eyebrow": "LUNCH PICKS · DALLAS",
+      "title": "오늘 점심, 어디서 먹을까요?",
+      "summary": "업타운과 딥 엘럼에서 가볍게 고를 수 있는 11곳을 예산, 메뉴, 분위기와 함께 살펴봅니다.",
+      "heroPlace": "malai-kitchen",
+      "sections": [
+        {
+          "type": "lunchCards",
+          "eyebrow": "11 LUNCH OPTIONS",
+          "heading": "달라스 점심 추천",
+          "description": "태국 요리부터 텍스멕스, 베이글, 피자, BBQ, 비건까지 취향에 맞는 점심을 골라보세요.",
+          "items": [
+            "malai-kitchen",
+            "mexican-sugar",
+            "katy-trail-ice-house",
+            "shugs-bagels",
+            "mister-o1-turtle-creek",
+            "loro-asian-smokehouse",
+            "san-martin-bakery",
+            "torchys-tacos",
+            "velvet-taco",
+            "hopdoddy-burger-bar",
+            "cosmic-cafe"
+          ]
+        }
+      ]
     }
   ],
   "places": {
@@ -703,6 +734,149 @@
       "description": "도심의 건축적 수공간을 둘러보는 선택 프로그램",
       "primaryLink": { "label": "공식 안내", "url": "https://www.fortworthtexas.gov/departments/parks/parks-and-trails/water-gardens" },
       "image": { "src": "images/dallas/fort-worth-water-gardens.png", "sourceName": "water-gardens-oasis-pool.png", "alt": "Fort Worth Water Gardens의 수공간" }
+    },
+    "malai-kitchen": {
+      "name": "Malai Kitchen",
+      "location": "업타운",
+      "address": "3699 McKinney Ave Ste 350, Dallas, TX 75204",
+      "budget": "$25 ~ $40",
+      "description": "고급스러운 태국 요리 전문점. 현대적인 인테리어와 세련된 분위기.",
+      "menu": "그린 커리, 똠얌꿍, 팟타이, 베트남 샌드위치 (반미), 신선한 칵테일.",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/2UaDwhBLH6jYZJUi6" },
+      "images": [
+        { "src": "images/dallas/lunch/malai-kitchen-1.jpg", "sourceName": "Malai Kitchen1.jpg", "alt": "Malai Kitchen의 다이닝 공간" },
+        { "src": "images/dallas/lunch/malai-kitchen-2.jpg", "sourceName": "Malai Kitchen2.jpg", "alt": "Malai Kitchen의 태국 요리" }
+      ]
+    },
+    "mexican-sugar": {
+      "name": "Mexican Sugar",
+      "location": "업타운",
+      "address": "2355 Olive St #155, Dallas, TX 75201",
+      "budget": "$30 ~ $50",
+      "description": "멕시코 칸쿤의 해변을 연상시키는 활기차고 트렌디한 멕시칸 레스토랑. 넓은 야외 좌석 완비.",
+      "menu": "세비체, 파히타, 몰레 닭고기, 다양한 타코 종류, 럼 기반의 칵테일 및 데킬라.",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/Yg5JSubAqcTMEJMn7" },
+      "images": [
+        { "src": "images/dallas/lunch/mexican-sugar-1.webp", "sourceName": "Mexican Sugar1.jpg", "alt": "Mexican Sugar의 활기찬 실내 공간" },
+        { "src": "images/dallas/lunch/mexican-sugar-2.webp", "sourceName": "Mexican Sugar2.jpg", "alt": "Mexican Sugar의 멕시칸 요리" }
+      ]
+    },
+    "katy-trail-ice-house": {
+      "name": "Katy Trail Ice House",
+      "location": "업타운(케이티 트레일 옆)",
+      "address": "3127 Routh St, Dallas, TX 75201",
+      "budget": "$15 ~ $30",
+      "description": "달라스에서 가장 유명한 야외 비어 가든. 반려견 동반 가능, 활기차고 캐주얼한 분위기. 웨이팅 있을수 있음. 달라스의 젊은 친구들이 케이티 트레일 걷다 많이들 들러 맥주마시는 곳.",
+      "menu": "텍사스 BBQ (브리스킷, 소시지), 버거, 텍스-멕스 애피타이저, 다양한 생맥주.",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/5YyCQvM82awbJdtL8" },
+      "images": [
+        { "src": "images/dallas/lunch/katy-trail-ice-house-1.jpg", "sourceName": "Katy Trail Ice House1.jpg", "alt": "Katy Trail Ice House의 야외 비어 가든" },
+        { "src": "images/dallas/lunch/katy-trail-ice-house-2.jpg", "sourceName": "Katy Trail Ice House2.jpg", "alt": "Katy Trail Ice House의 음식과 생맥주" }
+      ]
+    },
+    "shugs-bagels": {
+      "name": "Shug's Bagels",
+      "location": "업타운",
+      "address": "4001 Lemmon Ave, Dallas, TX 75219",
+      "budget": "$10 ~ $20",
+      "description": "뉴욕 스타일의 베이글 전문점으로, 쫄깃한 식감의 베이글로 유명함. 원래는 SMU학교 앞에서 시작했으나 유명해지면서 업타운 근처에도 오픈(현재는 오스틴, 뉴올리언스까지 진출) 아침 식사나 브런치로 인기. 주말아침에는 문밖까지 웨이팅 라인이 길 수 있음.",
+      "menu": "다양한 베이글, 다양한 크림치즈 스프레드 (딸기, 스칼리온 등), 베이글 샌드위치(Spice Shug’s, Club, 치킨커틀릿 등등 추천). 글루텐프리 베이글 가능(+ $2.00~$2.5)",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/tGveo12kPM4xAFnb8" },
+      "images": [
+        { "src": "images/dallas/lunch/shugs-bagels-1.webp", "sourceName": "Shug's Bagels1.jpg", "alt": "Shug's Bagels의 베이글 진열" },
+        { "src": "images/dallas/lunch/shugs-bagels-2.jpg", "sourceName": "Shug's Bagels2.jpg", "alt": "Shug's Bagels의 베이글 샌드위치" }
+      ]
+    },
+    "mister-o1-turtle-creek": {
+      "name": "Mister O1 Extraordinary Pizza Turtle Creek",
+      "location": "업타운(터틀 크릭)",
+      "address": "3838 Oak Lawn Ave P100, Dallas, TX 75219",
+      "budget": "$25 ~ $40",
+      "description": "마이애미에서 온 유명 피자 체인. 얇은 도우와 독창적인 피자 토핑으로 유명하며, 아늑한 분위기. 이름의 유래가 재미있음. 설립자이자 이탈리아 셰프인 레나토 비올라(Renato Viola)가 미국 마이애미에 진출할 때 발급받은 'O-1 비자'에서 유래. 이 비자는 '예술, 과학, 교육, 비즈니스 등 해당 분야에서 특출한 재능이나 능력(Extraordinary Ability)을 인정받은 사람'에게만 주어지는 비자로, 그의 특별하고 뛰어난 피자를 만들겠다는 철학을 담음",
+      "menu": "스타 피자 (Starita, Nebula), 칼라브레제 (Calabrese), 다양한 크러스트 옵션.",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/gBPFXVr1NycN6dPi7" },
+      "images": [
+        { "src": "images/dallas/lunch/mister-o1-turtle-creek-1.jpg", "sourceName": "Mister O1 Extraordinary Pizza1.jpg", "alt": "Mister O1 Extraordinary Pizza의 별 모양 피자" },
+        { "src": "images/dallas/lunch/mister-o1-turtle-creek-2.jpg", "sourceName": "Mister O1 Extraordinary Pizza2.jpg", "alt": "Mister O1 Extraordinary Pizza의 다이닝 공간" }
+      ]
+    },
+    "loro-asian-smokehouse": {
+      "name": "Loro Asian Smokehouse & Bar",
+      "location": "업타운(이스트 달라스 인근)",
+      "address": "1812 N Haskell Ave., Dallas, TX 75204",
+      "budget": "$25 ~ $40",
+      "description": "텍사스 BBQ와 아시아 요리의 퓨전 레스토랑. 'Uchi' 레스토랑(달라스/오스틴의 유명 스시식당) 그룹의 공동 창업주들이 오픈.",
+      "menu": "아시안 BBQ 브리스킷, 매운 소시지, 쌀국수 볶음밥, 샐러드, BBQ 소스 치킨.",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/b5CjFoxDoVRpG1gf8" },
+      "images": [
+        { "src": "images/dallas/lunch/loro-asian-smokehouse-1.jpg", "sourceName": "Loro Asian Smokehouse1.jpg", "alt": "Loro Asian Smokehouse & Bar의 외관" },
+        { "src": "images/dallas/lunch/loro-asian-smokehouse-2.jpg", "sourceName": "Loro Asian Smokehouse2.jpg", "alt": "Loro Asian Smokehouse & Bar의 퓨전 바비큐" }
+      ]
+    },
+    "san-martin-bakery": {
+      "name": "San Martin Bakery and Restaurant",
+      "location": "업타운",
+      "address": "3120 McKinney Ave, Dallas, TX 75204",
+      "budget": "$15 ~ $30",
+      "description": "과테말라에서 온 베이커리 & 레스토랑. 아침 식사부터 저녁까지 다양한 메뉴 제공. 주말아침에 가면 가족, 연인, 친구들이 다양하게 즐기는 식당으로 웨이팅이 길수있음",
+      "menu": "다양한 빵과 페이스트리, 남아메리카 스타일의 아침 식사 플래터, 샌드위치, 샐러드, 파스타.",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/nvzxzGq1Sqzkmx959" },
+      "images": [
+        { "src": "images/dallas/lunch/san-martin-bakery-1.jpg", "sourceName": "San Martin Bakery and Restaurant1.jpg", "alt": "San Martin Bakery and Restaurant의 베이커리 진열" },
+        { "src": "images/dallas/lunch/san-martin-bakery-2.jpg", "sourceName": "San Martin Bakery and Restaurant2.jpg", "alt": "San Martin Bakery and Restaurant의 브런치 메뉴" }
+      ]
+    },
+    "torchys-tacos": {
+      "name": "Torchy's Tacos",
+      "location": "업타운",
+      "address": "2305 Cedar Springs Rd Suite 100, Dallas, TX 75201",
+      "budget": "$10 ~ $20",
+      "description": "텍사스에서 시작된 인기 타코 체인. 캐주얼하고 빠르며, 창의적인 타코 메뉴로 유명.",
+      "menu": "트래쉬 트레일러 (Trashy Trailer), 미스터 오렌지 (Mr. Orange), 퀘소 & 칩스.",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/L5sEULA6L7WA7aw8A" },
+      "images": [
+        { "src": "images/dallas/lunch/torchys-tacos-1.jpg", "sourceName": "Torchy's Tacos1.jpg", "alt": "Torchy's Tacos의 다양한 타코" },
+        { "src": "images/dallas/lunch/torchys-tacos-2.jpg", "sourceName": "Torchy's Tacos2.jpg", "alt": "Torchy's Tacos의 캐주얼한 매장" }
+      ]
+    },
+    "velvet-taco": {
+      "name": "Velvet Taco",
+      "location": "딥엘럼",
+      "address": "2556 Elm St, Dallas, TX 75226",
+      "budget": "$10 ~ $20",
+      "description": "텍사스에서 시작된 인기 타코 체인. 캐주얼하고 빠르며, 창의적인 타코 메뉴로 유명.",
+      "menu": "스파이시 치킨티카 타코(인도커리 퓨전), 쉬림프 타코 등",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/TjYji9h9JnUenxrR9" },
+      "images": [
+        { "src": "images/dallas/lunch/velvet-taco-1.webp", "sourceName": "Velvet Taco1.jpg", "alt": "Velvet Taco의 퓨전 타코" },
+        { "src": "images/dallas/lunch/velvet-taco-2.jpg", "sourceName": "Velvet Taco2.jpg", "alt": "Velvet Taco Deep Ellum 매장" }
+      ]
+    },
+    "hopdoddy-burger-bar": {
+      "name": "Hopdoddy Burger Bar",
+      "location": "업타운",
+      "address": "3227 McKinney Ave #102, Dallas, TX 75204",
+      "budget": "$15 ~ $30",
+      "description": "텍사스 기반(오스틴)의 수제 버거 맛집. 신선한 재료와 다양한 버거 조합으로 인기.",
+      "menu": "클래식 버거, 아히 참치 버거, 다양한 감자튀김 (트러플, 치즈 등), 셰이크.",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/F81WfPwEwsH4DPjo9" },
+      "images": [
+        { "src": "images/dallas/lunch/hopdoddy-burger-bar-1.jpg", "sourceName": "Hopdoddy Burger Bar1.jpg", "alt": "Hopdoddy Burger Bar의 수제 버거" },
+        { "src": "images/dallas/lunch/hopdoddy-burger-bar-2.avif", "sourceName": "Hopdoddy Burger Bar2.jpg", "alt": "Hopdoddy Burger Bar의 버거와 감자튀김" }
+      ]
+    },
+    "cosmic-cafe": {
+      "name": "Cosmic Cafe",
+      "location": "업타운(오크로운)",
+      "address": "2912 Oak Lawn Ave, Dallas, TX 75219",
+      "budget": "$15 ~ $25",
+      "description": "달라스의 대표적인 채식 및 비건 식당. 독특한 인테리어와 차분한 분위기. 문을 닫았다가 많은 달라스 채식인들의 바램으로 다시 오픈.",
+      "menu": "렌틸콩 수프, 채식 커리, 비건 타코, 다양한 스무디 및 차 (Tea).",
+      "primaryLink": { "label": "Google 지도", "url": "https://maps.app.goo.gl/CmXAsxAtmpmQcjss7" },
+      "images": [
+        { "src": "images/dallas/lunch/cosmic-cafe-1.webp", "sourceName": "Cosmic Cafe1.jpg", "alt": "Cosmic Cafe의 독특한 실내 공간" },
+        { "src": "images/dallas/lunch/cosmic-cafe-2.webp", "sourceName": "Cosmic Cafe2.jpg", "alt": "Cosmic Cafe의 채식 요리" }
+      ]
     }
   }
 }
