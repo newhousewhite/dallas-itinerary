@@ -167,6 +167,88 @@ test('a failed lunch image is replaced with the shared runtime fallback', async 
   await page.close();
 });
 
+test('rendered addresses copy exact text and announce success', async () => {
+  const context = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
+  const page = await context.newPage();
+
+  await page.goto(`${baseUrl}/day1.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+  assert.equal(await page.locator('.place-card .copy-address-button').count(), 12);
+  assert.equal(await page.locator('.timeline-item .copy-address-button').count(), 1);
+  const dayOneButton = page.locator('.place-card .copy-address-button').first();
+  await dayOneButton.click();
+  assert.equal(
+    await page.evaluate(() => navigator.clipboard.readText()),
+    'Nasher: 2001 Flora St, Dallas, TX 75201 · DMA: 1717 N Harwood St, Dallas, TX 75201',
+  );
+  assert.match(await dayOneButton.innerText(), /복사됨/);
+
+  await page.goto(`${baseUrl}/arrival.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+  assert.equal(await page.locator('.hotel-card .copy-address-button').count(), 1);
+  await page.locator('.hotel-card .copy-address-button').click();
+  assert.equal(
+    await page.evaluate(() => navigator.clipboard.readText()),
+    '1907 Elm Street, Dallas, Texas, USA, 75201',
+  );
+
+  await page.goto(`${baseUrl}/lunch.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+  assert.equal(await page.locator('.lunch-card .copy-address-button').count(), 11);
+  await page.locator('.lunch-card .copy-address-button').first().click();
+  assert.equal(
+    await page.evaluate(() => navigator.clipboard.readText()),
+    '3699 McKinney Ave Ste 350, Dallas, TX 75204',
+  );
+
+  await context.close();
+});
+
+test('address copying falls back when the Clipboard API rejects permission', async () => {
+  const context = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
+  const page = await context.newPage();
+  await page.addInitScript(() => {
+    window.readOriginalClipboard = navigator.clipboard.readText.bind(navigator.clipboard);
+    Object.defineProperty(navigator.clipboard, 'writeText', {
+      configurable: true,
+      value: () => Promise.reject(new DOMException('Permission denied', 'NotAllowedError')),
+    });
+  });
+  await page.goto(`${baseUrl}/arrival.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+
+  const button = page.locator('.hotel-card .copy-address-button');
+  await button.click();
+  assert.match(await button.innerText(), /복사됨/);
+  assert.equal(
+    await page.evaluate(() => window.readOriginalClipboard()),
+    '1907 Elm Street, Dallas, Texas, USA, 75201',
+  );
+
+  await context.close();
+});
+
+test('the map hotel popup copies its displayed address', async () => {
+  const context = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
+  const page = await context.newPage({ viewport: { width: 1440, height: 1000 } });
+  await page.goto(`${baseUrl}/map.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+
+  const map = page.frameLocator('iframe.travel-map-frame');
+  await map.locator('#map.leaflet-container').waitFor({ timeout: 10000 });
+  await map.locator('.item').first().click();
+  const copyButton = map.locator('.leaflet-popup .copy-address-button');
+  await copyButton.waitFor({ timeout: 3000 });
+  await copyButton.click();
+  assert.equal(
+    await page.evaluate(() => navigator.clipboard.readText()),
+    '1907 Elm Street, Dallas, Texas, USA, 75201',
+  );
+  assert.match(await copyButton.innerText(), /복사됨/);
+
+  await context.close();
+});
+
 test('secondary resources are keyboard accessible', async () => {
   const page = await browser.newPage();
   await page.goto(`${baseUrl}/day1.html`, { waitUntil: 'networkidle' });

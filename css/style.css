@@ -919,7 +919,7 @@ main {
 }
 
 .lunch-description strong,
-.lunch-address span {
+.lunch-address .address-caption {
   display: block;
   margin-bottom: 0.5rem;
   color: var(--red);
@@ -1035,11 +1035,79 @@ main {
   line-height: 1.5;
 }
 
-.place-address span {
+.place-address .address-caption {
   color: var(--red);
   font-size: 0.56rem;
   font-weight: 800;
   letter-spacing: 0.14em;
+}
+
+.copyable-address {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.55rem 0.85rem;
+  align-items: center;
+}
+
+.copyable-address .address-caption {
+  grid-column: 1 / -1;
+}
+
+.copyable-address .address-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.copy-address-button {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0.42rem 0.62rem;
+  border: 1px solid rgba(16, 47, 70, 0.28);
+  color: var(--ink);
+  background: rgba(255, 250, 241, 0.72);
+  font: inherit;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.copy-address-button:hover {
+  border-color: var(--ink);
+  background: var(--paper-bright);
+  transform: translateY(-1px);
+}
+
+.copy-address-button.is-copied {
+  border-color: #1f7a55;
+  color: #176544;
+  background: rgba(31, 122, 85, 0.09);
+}
+
+.copy-address-button.has-copy-error {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.copy-address-icon {
+  color: var(--red);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.clipboard-fallback {
+  position: fixed;
+  top: -1000px;
+  left: -1000px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .place-card-actions {
@@ -1236,6 +1304,30 @@ main {
   color: rgba(255, 250, 241, 0.72);
   font-size: 0.84rem;
   font-style: normal;
+}
+
+.hotel-card .hotel-address .address-caption {
+  color: #e9a7a6;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hotel-card .copy-address-button {
+  border-color: rgba(255, 250, 241, 0.35);
+  color: var(--paper-bright);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hotel-card .copy-address-button:hover {
+  border-color: var(--paper-bright);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.hotel-card .copy-address-button.is-copied {
+  border-color: #7fe3b4;
+  color: #7fe3b4;
+  background: rgba(127, 227, 180, 0.1);
 }
 
 .hotel-card > div {

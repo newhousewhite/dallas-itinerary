@@ -21,6 +21,7 @@ async function initializeApp() {
       : [renderHero(data, page), sections, renderPager(data.pages, pageId)].join('');
     linkifyDartReferences(main, data.trip.dartUrl);
     attachImageFallbacks();
+    attachAddressCopyHandlers(main);
     document.body.classList.add('is-ready');
   } catch (error) {
     renderError(main);
@@ -145,6 +146,7 @@ function renderTimeline(data, items) {
           <div class="timeline-actions">
             ${item.status ? renderStatus(item.status) : ''}
             ${place ? renderPrimaryLink(place, 'text-link') : ''}
+            ${isStreetAddress(item.location) ? renderAddressCopyButton(item.location, `${item.title} 주소 복사`) : ''}
           </div>
         </div>
       </article>`;
@@ -192,7 +194,7 @@ function renderLunchCard(place, index) {
             <p>${escapeHtml(place.menu)}</p>
           </div>
         </div>
-        <address class="lunch-address"><span>MEET HERE</span>${escapeHtml(place.address)}</address>
+        ${renderCopyableAddress(place.address, 'lunch-address', 'MEET HERE', `${place.name} 주소 복사`)}
         <div class="lunch-card-actions">${renderPrimaryLink(place, 'button-link')}</div>
       </div>
     </article>`;
@@ -211,7 +213,7 @@ function renderPlaceCard(place, item) {
       <div class="place-card-copy">
         <h3>${escapeHtml(place.name)}</h3>
         <p>${escapeHtml(place.description)}</p>
-        ${place.address ? `<address class="place-address"><span>UBER ADDRESS</span>${escapeHtml(place.address)}</address>` : ''}
+        ${place.address ? renderCopyableAddress(place.address, 'place-address', 'UBER ADDRESS', `${place.name} 주소 복사`) : ''}
         <div class="place-card-actions">
           ${renderPrimaryLink(place, 'button-link')}
           ${item.status ? renderStatus(item.status) : ''}
@@ -305,7 +307,7 @@ function renderArrivalGuide(section) {
       <article class="hotel-card">
         <p class="eyebrow">YOUR HOTEL</p>
         <h3>${escapeHtml(section.hotel.name)}</h3>
-        <address>${escapeHtml(section.hotel.address)}</address>
+        ${renderCopyableAddress(section.hotel.address, 'hotel-address', 'HOTEL ADDRESS', `${section.hotel.name} 주소 복사`)}
         <div>
           <a class="button-link" href="${escapeHtml(section.hotel.url)}" target="_blank" rel="noopener noreferrer">호텔 홈페이지 <span aria-hidden="true">↗</span></a>
           <a class="hotel-phone" href="${escapeHtml(section.hotel.phoneHref)}">Tel: ${escapeHtml(section.hotel.phone)}</a>
@@ -420,6 +422,75 @@ function renderPlaceholder(label, className) {
 
 function renderPrimaryLink(place, className) {
   return `<a class="${className}" href="${escapeHtml(place.primaryLink.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(place.primaryLink.label)} <span aria-hidden="true">↗</span></a>`;
+}
+
+function renderCopyableAddress(address, className, caption, accessibleLabel) {
+  return `
+    <address class="${className} copyable-address">
+      <span class="address-caption">${escapeHtml(caption)}</span>
+      <span class="address-text">${escapeHtml(address)}</span>
+      ${renderAddressCopyButton(address, accessibleLabel)}
+    </address>`;
+}
+
+function renderAddressCopyButton(address, accessibleLabel = '주소 복사') {
+  return `
+    <button class="copy-address-button" type="button" data-copy-address="${escapeHtml(address)}" aria-label="${escapeHtml(accessibleLabel)}">
+      <span class="copy-address-icon" aria-hidden="true">⧉</span>
+      <span class="copy-address-label" aria-live="polite">주소 복사</span>
+    </button>`;
+}
+
+function isStreetAddress(value = '') {
+  return /\d/.test(value) && /\b(?:St|Street|Ave|Avenue|Rd|Road|Blvd|Pkwy|Fwy|Drive|Dr)\b/i.test(value);
+}
+
+function attachAddressCopyHandlers(root) {
+  root.addEventListener('click', async (event) => {
+    const button = event.target.closest('.copy-address-button');
+    if (!button || !root.contains(button)) return;
+
+    const label = button.querySelector('.copy-address-label');
+    try {
+      await copyTextToClipboard(button.dataset.copyAddress || '');
+      setCopyButtonState(button, label, '복사됨', true);
+    } catch (error) {
+      setCopyButtonState(button, label, '복사 실패', false);
+      console.error('Address copy failed', error);
+    }
+  });
+}
+
+async function copyTextToClipboard(text) {
+  if (navigator.clipboard?.writeText && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch (error) {
+      // Permission policies in embedded browsers can reject the modern API.
+    }
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.className = 'clipboard-fallback';
+  document.body.appendChild(textarea);
+  textarea.select();
+  const copied = document.execCommand('copy');
+  textarea.remove();
+  if (!copied) throw new Error('Clipboard copy command was rejected');
+}
+
+function setCopyButtonState(button, label, message, copied) {
+  window.clearTimeout(button.copyResetTimer);
+  label.textContent = message;
+  button.classList.toggle('is-copied', copied);
+  button.classList.toggle('has-copy-error', !copied);
+  button.copyResetTimer = window.setTimeout(() => {
+    label.textContent = '주소 복사';
+    button.classList.remove('is-copied', 'has-copy-error');
+  }, 1800);
 }
 
 function renderStatus(status) {

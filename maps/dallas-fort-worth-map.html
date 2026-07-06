@@ -82,6 +82,13 @@
   .pop .pm{font-size:10.5px;color:var(--rust);font-weight:600;margin-top:4px;}
   .pop .phome{display:inline-block;margin-bottom:3px;font-size:9px;font-weight:800;letter-spacing:1px;
     color:#fff;background:var(--emerald);padding:1px 7px;border-radius:10px;}
+  .pop .pa{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;align-items:center;
+    margin-top:7px;padding-top:7px;border-top:1px solid var(--line);font-size:10.5px;color:var(--navy);}
+  .copy-address-button{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:30px;
+    padding:4px 7px;border:1px solid rgba(25,43,77,.28);color:var(--navy);background:var(--cream);
+    font:inherit;font-size:9.5px;font-weight:800;white-space:nowrap;cursor:pointer;}
+  .copy-address-button:hover{border-color:var(--navy);background:#fff;}
+  .copy-address-button.is-copied{border-color:var(--emerald);color:var(--emerald);background:#eaf6ef;}
 
   @media(max-width:760px){
     .wrap{flex-direction:column;}
@@ -119,7 +126,8 @@ const C = {
 };
 const HOTEL = {n:'hotel', lbl:'★', g:'hotel', lat:32.7823169, lng:-96.7958443,
   t:'르네상스 세인트 엘름 호텔', e:'Renaissance Saint Elm Dallas Downtown',
-  d:'우리 숙소 · 1907 Elm St. 다운타운 한복판으로, 식스 플로어 박물관·아츠 디스트릭트가 도보권', m:'★ 4.3'};
+  d:'우리 숙소 · 다운타운 한복판으로, 식스 플로어 박물관·아츠 디스트릭트가 도보권',
+  a:'1907 Elm Street, Dallas, Texas, USA, 75201', m:'★ 4.3'};
 const P = [
   {n:1, g:'dallas', lat:32.7798188, lng:-96.8084842, t:'식스 플로어 박물관', e:'Sixth Floor Museum', d:'옛 교과서 창고 6층, JFK 암살의 현장', m:'★ 4.6'},
   {n:2, g:'dallas', lat:32.7755975, lng:-96.8089687, t:'리유니언 타워', e:'Reunion Tower', d:'공 모양 전망대, 360° 스카이라인·야경', m:'★ 4.7'},
@@ -162,7 +170,44 @@ function popHtml(p){
   const home = p.g==='hotel' ? `<span class="phome">우리 숙소 · OUR HOTEL</span><br>` : '';
   const ttl = p.lbl ? p.lbl : (p.n + '.');
   const meta = p.m ? `<div class="pm">${p.m}</div>` : '';
-  return `<div class="pop">${home}<div class="pt">${ttl} ${p.t}</div><div class="pe">${p.e}</div><div class="pd">${p.d}</div>${meta}</div>`;
+  const address = p.a ? `<div class="pa"><span>${p.a}</span><button class="copy-address-button" type="button" data-copy-address="${p.a}" aria-label="호텔 주소 복사"><span aria-hidden="true">⧉</span><span class="copy-address-label" aria-live="polite">주소 복사</span></button></div>` : '';
+  return `<div class="pop">${home}<div class="pt">${ttl} ${p.t}</div><div class="pe">${p.e}</div><div class="pd">${p.d}</div>${address}${meta}</div>`;
+}
+
+document.addEventListener('click', async event => {
+  const button = event.target.closest('.copy-address-button');
+  if (!button) return;
+  event.stopPropagation();
+  const label = button.querySelector('.copy-address-label');
+  try {
+    await copyAddress(button.dataset.copyAddress || '');
+    label.textContent = '복사됨';
+    button.classList.add('is-copied');
+    window.setTimeout(() => {
+      label.textContent = '주소 복사';
+      button.classList.remove('is-copied');
+    }, 1800);
+  } catch (error) {
+    label.textContent = '복사 실패';
+    console.error('Address copy failed', error);
+  }
+});
+
+async function copyAddress(text){
+  if(navigator.clipboard?.writeText && window.isSecureContext){
+    try{
+      await navigator.clipboard.writeText(text);
+      return;
+    }catch(error){
+      // Embedded browser permission policies may reject the modern API.
+    }
+  }
+  const textarea=document.createElement('textarea');
+  textarea.value=text; textarea.setAttribute('readonly','');
+  textarea.style.cssText='position:fixed;left:-1000px;top:-1000px;opacity:0';
+  document.body.appendChild(textarea); textarea.select();
+  const copied=document.execCommand('copy'); textarea.remove();
+  if(!copied) throw new Error('Clipboard copy command was rejected');
 }
 
 const cluster = L.markerClusterGroup({

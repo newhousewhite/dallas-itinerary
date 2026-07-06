@@ -193,14 +193,24 @@ class ItineraryContractTests(unittest.TestCase):
             "연대",
             "Art",
             "예술",
-            "and",
-            "그리고",
+            "Nexus",
+            "만나는 중심점: 리트릿",
             "Smoke",
             "텍사스 바베큐",
             "7월의 한 가운데 강렬한 텍사스의 여름에 만날 우리",
             "함께할 평생의 기억을 만들어 보아요",
         ):
             self.assertIn(phrase, sans_payload)
+
+        self.assertEqual(
+            sans["letters"],
+            [
+                {"letter": "S", "term": "Solidarity", "meaning": "연대"},
+                {"letter": "A", "term": "Art", "meaning": "예술"},
+                {"letter": "N", "term": "Nexus", "meaning": "만나는 중심점: 리트릿"},
+                {"letter": "S", "term": "Smoke", "meaning": "텍사스 바베큐"},
+            ],
+        )
 
         self.assertEqual(self.data["trip"]["dartUrl"], "https://www.dart.org")
 
