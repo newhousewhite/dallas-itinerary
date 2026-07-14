@@ -243,10 +243,11 @@ function renderSansTheme(section) {
 }
 
 function renderMapEmbed(section, id) {
+  const iframeTitle = section.iframeTitle || section.title || '여행 안내';
   return `
     <section class="map-embed-section" id="${id}">
       <h1 class="visually-hidden">${escapeHtml(section.title)}</h1>
-      <iframe class="travel-map-frame" src="${escapeHtml(section.src)}" title="댈러스·포트워스·알링턴 여행 지도"></iframe>
+      <iframe class="travel-map-frame" src="${escapeHtml(section.src)}" title="${escapeHtml(iframeTitle)}"></iframe>
     </section>`;
 }
 

@@ -14,6 +14,7 @@
 | `about.html` | Dallas–Fort Worth 역사, 명소 및 여행 정보 |
 | `map.html` | Dallas–Fort Worth–Arlington 명소와 점심 추천 11곳을 포함한 인터랙티브 여행 지도 |
 | `lunch.html` | Dallas Uptown·Deep Ellum 점심 추천 11곳 |
+| `trolley.html` | Dallas M-Line Trolley 한국어 이용 안내 |
 
 ## Structure
 
@@ -23,6 +24,7 @@
 - `images/dallas/`: Drive에서 내려받아 장소별로 정규화한 이미지
 - `images/dallas/lunch/`: 점심 추천 장소별 2장씩 정규화한 이미지
 - `maps/dallas-fort-worth-map.html`: `data/itinerary.json`의 점심 추천 11곳을 별도 그룹으로 불러오는 Leaflet 여행 지도
+- `resources/mline-trolley-guide-ko.html`: 앱에 포함된 M-Line Trolley 한국어 안내 원본
 - `tests/test_itinerary.py`: 데이터, 경로, 이미지 매핑, 링크, 콘텐츠 정리 검증
 - `tests/test_site.js`: Chrome과 Playwright를 이용한 렌더링 및 반응형 검증
 

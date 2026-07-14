@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M-Line 트롤리 이용 안내 | 댈러스</title>
+<!--
+  ═══════════════════════════════════════════════════════════════
+  [개발자 통합 안내 / Integration Notes]
+
+  이 파일은 기존 여행 안내 web app에 "독립 탭"으로 추가하기 위한
+  단일 파일(self-contained) 페이지입니다.
+
+  통합 방법:
+  1. <style> 블록과 <section id="mline-tab"> 전체를 복사해
+     탭 콘텐츠 영역에 붙여넣으면 됩니다.
+  2. 모든 CSS 선택자는 #mline-tab 하위로 스코프되어 있어
+     호스트 앱의 스타일과 충돌하지 않습니다.
+  3. 외부 의존성: Google Fonts (Noto Sans KR, Nanum Myeongjo) 1건.
+     오프라인/폰트 미로드 시 시스템 폰트로 자동 폴백됩니다.
+  4. JavaScript 없음. 순수 HTML/CSS입니다.
+
+  정보 출처: mata.org (2026-07 확인 기준).
+  운행시간·연결편은 변경될 수 있으므로 주기적 확인을 권장합니다.
+  ═══════════════════════════════════════════════════════════════
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ── 전체 스타일은 #mline-tab 하위로 스코프됨 ── */
+  #mline-tab {
+    --ml-maroon: #6E1423;        /* M-LINE 정류장 표지판의 마룬 색 */
+    --ml-maroon-deep: #4C0D18;
+    --ml-brass: #A97E2F;         /* 전차 내부 황동 장식 */
+    --ml-paper: #FAF6EE;
+    --ml-ink: #2B2320;
+    --ml-line: #D9CDBB;
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    color: var(--ml-ink);
+    background: var(--ml-paper);
+    line-height: 1.7;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  #mline-tab * { box-sizing: border-box; }
+  #mline-tab a { color: var(--ml-maroon); font-weight: 500; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  #mline-tab a:hover { color: var(--ml-brass); }
+  #mline-tab a:focus-visible { outline: 2px solid var(--ml-brass); outline-offset: 2px; border-radius: 2px; }
+
+  /* ── 헤더 ── */
+  #mline-tab .ml-hero {
+    background: linear-gradient(160deg, var(--ml-maroon) 0%, var(--ml-maroon-deep) 100%);
+    color: #F6EDDD;
+    padding: 52px 24px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  #mline-tab .ml-hero::after { /* 전차 레일을 암시하는 두 줄 */
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 14px;
+    height: 10px;
+    border-top: 2px solid rgba(246,237,221,.35);
+    border-bottom: 2px solid rgba(246,237,221,.35);
+  }
+  #mline-tab .ml-hero-inner { max-width: 760px; margin: 0 auto; }
+  #mline-tab .ml-eyebrow {
+    display: inline-block;
+    font-size: 12px; letter-spacing: .18em; font-weight: 700;
+    color: var(--ml-brass);
+    background: #F6EDDD;
+    padding: 4px 12px; border-radius: 3px;
+    margin-bottom: 16px;
+  }
+  #mline-tab h1 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 800;
+    margin: 0 0 12px;
+    line-height: 1.3;
+  }
+  #mline-tab .ml-hero p { margin: 0; max-width: 560px; font-size: 15.5px; color: #EADFC9; }
+  #mline-tab .ml-free-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 20px;
+    background: rgba(246,237,221,.12);
+    border: 1px solid rgba(246,237,221,.4);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 14px; font-weight: 700;
+  }
+
+  /* ── 노선도 모티프: 왼쪽 세로 라인 + 정류장 동그라미 ── */
+  #mline-tab .ml-body { max-width: 760px; margin: 0 auto; padding: 12px 24px 56px; }
+  #mline-tab .ml-stop {
+    position: relative;
+    padding: 32px 0 8px 42px;
+    border-left: 3px solid var(--ml-maroon);
+    margin-left: 8px;
+  }
+  #mline-tab .ml-stop:last-of-type { border-left-color: transparent; }
+  #mline-tab .ml-stop::before { /* 정류장 마커 */
+    content: "";
+    position: absolute; left: -11px; top: 40px;
+    width: 16px; height: 16px;
+    background: var(--ml-paper);
+    border: 4px solid var(--ml-maroon);
+    border-radius: 50%;
+  }
+  #mline-tab h2 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 22px; font-weight: 800;
+    color: var(--ml-maroon-deep);
+    margin: 0 0 14px;
+  }
+  #mline-tab h3 { font-size: 15.5px; margin: 18px 0 6px; color: var(--ml-maroon); }
+  #mline-tab p { margin: 0 0 12px; font-size: 15px; }
+
+  /* ── 기본 정보 카드 ── */
+  #mline-tab .ml-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 4px 0 8px;
+  }
+  #mline-tab .ml-fact {
+    background: #fff;
+    border: 1px solid var(--ml-line);
+    border-top: 3px solid var(--ml-brass);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  #mline-tab .ml-fact dt { font-size: 12px; letter-spacing: .06em; color: #7A6A55; font-weight: 700; margin-bottom: 4px; }
+  #mline-tab .ml-fact dd { margin: 0; font-size: 15px; font-weight: 700; color: var(--ml-ink); }
+  #mline-tab .ml-fact dd small { display: block; font-weight: 400; font-size: 12.5px; color: #7A6A55; margin-top: 2px; }
+
+  /* ── 운행시간 표 ── */
+  #mline-tab table {
+    width: 100%; border-collapse: collapse;
+    background: #fff; border: 1px solid var(--ml-line); border-radius: 6px;
+    overflow: hidden; font-size: 14.5px;
+  }
+  #mline-tab th, #mline-tab td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--ml-line); }
+  #mline-tab th { background: var(--ml-maroon); color: #F6EDDD; font-weight: 700; font-size: 13.5px; }
+  #mline-tab tr:last-child td { border-bottom: none; }
+  #mline-tab td:last-child { font-weight: 700; white-space: nowrap; }
+
+  /* ── 타는 방법 단계 ── */
+  #mline-tab .ml-steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  #mline-tab .ml-steps li {
+    counter-increment: step;
+    position: relative;
+    background: #fff; border: 1px solid var(--ml-line); border-radius: 6px;
+    padding: 14px 16px 14px 58px;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  #mline-tab .ml-steps li::before {
+    content: counter(step);
+    position: absolute; left: 16px; top: 14px;
+    width: 28px; height: 28px;
+    background: var(--ml-maroon); color: #F6EDDD;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+    font-family: 'Nanum Myeongjo', serif;
+  }
+  #mline-tab .ml-steps strong { color: var(--ml-maroon-deep); }
+
+  /* ── 주의/팁 박스 ── */
+  #mline-tab .ml-note {
+    background: #FDF3E3;
+    border: 1px solid #E8CC96;
+    border-left: 4px solid var(--ml-brass);
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin: 14px 0;
+  }
+  #mline-tab .ml-note strong { color: #7A5314; }
+
+  /* ── 명소 리스트 ── */
+  #mline-tab .ml-spots { list-style: none; padding: 0; margin: 0; }
+  #mline-tab .ml-spots li {
+    padding: 10px 0 10px 26px;
+    border-bottom: 1px dashed var(--ml-line);
+    position: relative;
+    font-size: 15px;
+  }
+  #mline-tab .ml-spots li::before {
+    content: "◈";
+    position: absolute; left: 2px; color: var(--ml-brass); font-size: 13px;
+  }
+  #mline-tab .ml-spots li:last-child { border-bottom: none; }
+  #mline-tab .ml-spots strong { color: var(--ml-maroon-deep); }
+
+  /* ── 링크/푸터 ── */
+  #mline-tab .ml-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  #mline-tab .ml-links a {
+    display: inline-block;
+    background: var(--ml-maroon); color: #F6EDDD;
+    text-decoration: none;
+    padding: 10px 18px; border-radius: 4px;
+    font-size: 14px; font-weight: 700;
+  }
+  #mline-tab .ml-links a:hover { background: var(--ml-maroon-deep); color: #fff; }
+  #mline-tab .ml-links a.ml-secondary { background: transparent; color: var(--ml-maroon); border: 1.5px solid var(--ml-maroon); }
+  #mline-tab .ml-footer {
+    margin-top: 36px; padding-top: 18px;
+    border-top: 2px solid var(--ml-maroon);
+    font-size: 12.5px; color: #7A6A55;
+  }
+
+  @media (max-width: 480px) {
+    #mline-tab .ml-hero { padding: 40px 18px 38px; }
+    #mline-tab .ml-body { padding: 8px 16px 44px; }
+    #mline-tab .ml-stop { padding-left: 30px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #mline-tab * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<section id="mline-tab">
+
+  <header class="ml-hero">
+    <div class="ml-hero-inner">
+      <span class="ml-eyebrow">DALLAS · M-LINE TROLLEY</span>
+      <h1>100년 된 전차를 타고<br>댈러스 업타운 한 바퀴</h1>
+      <p>M-Line 트롤리는 1983년부터 비영리단체 MATA(McKinney Avenue Transit Authority)가
+      운영하는 클래식 노면전차입니다. 업타운과 다운타운 댈러스를 잇는 약 7.4km(4.6마일)
+      노선에 37개 정류장이 있으며, 1년 365일 운행합니다.</p>
+      <span class="ml-free-badge">🚋 요금 무료 — 자율 기부제 (Name Your Fare)</span>
+    </div>
+  </header>
+
+  <div class="ml-body">
+
+    <!-- 기본 정보 -->
+    <section class="ml-stop" aria-labelledby="ml-h-basics">
+      <h2 id="ml-h-basics">한눈에 보기</h2>
+      <dl class="ml-facts">
+        <div class="ml-fact">
+          <dt>요금</dt>
+          <dd>무료<small>차내 요금함에 현금 기부 가능</small></dd>
+        </div>
+        <div class="ml-fact">
+          <dt>배차 간격</dt>
+          <dd>약 17–20분<small>전 구간 왕복 약 1시간</small></dd>
+        </div>
+        <div class="ml-fact">
+          <dt>노선</dt>
+          <dd>업타운 ↔ 다운타운<small>정류장 37곳 순환</small></dd>
+        </div>
+        <div class="ml-fact">
+          <dt>운행일</dt>
+          <dd>연중무휴<small>365일 운행</small></dd>
+        </div>
+      </dl>
+
+      <h3>운행 시간</h3>
+      <table>
+        <thead><tr><th scope="col">요일</th><th scope="col">운행 시간</th></tr></thead>
+        <tbody>
+          <tr><td>월–목</td><td>오전 7시 – 오후 10시</td></tr>
+          <tr><td>금</td><td>오전 7시 – 자정</td></tr>
+          <tr><td>토</td><td>오전 10시 – 자정</td></tr>
+          <tr><td>일 · 공휴일</td><td>오전 10시 – 오후 10시</td></tr>
+        </tbody>
+      </table>
+      <div class="ml-note">
+        <strong>실시간 위치는 공식 Rider App에서만!</strong> 구글맵·애플맵에 표시되는
+        도착 시간은 실시간이 아닙니다. 정확한 도착 정보와 운행 알림은
+        <a href="https://mata.org/track" target="_blank" rel="noopener">mata.org/track</a>에서
+        앱을 내려받아 확인하세요.
+      </div>
+    </section>
+
+    <!-- 타는 방법 -->
+    <section class="ml-stop" aria-labelledby="ml-h-howto">
+      <h2 id="ml-h-howto">타는 방법</h2>
+      <ol class="ml-steps">
+        <li><strong>마룬색(진한 자주색) "M-LINE" 표지판이 있는 정류장에서 기다리세요.</strong>
+          트롤리는 지정 정류장에서만 승하차할 수 있습니다.</li>
+        <li><strong>트롤리가 다가오면 손을 크게 흔들어 주세요.</strong>
+          버스처럼 손을 들어 세우는 방식입니다. 휴대폰만 보고 있으면 기관사가
+          탑승 의사가 없는 것으로 알고 그냥 지나칠 수 있어요.</li>
+        <li><strong>선로가 도로 가운데 있는 구간에서는 인도(연석)에서 기다리세요.</strong>
+          트롤리가 정차하면 기관사가 차량 통행을 막아 주니, 그때 안전하게 건너 탑승하면 됩니다.</li>
+        <li><strong>내릴 때는 좌석 위쪽의 줄을 당기거나 벨을 울리세요.</strong>
+          "딸랑" 소리가 나면 기관사가 다음 지정 정류장에 세워 줍니다.</li>
+      </ol>
+      <p>요금은 공식적으로 무료지만, 운영이 전액 기부와 후원으로 이루어집니다.
+      차내 요금함에 현금·동전을 넣거나, 카드·Venmo·PayPal로
+      <a href="https://mata.org/fare" target="_blank" rel="noopener">온라인 기부</a>를 할 수 있습니다.
+      $2–5 정도만 기부해도 이 역사적인 전차를 지키는 데 큰 도움이 됩니다.</p>
+    </section>
+
+    <!-- 가는 방법 -->
+    <section class="ml-stop" aria-labelledby="ml-h-access">
+      <h2 id="ml-h-access">트롤리 정류장까지 가는 방법</h2>
+      <h3>DART 경전철로 (가장 편리)</h3>
+      <p><strong>CityPlace/Uptown역</strong>(RED·BLUE·ORANGE 라인)에서 내려
+      "M-Line Trolley" 표지판을 따라 서쪽 출구(West Entrance)로 나오면 바로 트롤리 정류장입니다.
+      다운타운 쪽에서는 <strong>St Paul역</strong>에서 걸어서 연결됩니다.</p>
+      <h3>DFW 국제공항에서</h3>
+      <p>DFW Airport역(터미널 A)에서 DART <strong>ORANGE 라인</strong>을 타고
+      CityPlace/Uptown역 또는 St Paul역에서 내리면 됩니다. 다른 터미널에서는
+      Skylink(보안구역 내)로 터미널 A로 이동하세요.</p>
+      <h3>렌터카 이용 시</h3>
+      <p>업타운·다운타운은 주차비가 비싼 편입니다. DART의
+      SMU/Mockingbird역이나 Park Lane역 무료 환승주차장(Park &amp; Ride)에 차를 세우고
+      경전철로 이동하는 방법도 좋습니다.</p>
+    </section>
+
+    <!-- 주요 명소 -->
+    <section class="ml-stop" aria-labelledby="ml-h-spots">
+      <h2 id="ml-h-spots">트롤리로 갈 수 있는 주요 명소</h2>
+      <ul class="ml-spots">
+        <li><strong>클라이드 워런 파크 (Klyde Warren Park)</strong> — 고속도로 위에 지은 도심 공원.
+          푸드트럭과 잔디밭이 유명합니다. KWP/Arts District 정류장 하차.</li>
+        <li><strong>댈러스 미술관 (Dallas Museum of Art)</strong> — 입장 무료.
+          St Paul &amp; Woodall Rodgers 또는 Olive &amp; Flora 정류장 하차.</li>
+        <li><strong>내셔 조각 센터 (Nasher Sculpture Center)</strong> — 미술관 바로 옆,
+          야외 조각 정원이 아름답습니다.</li>
+        <li><strong>페로 자연과학박물관 (Perot Museum)</strong> — St Paul &amp; Woodall Rodgers
+          정류장에서 도보 약 5분. 아이 동반 가족에게 추천.</li>
+        <li><strong>웨스트 빌리지 (West Village)</strong> — 노선 북쪽 끝의 쇼핑·맛집 거리.
+          트롤리 차고지도 근처에 있어 여러 대의 클래식 전차를 볼 수 있습니다.</li>
+        <li><strong>메이어슨 심포니 센터 · AT&amp;T 공연예술센터</strong> — 아츠 디스트릭트의
+          공연장들. Olive &amp; Flora 정류장 하차.</li>
+      </ul>
+      <p style="margin-top:12px;">전체 노선도는
+      <a href="https://www.mata.org/ride/route-map/" target="_blank" rel="noopener">공식 노선도 페이지</a>에서
+      확인할 수 있습니다.</p>
+    </section>
+
+    <!-- 알아두면 좋은 점 -->
+    <section class="ml-stop" aria-labelledby="ml-h-tips">
+      <h2 id="ml-h-tips">알아두면 좋은 점</h2>
+      <ul class="ml-spots">
+        <li>차량이 100년 안팎 된 실제 클래식 전차라 <strong>휠체어 탑승은 불가능</strong>합니다.
+          휠체어 이용 시 같은 구간을 지나는 DART 버스(209번 등)를 이용하세요.</li>
+        <li><strong>전동킥보드는 반입 금지</strong>입니다. 자전거와 소형 유아차는
+          공간이 있을 경우 탑승 가능합니다.</li>
+        <li>반려동물은 목줄을 하거나 이동장에 있으면 탑승할 수 있습니다.</li>
+        <li>창밖으로 손이나 머리를 내밀지 마세요. 오래된 전차라 창문이 활짝 열립니다.</li>
+        <li>선로를 건널 때는 발이 끼지 않도록 레일을 <strong>밟지 말고 넘어서</strong> 건너세요.</li>
+        <li>여름철 일부 차량은 냉방이 없거나 약할 수 있습니다. 더운 날에는 물을 챙기세요.</li>
+      </ul>
+    </section>
+
+    <!-- 링크 -->
+    <section class="ml-stop" aria-labelledby="ml-h-links">
+      <h2 id="ml-h-links">공식 정보 · 문의</h2>
+      <div class="ml-links">
+        <a href="https://www.mata.org/ride/" target="_blank" rel="noopener">공식 이용 안내 (영문)</a>
+        <a href="https://mata.org/track" target="_blank" rel="noopener">실시간 위치 · Rider App</a>
+        <a href="https://www.mata.org/ride/route-map/" target="_blank" rel="noopener" class="ml-secondary">노선도 · 시간표</a>
+      </div>
+      <div class="ml-footer">
+        <p>운영: McKinney Avenue Transit Authority (비영리단체) · 전화 214-855-0006<br>
+        본 안내는 mata.org 공식 정보(2026년 7월 확인 기준)를 바탕으로 작성되었습니다.
+        운행 시간과 서비스는 변경될 수 있으니 방문 전 공식 홈페이지 또는 Rider App에서 확인하세요.</p>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+</body>
+</html>

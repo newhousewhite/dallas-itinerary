@@ -490,6 +490,7 @@
         {
           "type": "mapEmbed",
           "title": "우리 여행 한눈에",
+          "iframeTitle": "댈러스·포트워스·알링턴 여행 지도",
           "src": "maps/dallas-fort-worth-map.html"
         }
       ]
@@ -522,6 +523,24 @@
             "hopdoddy-burger-bar",
             "cosmic-cafe"
           ]
+        }
+      ]
+    },
+    {
+      "id": "trolley",
+      "href": "trolley.html",
+      "navLabel": "M-Line 트롤리",
+      "date": "DALLAS UPTOWN TRANSIT GUIDE",
+      "eyebrow": "M-LINE TROLLEY · DALLAS",
+      "title": "M-Line Trolley 한국어 안내",
+      "summary": "Dallas Uptown과 Arts District를 오가는 M-Line Trolley 이용 안내를 확인합니다.",
+      "layout": "embed",
+      "sections": [
+        {
+          "type": "mapEmbed",
+          "title": "M-Line Trolley 한국어 안내",
+          "iframeTitle": "M-Line Trolley 한국어 안내",
+          "src": "resources/mline-trolley-guide-ko.html"
         }
       ]
     }

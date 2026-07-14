@@ -16,6 +16,7 @@ EXPECTED_PAGES = {
     "about": "about.html",
     "map": "map.html",
     "lunch": "lunch.html",
+    "trolley": "trolley.html",
 }
 
 EXPECTED_LUNCH_PLACES = [
@@ -283,8 +284,8 @@ class ItineraryContractTests(unittest.TestCase):
         for phrase in required_source_phrases:
             self.assertIn(phrase, payload)
 
-    def test_interactive_map_precedes_the_final_lunch_page_and_preserves_the_attachment(self):
-        map_page = self.data["pages"][-2]
+    def test_interactive_map_precedes_lunch_and_trolley_pages_and_preserves_the_attachment(self):
+        map_page = self.data["pages"][-3]
         self.assertEqual(map_page["id"], "map")
         self.assertEqual(map_page["navLabel"], "여행 지도")
         section = next(section for section in map_page["sections"] if section["type"] == "mapEmbed")
@@ -299,7 +300,7 @@ class ItineraryContractTests(unittest.TestCase):
         self.assertIn("const HOTEL =", source)
 
     def test_lunch_page_preserves_source_order_content_and_images(self):
-        lunch = self.data["pages"][-1]
+        lunch = self.data["pages"][-2]
         self.assertEqual(lunch["id"], "lunch")
         self.assertEqual(lunch["navLabel"], "점심 추천")
         self.assertEqual(lunch["title"], "오늘 점심, 어디서 먹을까요?")
@@ -333,6 +334,19 @@ class ItineraryContractTests(unittest.TestCase):
                 self.assertTrue(image_path.is_file(), image_path)
                 self.assertGreater(image_path.stat().st_size, 1_000)
                 self.assertTrue(image["alt"].strip())
+
+    def test_trolley_page_is_last_and_embeds_the_copied_guide(self):
+        trolley = self.data["pages"][-1]
+        self.assertEqual(trolley["id"], "trolley")
+        self.assertEqual(trolley["href"], "trolley.html")
+        self.assertEqual(trolley["navLabel"], "M-Line 트롤리")
+        self.assertEqual(trolley["layout"], "embed")
+
+        section = next(section for section in trolley["sections"] if section["type"] == "mapEmbed")
+        self.assertEqual(section["title"], "M-Line Trolley 한국어 안내")
+        self.assertEqual(section["iframeTitle"], "M-Line Trolley 한국어 안내")
+        self.assertEqual(section["src"], "resources/mline-trolley-guide-ko.html")
+        self.assertTrue((ROOT / section["src"]).is_file())
 
     def test_every_drive_image_has_an_exact_auditable_mapping(self):
         places = self.data["places"]

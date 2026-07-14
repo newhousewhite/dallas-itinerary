@@ -16,6 +16,7 @@ const ROUTES = [
   ['about.html', 'about'],
   ['map.html', 'map'],
   ['lunch.html', 'lunch'],
+  ['trolley.html', 'trolley'],
 ];
 
 const CONTENT_TYPES = {
@@ -82,7 +83,7 @@ test('every route renders with active navigation and loaded images', async () =>
       throw new Error(`${route}: app did not become ready; console errors: ${JSON.stringify(errors)}`, { cause: error });
     }
 
-    assert.equal(await page.locator('.date-nav a').count(), 8, route);
+    assert.equal(await page.locator('.date-nav a').count(), ROUTES.length, route);
     assert.equal(await page.locator('.date-nav a[aria-current="page"]').count(), 1, route);
     assert.equal(await page.locator('body').getAttribute('data-page'), pageId, route);
     assert.ok((await page.locator('h1').first().innerText()).trim(), route);
@@ -99,17 +100,18 @@ test('every route renders with active navigation and loaded images', async () =>
   }
 });
 
-test('destination guide renders before the map and final lunch pages', async () => {
+test('destination guide renders before the map, lunch, and trolley pages', async () => {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await page.goto(`${baseUrl}/about.html`, { waitUntil: 'networkidle' });
   await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
 
   assert.equal((await page.locator('h1').innerText()).trim(), 'Dallas Fort Worth는 어떤 곳인가요?');
   const navLinks = page.locator('.date-nav a');
-  assert.equal(await navLinks.count(), 8);
+  assert.equal(await navLinks.count(), 9);
   assert.equal((await navLinks.nth(5).innerText()).includes('지역 안내'), true);
   assert.equal((await navLinks.nth(6).innerText()).includes('여행 지도'), true);
   assert.equal((await navLinks.nth(7).innerText()).includes('점심 추천'), true);
+  assert.equal((await navLinks.nth(8).innerText()).includes('M-Line 트롤리'), true);
   assert.equal(await page.locator('.history-milestone').count(), 7);
   assert.equal(await page.locator('.history-theme').count(), 3);
   assert.equal(await page.locator('.city-guide-card').count(), 3);
@@ -186,7 +188,7 @@ test('the map keeps its core places when lunch data cannot load', async () => {
   await page.close();
 });
 
-test('the final lunch tab renders eleven two-image recommendation cards', async () => {
+test('the lunch tab renders eleven two-image recommendation cards', async () => {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await page.goto(`${baseUrl}/lunch.html`, { waitUntil: 'networkidle' });
   await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
@@ -202,6 +204,24 @@ test('the final lunch tab renders eleven two-image recommendation cards', async 
     assert.equal(await cards.nth(index).locator('.lunch-gallery img').count(), 2);
     assert.match(await cards.nth(index).locator('.button-link').getAttribute('href'), /^https:\/\/maps\.app\.goo\.gl\//);
   }
+  await page.close();
+});
+
+test('the final trolley tab embeds the copied guide', async () => {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  await page.goto(`${baseUrl}/trolley.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+
+  assert.equal(await page.locator('.date-nav a').count(), 9);
+  assert.equal(await page.locator('.date-nav a[aria-current="page"]').innerText(), '08\nM-Line 트롤리');
+
+  const iframe = page.locator('iframe.travel-map-frame');
+  assert.equal(await iframe.getAttribute('src'), 'resources/mline-trolley-guide-ko.html');
+  assert.equal(await iframe.getAttribute('title'), 'M-Line Trolley 한국어 안내');
+  const frame = page.frameLocator('iframe.travel-map-frame');
+  await frame.locator('body').waitFor({ timeout: 5000 });
+  assert.ok((await frame.locator('body').innerText()).trim().length > 0);
+
   await page.close();
 });
 
