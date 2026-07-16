@@ -19,6 +19,21 @@ EXPECTED_PAGES = {
     "trolley": "trolley.html",
 }
 
+EXPECTED_CALENDAR_EVENTS = [
+    ("arrival-reception", "달라스 리셉션", "2026-07-16T19:00:00", "2026-07-16T22:00:00"),
+    ("day1-breakfast", "호텔 조식", "2026-07-17T06:00:00", "2026-07-17T08:00:00"),
+    ("terry-blacks-bbq", "Terry Black’s BBQ", "2026-07-17T19:00:00", "2026-07-17T21:00:00"),
+    ("auction-talk", "Auction + 대표님과의 담화", "2026-07-17T21:00:00", "2026-07-17T22:00:00"),
+    ("day2-breakfast", "호텔 조식", "2026-07-18T06:00:00", "2026-07-18T08:00:00"),
+    ("kimbell-art-museum", "Kimbell Art Museum", "2026-07-18T10:00:00", "2026-07-18T12:00:00"),
+    ("cafe-modern-lunch", "점심 · The Café Modern", "2026-07-18T12:00:00", "2026-07-18T14:00:00"),
+    ("modern-art-museum", "The Modern Art Museum of Fort Worth", "2026-07-18T14:00:00", "2026-07-18T16:00:00"),
+    ("stockyards-free-time", "Stockyards 자유 탐방", "2026-07-18T16:30:00", "2026-07-18T19:30:00"),
+    ("cowtown-rodeo", "Rodeo @ Cowtown Coliseum", "2026-07-18T19:30:00", "2026-07-18T20:30:00"),
+    ("return-to-hotel", "호텔로 복귀", "2026-07-18T21:00:00", "2026-07-18T22:00:00"),
+    ("sans-session", "산스 전체세션 참석", "2026-07-19T07:00:00", "2026-07-19T09:00:00"),
+]
+
 EXPECTED_LUNCH_PLACES = [
     ("malai-kitchen", "Malai Kitchen", "업타운", "$25 ~ $40", "3699 McKinney Ave Ste 350, Dallas, TX 75204", "https://maps.app.goo.gl/2UaDwhBLH6jYZJUi6"),
     ("mexican-sugar", "Mexican Sugar", "업타운", "$30 ~ $50", "2355 Olive St #155, Dallas, TX 75201", "https://maps.app.goo.gl/Yg5JSubAqcTMEJMn7"),
@@ -148,6 +163,40 @@ class ItineraryContractTests(unittest.TestCase):
         self.assertIn("확정 필요", payload)
         self.assertIn("Terry Black’s BBQ", payload)
         self.assertIn("Kimbell Art Museum", payload)
+
+    def test_calendar_export_events_are_complete_and_timed(self):
+        calendar = self.data["calendar"]
+        self.assertEqual(calendar["timezone"], "America/Chicago")
+        self.assertEqual(calendar["filename"], "howdy-eight-dallas-fort-worth.ics")
+        self.assertEqual(calendar["icsPath"], "calendar/howdy-eight-dallas-fort-worth.ics")
+        self.assertEqual(calendar["note"], "종료 시간이 없는 일정은 1시간으로 내보냅니다.")
+
+        actual = [
+            (event["id"], event["title"], event["start"], event["end"])
+            for event in calendar["events"]
+        ]
+        self.assertEqual(actual, EXPECTED_CALENDAR_EVENTS)
+        self.assertEqual(len(calendar["events"]), 12)
+
+        events = {event["id"]: event for event in calendar["events"]}
+        self.assertEqual(events["cowtown-rodeo"]["start"], "2026-07-18T19:30:00")
+        self.assertEqual(events["cowtown-rodeo"]["end"], "2026-07-18T20:30:00")
+        self.assertEqual(events["return-to-hotel"]["start"], "2026-07-18T21:00:00")
+        self.assertEqual(events["return-to-hotel"]["end"], "2026-07-18T22:00:00")
+
+        ics_file = ROOT / calendar["icsPath"]
+        self.assertTrue(ics_file.exists())
+        ics = ics_file.read_text(encoding="utf-8")
+        self.assertEqual(ics.count("BEGIN:VEVENT"), 12)
+        self.assertIn("X-WR-TIMEZONE:America/Chicago", ics)
+        self.assertIn("DTSTART;TZID=America/Chicago:20260716T190000", ics)
+        self.assertIn("DTEND;TZID=America/Chicago:20260718T203000", ics)
+
+        overview = next(page for page in self.data["pages"] if page["id"] == "overview")
+        calendar_section = next(section for section in overview["sections"] if section["type"] == "calendarExport")
+        self.assertEqual(calendar_section["downloadLabel"], "전체 iCal 다운로드")
+        self.assertEqual(calendar_section["googleHeading"], "Google Calendar에 추가")
+        self.assertEqual(calendar_section["note"], calendar["note"])
 
     def test_contact_hotel_transit_and_departure_updates(self):
         pages = {page["id"]: page for page in self.data["pages"]}

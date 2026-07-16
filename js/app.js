@@ -22,6 +22,7 @@ async function initializeApp() {
     linkifyDartReferences(main, data.trip.dartUrl);
     attachImageFallbacks();
     attachAddressCopyHandlers(main);
+    attachCalendarExportHandlers(main);
     document.body.classList.add('is-ready');
   } catch (error) {
     renderError(main);
@@ -83,6 +84,8 @@ function renderSection(data, section, index) {
   switch (section.type) {
     case 'dayGrid':
       return `<section class="content-section route-section" id="${id}">${intro}${renderDayGrid(data, section.items)}</section>`;
+    case 'calendarExport':
+      return `<section class="content-section calendar-section" id="${id}">${intro}${renderCalendarExport(data, section)}</section>`;
     case 'sansTheme':
       return `<section class="content-section sans-section" id="${id}">${renderSansTheme(section)}</section>`;
     case 'timeline':
@@ -300,6 +303,114 @@ function renderContact(section) {
         <i aria-hidden="true">통화 ↗</i>
       </a>
     </div>`;
+}
+
+function renderCalendarExport(data, section) {
+  const calendar = data.calendar || {};
+  const events = calendar.events || [];
+  const timezone = calendar.timezone || 'America/Chicago';
+  const filename = calendar.filename || 'howdy-eight-dallas-fort-worth.ics';
+  const icsPath = calendar.icsPath || filename;
+  const note = section.note || calendar.note || '';
+
+  return `
+    <div class="calendar-export" data-calendar-export>
+      <article class="calendar-download-card">
+        <p class="calendar-kicker">ONE FILE · ${escapeHtml(timezone)}</p>
+        <h3>전체 일정을 한 번에</h3>
+        <p>iPhone, Apple Calendar, Outlook 등에서 열 수 있는 iCal 파일로 ${events.length}개 일정을 저장합니다.</p>
+        <a class="calendar-download-button" href="${escapeHtml(icsPath)}" download="${escapeHtml(filename)}" data-calendar-download>
+          <span>${escapeHtml(section.downloadLabel || '전체 iCal 다운로드')}</span>
+          <i aria-hidden="true">↧</i>
+        </a>
+        <p class="calendar-download-status" data-calendar-download-status aria-live="polite"></p>
+        ${note ? `<p class="calendar-export-note">${escapeHtml(note)}</p>` : ''}
+      </article>
+      <article class="calendar-google-card">
+        <div class="calendar-list-heading">
+          <p class="calendar-kicker">${escapeHtml(section.googleHeading || 'Google Calendar')}</p>
+          <strong>${events.length} EVENTS</strong>
+        </div>
+        <ol class="calendar-event-list">
+          ${events.map((event) => `
+            <li class="calendar-event-item" data-calendar-event-id="${escapeHtml(event.id)}">
+              <div>
+                <time datetime="${escapeHtml(event.start)}">${escapeHtml(formatCalendarRange(event))}</time>
+                <h3>${escapeHtml(event.title)}</h3>
+                ${event.location ? `<p>${escapeHtml(event.location)}</p>` : ''}
+              </div>
+              <a class="google-calendar-link" href="${escapeHtml(buildGoogleCalendarUrl(event, timezone))}" target="_blank" rel="noopener noreferrer">
+                Google Calendar <span aria-hidden="true">↗</span>
+              </a>
+            </li>`).join('')}
+        </ol>
+      </article>
+    </div>`;
+}
+
+function attachCalendarExportHandlers(root) {
+  root.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-calendar-download]');
+    if (!button || !root.contains(button)) return;
+
+    button.classList.add('is-downloaded');
+    window.clearTimeout(button.downloadResetTimer);
+    button.downloadResetTimer = window.setTimeout(() => button.classList.remove('is-downloaded'), 1800);
+
+    const status = root.querySelector('[data-calendar-download-status]');
+    if (status) {
+      status.textContent = '다운로드를 시작했습니다. 브라우저의 다운로드 폴더를 확인하세요.';
+      window.clearTimeout(status.downloadResetTimer);
+      status.downloadResetTimer = window.setTimeout(() => {
+        status.textContent = '';
+      }, 3600);
+    }
+  });
+}
+
+function buildGoogleCalendarUrl(event, timezone) {
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.title,
+    dates: `${formatGoogleDateTime(event.start)}/${formatGoogleDateTime(event.end)}`,
+    ctz: timezone,
+  });
+  if (event.location) params.set('location', event.location);
+  if (event.description) params.set('details', event.description);
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
+function formatCalendarRange(event) {
+  const start = parseLocalDateTime(event.start);
+  const end = parseLocalDateTime(event.end);
+  const sameDay = start.year === end.year && start.month === end.month && start.day === end.day;
+  const dateLabel = `${start.month}/${start.day}`;
+  return sameDay
+    ? `${dateLabel} ${formatClock(start)} — ${formatClock(end)}`
+    : `${dateLabel} ${formatClock(start)} — ${end.month}/${end.day} ${formatClock(end)}`;
+}
+
+function formatClock(parts) {
+  const suffix = parts.hour >= 12 ? 'PM' : 'AM';
+  const hour = parts.hour % 12 || 12;
+  const minutes = parts.minute ? `:${String(parts.minute).padStart(2, '0')}` : '';
+  return `${hour}${minutes} ${suffix}`;
+}
+
+function formatIcsDateTime(value) {
+  const parts = parseLocalDateTime(value);
+  return `${parts.year}${String(parts.month).padStart(2, '0')}${String(parts.day).padStart(2, '0')}T${String(parts.hour).padStart(2, '0')}${String(parts.minute).padStart(2, '0')}00`;
+}
+
+function formatGoogleDateTime(value) {
+  return formatIcsDateTime(value);
+}
+
+function parseLocalDateTime(value) {
+  const [datePart, timePart = '00:00:00'] = String(value).split('T');
+  const [year, month, day] = datePart.split('-').map(Number);
+  const [hour, minute] = timePart.split(':').map(Number);
+  return { year, month, day, hour, minute };
 }
 
 function renderArrivalGuide(section) {

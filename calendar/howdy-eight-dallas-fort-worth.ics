@@ -1,0 +1,134 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Howdy Eight//Dallas Itinerary//KO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Howdy! Eight! Dallas · Fort Worth
+X-WR-TIMEZONE:America/Chicago
+BEGIN:VTIMEZONE
+TZID:America/Chicago
+X-LIC-LOCATION:America/Chicago
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+TZNAME:CDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+TZNAME:CST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:arrival-reception@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260716T190000
+DTEND;TZID=America/Chicago:20260716T220000
+SUMMARY:달라스 리셉션
+LOCATION:3 Nations Brewing
+DESCRIPTION:3 Nations Brewing에서 찐 Tex-Mex를 즐기며 Ice Breaking. Uber 또는 미니버스 · 약 15분.
+END:VEVENT
+BEGIN:VEVENT
+UID:day1-breakfast@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260717T060000
+DTEND;TZID=America/Chicago:20260717T080000
+SUMMARY:호텔 조식
+LOCATION:Renaissance Saint Elm Dallas Downtown Hotel
+DESCRIPTION:조식 후 그룹별 별도 이동.
+END:VEVENT
+BEGIN:VEVENT
+UID:terry-blacks-bbq@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260717T190000
+DTEND;TZID=America/Chicago:20260717T210000
+SUMMARY:Terry Black’s BBQ
+LOCATION:3025 Main St\, Dallas
+DESCRIPTION:작은 홀 예약 가능 여부 확인. Uber 또는 도보 · 약 10분.
+END:VEVENT
+BEGIN:VEVENT
+UID:auction-talk@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260717T210000
+DTEND;TZID=America/Chicago:20260717T220000
+SUMMARY:Auction + 대표님과의 담화
+LOCATION:TBD
+DESCRIPTION:교류 프로그램\, 8조가 나아갈 방향\, fundraising auction.
+END:VEVENT
+BEGIN:VEVENT
+UID:day2-breakfast@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260718T060000
+DTEND;TZID=America/Chicago:20260718T080000
+SUMMARY:호텔 조식
+LOCATION:Renaissance Saint Elm Dallas Downtown Hotel
+DESCRIPTION:호텔에서 아침 식사 후 우버로 이동.
+END:VEVENT
+BEGIN:VEVENT
+UID:kimbell-art-museum@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260718T100000
+DTEND;TZID=America/Chicago:20260718T120000
+SUMMARY:Kimbell Art Museum
+LOCATION:Kimbell Art Museum
+DESCRIPTION:Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee. 우버 이동 · 약 35분.
+END:VEVENT
+BEGIN:VEVENT
+UID:cafe-modern-lunch@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260718T120000
+DTEND;TZID=America/Chicago:20260718T140000
+SUMMARY:점심 · The Café Modern
+LOCATION:The Café Modern
+DESCRIPTION:The Modern 안의 점심 일정.
+END:VEVENT
+BEGIN:VEVENT
+UID:modern-art-museum@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260718T140000
+DTEND;TZID=America/Chicago:20260718T160000
+SUMMARY:The Modern Art Museum of Fort Worth
+LOCATION:The Modern Art Museum of Fort Worth
+DESCRIPTION:Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee. 도보 · 약 3분.
+END:VEVENT
+BEGIN:VEVENT
+UID:stockyards-free-time@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260718T163000
+DTEND;TZID=America/Chicago:20260718T193000
+SUMMARY:Stockyards 자유 탐방
+LOCATION:Fort Worth Stockyards
+DESCRIPTION:거리 탐방과 선택 프로그램. Stockyards 내 도보.
+END:VEVENT
+BEGIN:VEVENT
+UID:cowtown-rodeo@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260718T193000
+DTEND;TZID=America/Chicago:20260718T203000
+SUMMARY:Rodeo @ Cowtown Coliseum
+LOCATION:Cowtown Coliseum\, Fort Worth Stockyards
+DESCRIPTION:Rodeo를 관람하지 않는 분들은 별도 선택 프로그램 이용.
+END:VEVENT
+BEGIN:VEVENT
+UID:return-to-hotel@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260718T210000
+DTEND;TZID=America/Chicago:20260718T220000
+SUMMARY:호텔로 복귀
+LOCATION:Fort Worth Stockyards
+DESCRIPTION:Closing 후 우버로 복귀.
+END:VEVENT
+BEGIN:VEVENT
+UID:sans-session@howdy-eight-dallas-itinerary
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=America/Chicago:20260719T070000
+DTEND;TZID=America/Chicago:20260719T090000
+SUMMARY:산스 전체세션 참석
+LOCATION:Renaissance Saint Elm Dallas Downtown Hotel
+DESCRIPTION:현지 시간 기준 전체세션 참석.
+END:VEVENT
+END:VCALENDAR

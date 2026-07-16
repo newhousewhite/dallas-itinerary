@@ -23,6 +23,7 @@ const CONTENT_TYPES = {
   '.avif': 'image/avif',
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
+  '.ics': 'text/calendar; charset=utf-8',
   '.jpeg': 'image/jpeg',
   '.jpg': 'image/jpeg',
   '.js': 'text/javascript; charset=utf-8',
@@ -119,6 +120,50 @@ test('destination guide renders before the map, lunch, and trolley pages', async
   assert.equal(await page.locator('.travel-tip').count(), 4);
   assert.match(await page.locator('.destination-guide').innerText(), /텍사스 BBQ.*TRE 통근열차.*식당 팁 문화\(약 15~20%\)/s);
   await page.close();
+});
+
+test('overview exports the itinerary to iCal and Google Calendar', async () => {
+  const context = await browser.newContext({ acceptDownloads: true });
+  const page = await context.newPage({ viewport: { width: 1440, height: 1000 } });
+  await page.goto(`${baseUrl}/index.html`, { waitUntil: 'networkidle' });
+  await page.locator('body.is-ready').waitFor({ timeout: APP_READY_TIMEOUT });
+
+  const calendar = page.locator('.calendar-section');
+  await calendar.waitFor({ timeout: 5000 });
+  assert.match(await calendar.innerText(), /캘린더로 일정 내보내기.*종료 시간이 없는 일정은 1시간으로 내보냅니다/s);
+  assert.equal(await calendar.locator('.calendar-download-button').count(), 1);
+  assert.equal(await calendar.locator('.google-calendar-link').count(), 12);
+  assert.equal(await calendar.locator('.calendar-download-button').getAttribute('href'), 'calendar/howdy-eight-dallas-fort-worth.ics');
+  assert.equal(await calendar.locator('.calendar-download-button').getAttribute('download'), 'howdy-eight-dallas-fort-worth.ics');
+
+  const firstGoogle = new URL(await calendar.locator('.google-calendar-link').first().getAttribute('href'));
+  assert.equal(firstGoogle.origin + firstGoogle.pathname, 'https://calendar.google.com/calendar/render');
+  assert.equal(firstGoogle.searchParams.get('action'), 'TEMPLATE');
+  assert.equal(firstGoogle.searchParams.get('text'), '달라스 리셉션');
+  assert.equal(firstGoogle.searchParams.get('dates'), '20260716T190000/20260716T220000');
+  assert.equal(firstGoogle.searchParams.get('ctz'), 'America/Chicago');
+  assert.equal(firstGoogle.searchParams.get('location'), '3 Nations Brewing');
+  assert.match(firstGoogle.searchParams.get('details'), /Tex-Mex/);
+
+  const rodeoGoogle = new URL(await calendar.locator('[data-calendar-event-id="cowtown-rodeo"] .google-calendar-link').getAttribute('href'));
+  assert.equal(rodeoGoogle.searchParams.get('dates'), '20260718T193000/20260718T203000');
+
+  const downloadPromise = page.waitForEvent('download');
+  await calendar.locator('.calendar-download-button').click();
+  const download = await downloadPromise;
+  assert.equal(download.suggestedFilename(), 'howdy-eight-dallas-fort-worth.ics');
+  const ics = fs.readFileSync(await download.path(), 'utf8');
+  assert.match(ics, /BEGIN:VCALENDAR/);
+  assert.match(ics, /X-WR-TIMEZONE:America\/Chicago/);
+  assert.equal((ics.match(/BEGIN:VEVENT/g) || []).length, 12);
+  assert.match(ics, /DTSTART;TZID=America\/Chicago:20260716T190000/);
+  assert.match(ics, /DTEND;TZID=America\/Chicago:20260716T220000/);
+  assert.match(ics, /SUMMARY:달라스 리셉션/);
+  assert.match(ics, /SUMMARY:Rodeo @ Cowtown Coliseum/);
+  assert.match(ics, /DTSTART;TZID=America\/Chicago:20260718T193000/);
+  assert.match(ics, /DTEND;TZID=America\/Chicago:20260718T203000/);
+
+  await context.close();
 });
 
 test('the map tab loads all places and opens a marker from the list', async () => {

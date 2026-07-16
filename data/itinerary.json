@@ -8,6 +8,111 @@
     "dartUrl": "https://www.dart.org",
     "sourceUrl": "https://docs.google.com/document/d/1cUmR7iVwd3CKp_hcdP3sipSW_rYYRspLmsgH-XlaBfQ/edit"
   },
+  "calendar": {
+    "timezone": "America/Chicago",
+    "filename": "howdy-eight-dallas-fort-worth.ics",
+    "icsPath": "calendar/howdy-eight-dallas-fort-worth.ics",
+    "name": "Howdy! Eight! Dallas · Fort Worth",
+    "note": "종료 시간이 없는 일정은 1시간으로 내보냅니다.",
+    "events": [
+      {
+        "id": "arrival-reception",
+        "title": "달라스 리셉션",
+        "start": "2026-07-16T19:00:00",
+        "end": "2026-07-16T22:00:00",
+        "location": "3 Nations Brewing",
+        "description": "3 Nations Brewing에서 찐 Tex-Mex를 즐기며 Ice Breaking. Uber 또는 미니버스 · 약 15분."
+      },
+      {
+        "id": "day1-breakfast",
+        "title": "호텔 조식",
+        "start": "2026-07-17T06:00:00",
+        "end": "2026-07-17T08:00:00",
+        "location": "Renaissance Saint Elm Dallas Downtown Hotel",
+        "description": "조식 후 그룹별 별도 이동."
+      },
+      {
+        "id": "terry-blacks-bbq",
+        "title": "Terry Black’s BBQ",
+        "start": "2026-07-17T19:00:00",
+        "end": "2026-07-17T21:00:00",
+        "location": "3025 Main St, Dallas",
+        "description": "작은 홀 예약 가능 여부 확인. Uber 또는 도보 · 약 10분."
+      },
+      {
+        "id": "auction-talk",
+        "title": "Auction + 대표님과의 담화",
+        "start": "2026-07-17T21:00:00",
+        "end": "2026-07-17T22:00:00",
+        "location": "TBD",
+        "description": "교류 프로그램, 8조가 나아갈 방향, fundraising auction."
+      },
+      {
+        "id": "day2-breakfast",
+        "title": "호텔 조식",
+        "start": "2026-07-18T06:00:00",
+        "end": "2026-07-18T08:00:00",
+        "location": "Renaissance Saint Elm Dallas Downtown Hotel",
+        "description": "호텔에서 아침 식사 후 우버로 이동."
+      },
+      {
+        "id": "kimbell-art-museum",
+        "title": "Kimbell Art Museum",
+        "start": "2026-07-18T10:00:00",
+        "end": "2026-07-18T12:00:00",
+        "location": "Kimbell Art Museum",
+        "description": "Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee. 우버 이동 · 약 35분."
+      },
+      {
+        "id": "cafe-modern-lunch",
+        "title": "점심 · The Café Modern",
+        "start": "2026-07-18T12:00:00",
+        "end": "2026-07-18T14:00:00",
+        "location": "The Café Modern",
+        "description": "The Modern 안의 점심 일정."
+      },
+      {
+        "id": "modern-art-museum",
+        "title": "The Modern Art Museum of Fort Worth",
+        "start": "2026-07-18T14:00:00",
+        "end": "2026-07-18T16:00:00",
+        "location": "The Modern Art Museum of Fort Worth",
+        "description": "Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee. 도보 · 약 3분."
+      },
+      {
+        "id": "stockyards-free-time",
+        "title": "Stockyards 자유 탐방",
+        "start": "2026-07-18T16:30:00",
+        "end": "2026-07-18T19:30:00",
+        "location": "Fort Worth Stockyards",
+        "description": "거리 탐방과 선택 프로그램. Stockyards 내 도보."
+      },
+      {
+        "id": "cowtown-rodeo",
+        "title": "Rodeo @ Cowtown Coliseum",
+        "start": "2026-07-18T19:30:00",
+        "end": "2026-07-18T20:30:00",
+        "location": "Cowtown Coliseum, Fort Worth Stockyards",
+        "description": "Rodeo를 관람하지 않는 분들은 별도 선택 프로그램 이용."
+      },
+      {
+        "id": "return-to-hotel",
+        "title": "호텔로 복귀",
+        "start": "2026-07-18T21:00:00",
+        "end": "2026-07-18T22:00:00",
+        "location": "Fort Worth Stockyards",
+        "description": "Closing 후 우버로 복귀."
+      },
+      {
+        "id": "sans-session",
+        "title": "산스 전체세션 참석",
+        "start": "2026-07-19T07:00:00",
+        "end": "2026-07-19T09:00:00",
+        "location": "Renaissance Saint Elm Dallas Downtown Hotel",
+        "description": "현지 시간 기준 전체세션 참석."
+      }
+    ]
+  },
   "pages": [
     {
       "id": "overview",
@@ -43,6 +148,15 @@
             { "pageId": "day2", "placeId": "kimbell" },
             { "pageId": "departure" }
           ]
+        },
+        {
+          "type": "calendarExport",
+          "eyebrow": "CALENDAR EXPORT",
+          "heading": "캘린더로 일정 내보내기",
+          "description": "전체 일정을 iCal 파일로 내려받거나, Google Calendar에 일정별로 추가하세요.",
+          "downloadLabel": "전체 iCal 다운로드",
+          "googleHeading": "Google Calendar에 추가",
+          "note": "종료 시간이 없는 일정은 1시간으로 내보냅니다."
         },
         {
           "type": "contact",
