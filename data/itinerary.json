@@ -174,7 +174,7 @@
           "description": "조별로 별도 이동하며 아래 선택 프로그램에서 오전과 오후 활동을 구성합니다.",
           "items": [
             {
-              "time": "Morning",
+              "time": "6 AM — 8 AM",
               "title": "호텔 조식",
               "description": "조식 후 그룹별 별도 이동",
               "audience": "전체",
@@ -196,7 +196,7 @@
               "transport": "그룹별 별도 이동"
             },
             {
-              "time": "Dinner",
+              "time": "7 PM — 9 PM",
               "title": "Terry Black’s BBQ",
               "description": "작은 홀 예약 가능 여부 확인",
               "audience": "전체",
@@ -206,7 +206,7 @@
               "status": "확정 필요"
             },
             {
-              "time": "Night",
+              "time": "9 PM — 10 PM",
               "title": "Auction + 대표님과의 담화",
               "description": "교류 프로그램, 8조가 나아갈 방향, fundraising auction",
               "audience": "전체",
@@ -244,7 +244,7 @@
       "date": "7월 18일 토요일",
       "eyebrow": "DAY 02 · SATURDAY",
       "title": "Art에서 Rodeo까지,\nFort Worth",
-      "summary": "전세 버스로 이동해 Kimbell과 The Modern을 보고, Stockyards와 저녁 Rodeo로 이어지는 전체 일정입니다.",
+      "summary": "우버로 이동해 Kimbell과 The Modern을 보고, Stockyards와 저녁 Rodeo로 이어지는 전체 일정입니다.",
       "heroPlace": "kimbell",
       "sections": [
         {
@@ -254,12 +254,12 @@
           "description": "문화 지구의 미술관에서 시작해 Stockyards에서 하루를 마무리합니다.",
           "items": [
             {
-              "time": "Morning",
-              "title": "호텔 조식 & 버스 대절",
-              "description": "호텔에서 아침 식사 후 단체 출발",
+              "time": "6 AM — 8 AM",
+              "title": "호텔 조식",
+              "description": "호텔에서 아침 식사 후 우버로 이동",
               "audience": "단체",
               "location": "호텔 내",
-              "transport": "전세 버스"
+              "transport": "우버 이동"
             },
             {
               "time": "10 AM — 12 PM",
@@ -267,11 +267,11 @@
               "description": "Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee",
               "audience": "단체",
               "location": "Fort Worth Cultural District",
-              "transport": "버스 · 약 35분",
+              "transport": "우버 이동 · 약 35분",
               "placeId": "kimbell"
             },
             {
-              "time": "12 — 1 PM",
+              "time": "12 PM — 2 PM",
               "title": "점심 · The Café Modern",
               "description": "The Modern 안의 점심 일정",
               "audience": "소규모",
@@ -279,7 +279,7 @@
               "placeId": "cafe-modern"
             },
             {
-              "time": "1 — 4 PM",
+              "time": "2 — 4 PM",
               "title": "The Modern Art Museum of Fort Worth",
               "description": "Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee",
               "audience": "단체",
@@ -288,7 +288,7 @@
               "placeId": "modern-art-museum"
             },
             {
-              "time": "Afternoon",
+              "time": "4:30 PM — 7:30 PM",
               "title": "Stockyards 자유 탐방",
               "description": "거리 탐방과 선택 프로그램",
               "audience": "단체",
@@ -310,7 +310,7 @@
               "description": "Closing 후 단체 복귀",
               "audience": "전체",
               "location": "Fort Worth Stockyards",
-              "transport": "버스 · 약 35분"
+              "transport": "우버로 복귀"
             }
           ]
         },

@@ -352,11 +352,17 @@ test('requested contact, hotel, DART, and departure details render', async () =>
 
   await page.goto(`${baseUrl}/day1.html`, { waitUntil: 'networkidle' });
   assert.equal(await page.locator('.place-address').count(), 12);
+  assert.match(await page.locator('.timeline').innerText(), /6 AM — 8 AM.*호텔 조식.*7 PM — 9 PM.*Terry Black’s BBQ.*9 PM — 10 PM.*Auction \+ 대표님과의 담화/s);
   assert.match(await page.locator('.place-grid').innerText(), /2001 Flora St.*13550 N Dallas Pkwy.*5776 Grandscape Blvd/s);
 
   await page.goto(`${baseUrl}/day2.html`, { waitUntil: 'networkidle' });
   const day2Text = await page.locator('.timeline').innerText();
   assert.equal((day2Text.match(/Architecture Docent · Haeseok Ko \/ Art Docent · Nari Rhee/g) || []).length, 2);
+  assert.match(day2Text, /6 AM — 8 AM.*호텔 조식.*우버 이동/s);
+  assert.match(day2Text, /10 AM — 12 PM.*Kimbell Art Museum.*우버 이동 · 약 35분/s);
+  assert.match(day2Text, /12 PM — 2 PM.*점심 · The Café Modern.*2 — 4 PM.*The Modern Art Museum of Fort Worth/s);
+  assert.match(day2Text, /4:30 PM — 7:30 PM.*Stockyards 자유 탐방.*9 PM.*호텔로 복귀.*우버로 복귀/s);
+  assert.doesNotMatch(day2Text, /버스 대절|전세 버스|버스 · 약 35분/);
   assert.doesNotMatch(day2Text, /Hae Suk Ko/);
 
   await page.goto(`${baseUrl}/departure.html`, { waitUntil: 'networkidle' });

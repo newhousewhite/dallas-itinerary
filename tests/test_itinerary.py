@@ -229,6 +229,12 @@ class ItineraryContractTests(unittest.TestCase):
 
         self.assertEqual(self.data["trip"]["dartUrl"], "https://www.dart.org")
 
+        day1_timeline = next(section for section in pages["day1"]["sections"] if section["type"] == "timeline")
+        day1_items = {item["title"]: item for item in day1_timeline["items"]}
+        self.assertEqual(day1_items["호텔 조식"]["time"], "6 AM — 8 AM")
+        self.assertEqual(day1_items["Terry Black’s BBQ"]["time"], "7 PM — 9 PM")
+        self.assertEqual(day1_items["Auction + 대표님과의 담화"]["time"], "9 PM — 10 PM")
+
         day1_cards = next(section for section in pages["day1"]["sections"] if section["type"] == "cards")
         day1_place_ids = [item["placeId"] for item in day1_cards["items"]]
         self.assertEqual(set(day1_place_ids), set(EXPECTED_GROUP_ADDRESSES))
@@ -237,12 +243,24 @@ class ItineraryContractTests(unittest.TestCase):
             EXPECTED_GROUP_ADDRESSES,
         )
 
+        self.assertIn("우버로 이동해", pages["day2"]["summary"])
         day2_timeline = next(section for section in pages["day2"]["sections"] if section["type"] == "timeline")
+        day2_items = {item["title"]: item for item in day2_timeline["items"]}
+        self.assertEqual(day2_items["호텔 조식"]["time"], "6 AM — 8 AM")
+        self.assertEqual(day2_items["호텔 조식"]["transport"], "우버 이동")
+        self.assertEqual(day2_items["Kimbell Art Museum"]["transport"], "우버 이동 · 약 35분")
+        self.assertEqual(day2_items["점심 · The Café Modern"]["time"], "12 PM — 2 PM")
+        self.assertEqual(day2_items["The Modern Art Museum of Fort Worth"]["time"], "2 — 4 PM")
+        self.assertEqual(day2_items["Stockyards 자유 탐방"]["time"], "4:30 PM — 7:30 PM")
+        self.assertEqual(day2_items["호텔로 복귀"]["transport"], "우버로 복귀")
         docent_text = "Architecture Docent · Haeseok Ko / Art Docent · Nari Rhee"
         kimbell = next(item for item in day2_timeline["items"] if item.get("placeId") == "kimbell")
         modern = next(item for item in day2_timeline["items"] if item.get("placeId") == "modern-art-museum")
         self.assertEqual(kimbell["description"], docent_text)
         self.assertEqual(modern["description"], docent_text)
+        self.assertNotIn("버스 대절", json.dumps(pages["day2"], ensure_ascii=False))
+        self.assertNotIn("전세 버스", json.dumps(pages["day2"], ensure_ascii=False))
+        self.assertNotIn("버스 · 약 35분", json.dumps(pages["day2"], ensure_ascii=False))
         self.assertNotIn("Hae Suk Ko", json.dumps(pages["day2"], ensure_ascii=False))
 
     def test_destination_guide_preserves_the_supplied_html_content(self):
